@@ -1,0 +1,17 @@
+.footer-link {
+  font-size: 1em !important;
+  font-weight: normal !important;
+  color: rgb(65, 168, 24) !important;
+  text-decoration: none !important;
+}
+
+.footer-link:hover {
+  color: rgb(34, 101, 7) !important;
+  text-decoration: underline !important;
+}
+
+@media screen and (max-width: 768px) {
+  .subscribe-area {
+    margin: 20px;
+  }
+}

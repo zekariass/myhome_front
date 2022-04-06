@@ -1,0 +1,74 @@
+/* This css file contains general css selectors that can be used throughout the application */
+.link-general {
+  font-size: 1.1rem !important;
+  font-weight: bold !important;
+  color: rgb(65, 168, 24) !important;
+  text-decoration: none !important;
+}
+
+.btn-general {
+  font-size: 1rem !important;
+  font-weight: bold !important;
+  background-color: rgb(65, 168, 24) !important;
+  border-radius: 5px;
+  border-color: rgb(65, 168, 24) !important;
+  color: white;
+}
+
+.btn-general-outline {
+  font-size: 1rem !important;
+  font-weight: bolder !important;
+  background-color: rgb(246, 249, 244) !important;
+  border-radius: 5px;
+  border-color: rgb(65, 168, 24) !important;
+  color: rgb(20, 2, 45);
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.btn-general-outline:hover {
+  background-color: rgb(65, 168, 24) !important;
+  color: white;
+}
+
+.btn-general:hover {
+  background-color: rgb(52, 103, 31) !important;
+  border-color: rgb(52, 103, 31) !important;
+}
+
+.link-general:hover {
+  color: rgb(52, 103, 31) !important;
+}
+
+.flex-center-general {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.flex-start-general {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+
+.flex-end-general {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+}
+
+.card-table {
+  display: table !important;
+}
+
+.card-cell {
+  display: table-cell !important;
+}
+
+.card-btn {
+  position: absolute;
+  bottom: 5px;
+  margin-top: 10px;
+}
