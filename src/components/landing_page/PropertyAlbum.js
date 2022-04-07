@@ -9,7 +9,7 @@ class PropertyAlbum extends Component {
         <h4>Choose properties by category</h4>
         <div className="row row-cols-1 row-cols-sm-2 row-cols-xxl-4 g-3">
           <div className="col card-table">
-            <div className="card shadow rounded card-cell">
+            <div className="card shadow-sm rounded card-cell">
               <img
                 src={Apartment}
                 alt="Apartment"
@@ -33,7 +33,7 @@ class PropertyAlbum extends Component {
             </div>
           </div>
           <div className="col card-table">
-            <div className="card shadow rounded card-cell">
+            <div className="card shadow-sm rounded card-cell">
               <img
                 src={Apartment}
                 alt="Apartment"
@@ -57,7 +57,7 @@ class PropertyAlbum extends Component {
             </div>
           </div>
           <div className="col card-table">
-            <div className="card shadow rounded card-cell">
+            <div className="card shadow-sm rounded card-cell">
               <img
                 src={Apartment}
                 alt="Apartment"
@@ -81,7 +81,7 @@ class PropertyAlbum extends Component {
             </div>
           </div>
           <div className="col card-table">
-            <div className="card shadow rounded card-cell">
+            <div className="card shadow-sm rounded card-cell">
               <img
                 src={Apartment}
                 alt="Apartment"
@@ -111,7 +111,7 @@ class PropertyAlbum extends Component {
             <div className="col flex-center-general">
               <Link
                 to="/"
-                className="link-general album-link p-3 rounded shadow"
+                className="link-general album-link p-3 rounded shadow-sm"
               >
                 Find offices for rent
               </Link>
@@ -119,7 +119,7 @@ class PropertyAlbum extends Component {
             <div className="col flex-center-general">
               <Link
                 to="/"
-                className="link-general album-link p-3 rounded shadow"
+                className="link-general album-link p-3 rounded shadow-sm"
               >
                 Find offices for rent
               </Link>

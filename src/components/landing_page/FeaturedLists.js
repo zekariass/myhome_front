@@ -12,7 +12,7 @@ class FeaturedLists extends Component {
             id="featured-list-carousel"
           >
             <div className="col card-table">
-              <div className="p-3 card card-cell shadow rounded">
+              <div className="p-3 card card-cell shadow-sm rounded">
                 <div className="flex-center-general">
                   <img
                     src={Apartment}
@@ -45,7 +45,7 @@ class FeaturedLists extends Component {
             </div>
 
             <div className="col card-table">
-              <div className="p-3 card card-cell shadow rounded">
+              <div className="p-3 card card-cell shadow-sm rounded">
                 <div className="flex-center-general">
                   <img
                     src={Apartment}
@@ -78,7 +78,7 @@ class FeaturedLists extends Component {
               </div>
             </div>
             <div className="col card-table">
-              <div className="p-3 card card-cell shadow rounded">
+              <div className="p-3 card card-cell shadow-sm rounded">
                 <div className="flex-center-general">
                   <img
                     src={Apartment}
@@ -111,7 +111,7 @@ class FeaturedLists extends Component {
               </div>
             </div>
             <div className="col card-table">
-              <div className="p-3 card card-cell shadow rounded">
+              <div className="p-3 card card-cell shadow-sm rounded">
                 <div className="flex-center-general">
                   <img
                     src={Apartment}

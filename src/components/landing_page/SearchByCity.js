@@ -38,7 +38,7 @@ export class SearchByCity extends Component {
     return (
       <div className="container mt-5">
         <h4>Search property by city and region</h4>
-        <div className=" search-by-city my-3 shadow">
+        <div className=" search-by-city my-3 shadow-sm">
           <div className="row row-cols-auto flex-center-general g-3">
             <div className="col">
               <button className="btn-general-outline">Addis Ababa</button>

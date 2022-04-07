@@ -27,7 +27,7 @@ class LandingPage extends Component {
 
         {/* Self advertisement part */}
 
-        <div className="container p-3 self-ad-jumbo rounded-3 my-3 shadow">
+        <div className="container p-3 self-ad-jumbo rounded-3 my-3 shadow-sm">
           <p className="fs-4 self-ad-jumbo-txt flex-center-general ">
             List your property and reach millions. No extra effort to sale or
             rent your property

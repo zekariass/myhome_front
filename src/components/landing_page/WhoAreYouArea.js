@@ -8,7 +8,7 @@ export class WhoAreYouArea extends Component {
         <h4>Which one of the following are you?</h4>
         <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
           <div className="col card-table">
-            <div className="card card-cell shadow">
+            <div className="card card-cell shadow-sm">
               <div className="who-are-you-header flex-center-general py-1">
                 <h4>Are you Agent?</h4>
               </div>
@@ -26,7 +26,7 @@ export class WhoAreYouArea extends Component {
             </div>
           </div>
           <div className="col card-table">
-            <div className="card card-cell shadow">
+            <div className="card card-cell shadow-sm">
               <div className="who-are-you-header flex-center-general py-1">
                 <h4>Are you property owner?</h4>
               </div>
@@ -49,7 +49,7 @@ export class WhoAreYouArea extends Component {
             </div>
           </div>
           <div className="col card-table">
-            <div className="card card-cell shadow">
+            <div className="card card-cell shadow-sm">
               <div className="who-are-you-header flex-center-general py-1">
                 <h4>Are you a Buyer or Tenant?</h4>
               </div>
