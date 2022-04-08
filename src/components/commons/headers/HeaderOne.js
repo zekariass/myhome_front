@@ -10,7 +10,7 @@ class HeaderOne extends Component {
     return (
       <Navbar collapseOnSelect bg="light" expand="lg" className="nav-bg">
         <Navbar.Brand>
-          <NavLink to="home">
+          <NavLink to="/">
             <Image
               src={Logo}
               className="d-inline-block align-top"
@@ -34,11 +34,11 @@ class HeaderOne extends Component {
             </NavLink>
           </Nav>
           <Nav>
-            <NavLink to="/sign-in" className="link-general mx-lg-5">
-              Sign In
+            <NavLink to="/signin" className="link-general mx-lg-5">
+              Signin
             </NavLink>
-            <NavLink to="/" className="link-general">
-              Sign Up
+            <NavLink to="signup/" className="link-general">
+              Signup
             </NavLink>
             <NavLink to="/" className="link-general mx-lg-5">
               En

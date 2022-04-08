@@ -127,7 +127,7 @@ class PropertyAlbum extends Component {
             <div className="col flex-center-general">
               <Link
                 to="/"
-                className="link-general album-link p-3 rounded shadow"
+                className="link-general album-link p-3 rounded shadow-sm"
               >
                 Find offices for rent
               </Link>
@@ -135,7 +135,7 @@ class PropertyAlbum extends Component {
             <div className="col flex-center-general">
               <Link
                 to="/"
-                className="link-general album-link p-3 rounded shadow"
+                className="link-general album-link p-3 rounded shadow-sm"
               >
                 Find offices for rent
               </Link>

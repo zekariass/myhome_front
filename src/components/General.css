@@ -6,8 +6,28 @@
   text-decoration: none !important;
 }
 
-.btn-general {
+.link-size-normal {
   font-size: 1rem !important;
+}
+
+.link-size-small {
+  font-size: 0.9rem !important;
+}
+
+.link-size-xsmall {
+  font-size: 0.8rem !important;
+}
+
+.link-hover:hover {
+  text-decoration: underline !important;
+}
+
+.link-underline {
+  text-decoration: underline !important;
+}
+
+.btn-general {
+  font-size: 1.1rem !important;
   font-weight: bold !important;
   background-color: rgb(65, 168, 24) !important;
   border-radius: 5px;

@@ -1,15 +1,19 @@
 import React, { Component } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "./landing_page/LandingPage";
 import "./General.css";
+import Signup from "./commons/auth/Signup";
+import Signin from "./commons/auth/Signin";
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div>
-          <LandingPage />
-        </div>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+        </Routes>
       </BrowserRouter>
     );
   }

@@ -51,7 +51,7 @@ class LandingPage extends Component {
         <div className="who-are-you-area">
           <WhoAreYouArea />
         </div>
-        <div>
+        <div className="footer-bg">
           <FooterOne />
         </div>
       </div>
