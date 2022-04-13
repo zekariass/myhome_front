@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Footer.css";
 import GooglePlay from "./images/google_play.png";
 import AppStore from "./images/app_store.jpg";
-import { COMPANY_NAME } from "../Strings";
+import { COMPANY_NAME } from "../commons/Strings";
 
 export class FooterOne extends Component {
   render() {

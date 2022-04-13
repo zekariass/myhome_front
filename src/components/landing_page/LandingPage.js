@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import HeaderOne from "components/commons/headers/HeaderOne";
+import HeaderOne from "components/headers/HeaderOne";
 import SearchArea from "./SearchArea";
 import "./LandingPage.css";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import PropertyAlbum from "./PropertyAlbum";
 import FeaturedLists from "./FeaturedLists";
 import SearchByCity from "./SearchByCity";
 import WhoAreYouArea from "./WhoAreYouArea";
-import FooterOne from "components/commons/footers/FooterOne";
+import FooterOne from "components/footers/FooterOne";
 
 class LandingPage extends Component {
   render() {

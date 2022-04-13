@@ -22,7 +22,7 @@ class SearchArea extends Component {
                 className="form-select form-select-lg mb-2"
                 aria-label="property select"
               >
-                <option selected>Apartment</option>
+                <option>Apartment</option>
                 <option value="1">Villa</option>
                 <option value="2">Traditional Home</option>
                 <option value="3">Condominium</option>

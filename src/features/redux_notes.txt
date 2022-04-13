@@ -1,0 +1,14 @@
+====redux hooks========
+useSelector
+useDispatch
+createAsyncThunk
+
+
+Redux toolkit
+Redux (core library, state management)
+Immer (allows to mutate state)
+Redux-thunk (handles async actions)
+reselect (simplifies reducer functions)
+
+redux devtools
+combine reducers

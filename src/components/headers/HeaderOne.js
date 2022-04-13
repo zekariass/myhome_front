@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Image, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 // @ts-ignore
-import Logo from "../images/logo3.JPG";
+import Logo from "../commons/images/logo3.JPG";
 import "./HeaderOne.css";
 
 class HeaderOne extends Component {
