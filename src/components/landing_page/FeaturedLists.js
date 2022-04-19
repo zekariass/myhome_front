@@ -25,9 +25,7 @@ class FeaturedLists extends Component {
                 <div className="card-body flex-center-general">
                   <div className="mb-5">
                     <h4 className="flex-center-general">5,000 Birr</h4>
-                    <p className="card-text flex-center-general">
-                      One bed, shared kitchen, Shared bathroom
-                    </p>
+
                     <p className="card-text flex-center-general">
                       One bed, shared kitchen, Shared bathroom
                     </p>
@@ -58,9 +56,7 @@ class FeaturedLists extends Component {
                 <div className="card-body flex-center-general">
                   <div className="mb-5">
                     <h4 className="flex-center-general">4,000 Birr</h4>
-                    <p className="card-text flex-center-general">
-                      One bed, shared kitchen, Shared bathroom
-                    </p>
+
                     <p className="card-text flex-center-general">
                       One bed, shared kitchen, Shared bathroom
                     </p>
@@ -91,9 +87,7 @@ class FeaturedLists extends Component {
                 <div className="card-body flex-center-general">
                   <div className="mb-5">
                     <h4 className="flex-center-general">6,000 Birr</h4>
-                    <p className="card-text flex-center-general">
-                      One bed, shared kitchen, Shared bathroom
-                    </p>
+
                     <p className="card-text flex-center-general">
                       One bed, shared kitchen, Shared bathroom
                     </p>
@@ -124,9 +118,7 @@ class FeaturedLists extends Component {
                 <div className="card-body flex-center-general">
                   <div className="mb-5">
                     <h4 className="flex-center-general">12,000 Birr</h4>
-                    <p className="card-text flex-center-general">
-                      One bed, shared kitchen, Shared bathroom
-                    </p>
+
                     <p className="card-text flex-center-general">
                       Two bed, shared kitchen, Shared bathroom
                     </p>

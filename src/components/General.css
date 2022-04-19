@@ -26,6 +26,13 @@
   text-decoration: underline !important;
 }
 
+.dropdown-item-general {
+  font-size: 0.9rem !important;
+  font-weight: bold !important;
+  color: rgb(65, 168, 24) !important;
+  text-decoration: none !important;
+}
+
 .btn-general {
   font-size: 1.1rem !important;
   font-weight: bold !important;

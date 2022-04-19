@@ -12,3 +12,5 @@ reselect (simplifies reducer functions)
 
 redux devtools
 combine reducers
+
+RTK Query

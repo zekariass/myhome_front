@@ -1,14 +1,32 @@
+// @ts-nocheck
 import React from "react";
-import { Field, Form, FormSpy } from "react-final-form";
+import { Field, Form } from "react-final-form";
 import { Link } from "react-router-dom";
 import ShowImage from "../landing_page/images/landing_image_sm.jpg";
-// @ts-ignore
 import Logo from "../commons/images/logo3.JPG";
 import { textInputField } from "components/commons/fields/textInputField";
-
-const onSubmit = () => {};
+import { performSignin, clearSigninData } from "features/user/userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
+  /**
+   * User signin
+   */
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = (values) => {
+    /**
+     * Handles the event when the user clicks "Signin" button
+     * After inserting the credentials
+     */
+    // console.log("VALUES: ", values);
+    dispatch(clearSigninData());
+    dispatch(performSignin({ userCred: values, navigate: navigate }));
+  };
+
   return (
     <section className="h-100" style={{ backgroundColor: "#eee" }}>
       <div className="container py-5 h-100">
@@ -80,20 +98,6 @@ export default Signin;
 /**
  * Inline functions
  */
-
-const validateForm = (values) => {
-  /**
-   * Sign in form validation
-   */
-  const errors = {};
-  if (!values.email) {
-    errors.email = "Email is required!";
-  }
-  if (!values.password) {
-    errors.password = "Password is required!";
-  }
-  return errors;
-};
 
 const signinForm = (handleSubmit) => {
   /**
@@ -167,4 +171,18 @@ const signinForm = (handleSubmit) => {
       </FormSpy> */}
     </form>
   );
+};
+
+const validateForm = (values) => {
+  /**
+   * Sign in form validation
+   */
+  const errors = {};
+  if (!values.email) {
+    errors.email = "Email is required!";
+  }
+  if (!values.password) {
+    errors.password = "Password is required!";
+  }
+  return errors;
 };

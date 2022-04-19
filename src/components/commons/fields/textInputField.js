@@ -18,15 +18,8 @@ export const textInputField = (
       <label className={labelClass}>{label}</label>
       <input {...input} className={className} placeholder={placeholder} />
       {((meta.touched && meta.error) || (meta.error && meta.submitting)) && (
-        <span className="error-general">{meta.error}</span>
+        <span className="error-general m-2">{meta.error}</span>
       )}
-      {input.name === "statement_aggreement" &&
-        !input.checked &&
-        meta.touched && (
-          <div className="error-general ">
-            {"You must agree with our terms of service "}
-          </div>
-        )}
     </div>
   );
 };

@@ -43,10 +43,10 @@ class LandingPage extends Component {
           <PropertyAlbum />
         </div>
         <div>
-          <FeaturedLists />
+          <SearchByCity />
         </div>
         <div>
-          <SearchByCity />
+          <FeaturedLists />
         </div>
         <div className="who-are-you-area">
           <WhoAreYouArea />

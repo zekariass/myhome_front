@@ -1,13 +1,28 @@
+// @ts-nocheck
 import React from "react";
 import { Field, Form } from "react-final-form";
-import { Link } from "react-router-dom";
-// @ts-ignore
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../commons/images/logo3.JPG";
 import { textInputField } from "../commons/fields/textInputField";
 import { checkInputField } from "../commons/fields/checkInputField";
-import axios from "components/commons/apis/myHomeBackendAPI";
+import { clearSignupData, performSignup } from "features/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Signup = () => {
+  /**
+   * Handles the signup process of the user
+   */
+  const dispatch = useDispatch();
+  const { signup } = useSelector((store) => store.user);
+  const navigate = useNavigate();
+  const onSubmit = async (values) => {
+    delete values.password_repeat;
+    delete values.statement_aggreement;
+    values.user_group = 1;
+    dispatch(clearSignupData());
+    dispatch(performSignup({ userData: values, navigate: navigate }));
+  };
+
   return (
     <section className="h-100" style={{ backgroundColor: "#eee" }}>
       <div className="container h-100">
@@ -20,6 +35,9 @@ const Signup = () => {
                     <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-3">
                       Sign up
                     </p>
+                    <p className="fs-6 error-general flex-center-general">
+                      {signup.responseError}
+                    </p>
                     <Form
                       onSubmit={onSubmit}
                       validate={validateForm}
@@ -30,11 +48,7 @@ const Signup = () => {
                   </div>
                   <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
                     <Link to="/">
-                      <img
-                        src={Logo}
-                        className="img-fluid"
-                        alt="Sample image"
-                      />
+                      <img src={Logo} className="img-fluid" alt="Sample logo" />
                     </Link>
                   </div>
                 </div>
@@ -50,7 +64,7 @@ const Signup = () => {
 export default Signup;
 
 /**
- * Inline functions
+ * The following are inline called functions
  */
 
 const signupForm = (handleSubmit) => {
@@ -168,10 +182,10 @@ const signupForm = (handleSubmit) => {
           name="statement_aggreement"
           type="checkbox"
           className="form-check-input me-2"
-          required={true}
+          // required={true}
           label="I agree all statements in"
           labelLink="Terms of service"
-          errorMsg="You must agree with our terms of service!"
+          // errorMsg="You must agree with our terms of service!"
           subscription={{
             submitting: true,
             value: true,
@@ -179,19 +193,12 @@ const signupForm = (handleSubmit) => {
             error: true,
           }}
         >
-          {({ input, meta, className, label, labelLink, errorMsg, required }) =>
-            checkInputField(
-              input,
-              meta,
-              className,
-              label,
-              labelLink,
-              errorMsg,
-              required
-            )
+          {({ input, meta, className, label, labelLink }) =>
+            checkInputField(input, meta, className, label, labelLink)
           }
         </Field>
       </div>
+
       <div className="d-flex justify-content-center">
         <p className="mt-3 small">
           Already have an account?
@@ -213,19 +220,11 @@ const signupForm = (handleSubmit) => {
   );
 };
 
-const onSubmit = async (values) => {
-  delete values.password_repeat;
-  delete values.statement_aggreement;
-  values.user_group = 1;
-  //   console.log(values);
-  try {
-    const response = await axios.post("/user/signup/", values);
-    console.log(response.data);
-  } catch (error) {
-    console.log("Something went wrong!");
-  }
-};
 const validateForm = (values) => {
+  /**
+   * Form validation function, called by react-final-form
+   */
+  console.log("VALUES: ", values);
   const errors = {};
   if (!values.first_name) {
     errors.first_name = "First name required!";
@@ -239,11 +238,19 @@ const validateForm = (values) => {
   if (!values.password) {
     errors.password = "Password required!";
   }
+  if (values.password && values.password.length < 6) {
+    errors.password = "Password length must be at least 6!";
+  }
   if (!values.password_repeat) {
     errors.password_repeat = "Enter password again!";
   }
   if (values.password_repeat && values.password_repeat !== values.password) {
     errors.password_repeat = "Password must much!";
   }
+  if (!values.statement_aggreement) {
+    errors.statement_aggreement =
+      "Oops! you must aggree with our terms of service!";
+  }
+
   return errors;
 };

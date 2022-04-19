@@ -1,0 +1,29 @@
+.dropdown {
+  position: static;
+  width: auto;
+  margin: 2rem auto;
+  background-color: red;
+  overflow-x: auto;
+}
+
+.dropdown-close {
+  display: none;
+}
+.dropdown-open {
+  display: block;
+}
+
+.dropdown-item {
+  border-radius: 0.25rem;
+}
+
+.selected-item {
+  background-color: lightgray;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.selected-item:hover {
+  background-color: gray;
+  cursor: pointer;
+}
