@@ -43,10 +43,6 @@
 
 /* SELF ADV AREA */
 
-.self-ad-jumbo {
-  background-color: rgb(205, 226, 205);
-}
-
 .self-ad-jumbo-txt {
   color: rgb(28, 28, 99);
   font-weight: normal;
@@ -136,6 +132,3 @@ hr.region-city-separator {
 
 /* FOOTER AREA */
 
-.footer-bg {
-  background-color: #eee;
-}

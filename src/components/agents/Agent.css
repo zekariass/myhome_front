@@ -1,0 +1,65 @@
+#agent-logo-input-div {
+  border: dashed 2px rgb(65, 168, 24);
+}
+
+@media screen and (max-width: 1024px) {
+  #agent-logo-input-div {
+    width: 80%;
+    height: 200px;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  #agent-logo-input-div {
+    width: 60%;
+    height: 200px;
+  }
+}
+
+@media screen and (min-width: 1201px) {
+  #agent-logo-input-div {
+    width: 40%;
+    height: 200px;
+  }
+}
+
+#agent-logo-label {
+  width: 100%;
+  height: 200px;
+  cursor: pointer;
+}
+
+#agent-logo-input {
+  width: 100%;
+  height: 100%;
+}
+
+#agent-logo-display {
+  width: 100%;
+  height: 200px;
+}
+
+#agent-logo-display-div {
+  width: 40%;
+  height: 200px;
+  display: none;
+}
+
+@media screen and (min-width: 1200px) {
+  #agent-create-important-info {
+    width: 80%;
+    height: auto;
+  }
+}
+
+.stepper {
+  font-weight: bold;
+}
+
+.step {
+  color: black;
+  padding: 10px 20px;
+  border-radius: 50%;
+  
+}
+

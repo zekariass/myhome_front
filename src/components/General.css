@@ -104,3 +104,45 @@
   color: brown;
   font-weight: bold;
 }
+
+/* Jumbotron */
+.jumbotron-general {
+  background-color: rgb(205, 226, 205);
+}
+
+/* Jumbotron */
+.jumbotron-general-strong {
+  background-color: rgb(181, 214, 181);
+}
+
+/* Footer */
+.footer-bg {
+  background-color: #eee;
+}
+
+/* Other */
+.other-bg {
+  background-color: #eee;
+}
+
+body {
+  font: normal 1rem/1.5rem "bernino-regular", Verdana, Arial, Geneva, sans-serif !important;
+}
+
+.cuttor {
+  color: brown;
+  cursor: pointer;
+}
+
+.cuttor:hover {
+  color: rgb(103, 16, 16);
+}
+
+.input-border-color {
+  border: 1px solid rgb(65, 168, 24);
+}
+
+.text-justify {
+  text-align: justify;
+}
+

@@ -27,6 +27,8 @@ const getFormatedResponse = (result) => {
   let response = {};
   response.data = result.data;
   response.status = result.status;
+  // console.log("RESULT: ", response);
+
   return response;
 };
 
@@ -37,6 +39,7 @@ export const performSignup = createAsyncThunk(
   "user/performSignup",
   async ({ userData, navigate }) => {
     let result = null;
+    // console.log("userData: ", userData);
     try {
       result = await myHomeBackendAPI.post("/user/signup/", userData);
       if (result.status === 200) {
@@ -101,13 +104,13 @@ const userSlice = createSlice({
     },
     checkUserSigninStatus: (state) => {
       const access_token = localStorage.getItem("access_token");
-      if (access_token !== "null") {
+      if (access_token) {
         state.signin.isSignedIn = true;
       }
     },
     signOut: (state) => {
-      localStorage.setItem("access_token", null);
-      localStorage.setItem("refresh_token", null);
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
       state.signin.isSignedIn = false;
     },
   },
@@ -125,7 +128,7 @@ const userSlice = createSlice({
       if (action.payload.status === 200) {
         state.signup.userData = { ...action.payload.data };
       } else {
-        state.signup.responseError = action.payload.data;
+        state.signup.responseError = action.payload.data.detail;
       }
     },
     [performSignup.rejected]: (state, action) => {

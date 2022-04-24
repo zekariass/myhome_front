@@ -11,6 +11,8 @@ export const PATH_AGENTS_LIST = "list";
 export const PATH_AGENTS_LIST_ABSOLUTE = `${PATH_AGENTS_HOME}/${PATH_AGENTS_LIST}`;
 export const PATH_AGENTS_ADD = "add";
 export const PATH_AGENTS_ADD_ABSOLUTE = `${PATH_AGENTS_HOME}/${PATH_AGENTS_ADD}`;
+export const PATH_AGENT_CREATE_INFO = "info";
+export const PATH_AGENT_CREATE_INFO_ABSOLUTE = `${PATH_AGENTS_HOME}/${PATH_AGENT_CREATE_INFO}`;
 
 //AUTH
 export const PATH_SIGNIN = "/signin";

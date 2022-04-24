@@ -160,10 +160,10 @@ export class FooterOne extends Component {
             </div>
 
             <div className="row row-cols-auto d-flex justify-content-between py-4 my-4 border-top ">
-              <p className="col">
+              <p className="col flex-center-general">
                 &copy; 2022 {COMPANY_NAME}, Inc. All rights reserved.
               </p>
-              <div className="col">
+              <div className="col flex-center-general">
                 <h5>Follow us on:</h5>
                 <ul className="list-unstyled d-flex row row-cols-auto ">
                   <li className="ms-3 col">
@@ -183,9 +183,9 @@ export class FooterOne extends Component {
                   </li>
                 </ul>
               </div>
-              <div className="col">
+              <div className="col mt-3 mt-lg-0">
                 <div className="row row-cols-1 g-3">
-                  <div className="col">
+                  <div className="col flex-center-general">
                     <Link className="link-dark" to="/">
                       <img
                         src={GooglePlay}
@@ -194,7 +194,7 @@ export class FooterOne extends Component {
                       />
                     </Link>
                   </div>
-                  <div className="col">
+                  <div className="col flex-center-general">
                     <Link className="link-dark" to="/">
                       <img
                         src={AppStore}

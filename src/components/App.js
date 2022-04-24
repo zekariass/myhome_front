@@ -15,6 +15,7 @@ import {
   PATH_AGENTS_HOME,
   PATH_AGENTS_LIST,
   PATH_AGENTS_SEARCH,
+  PATH_AGENT_CREATE_INFO,
   PATH_LANDING,
   PATH_PAGE_NOT_FOUND,
   PATH_SAVED_PROPETRTIES,
@@ -23,8 +24,9 @@ import {
 } from "./commons/Strings";
 import AgentsList from "./agents/AgentsList";
 import AgentsPage from "./agents/AgentsPage";
-import AgentAdd from "./agents/AgentAdd";
+import AgentAdd from "./agents/new_agent/AgentAdd";
 import AgentSearch from "./agents/AgentSearch";
+import AgentCreateInfo from "./agents/new_agent/AgentCreateInfo";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -52,7 +54,9 @@ const App = () => {
           <Route index element={<AgentsList />} />
           <Route path={PATH_AGENTS_ADD} element={<AgentAdd />} />
           <Route path={PATH_AGENTS_SEARCH} element={<AgentSearch />} />
+          <Route path={PATH_AGENT_CREATE_INFO} element={<AgentCreateInfo />} />
         </Route>
+        
       </Routes>
     </BrowserRouter>
   );

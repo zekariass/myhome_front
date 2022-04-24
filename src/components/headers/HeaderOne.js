@@ -7,8 +7,8 @@ import "./HeaderOne.css";
 import MenuDropdown from "./MenuDropdown";
 import { useSelector } from "react-redux";
 import {
-  PATH_AGENTS_ADD_ABSOLUTE,
   PATH_AGENTS_SEARCH_ABSOLUTE,
+  PATH_AGENT_CREATE_INFO_ABSOLUTE,
   PATH_LANDING,
   PATH_SAVED_PROPETRTIES,
   PATH_SIGNIN,
@@ -16,6 +16,20 @@ import {
 } from "components/commons/Strings";
 
 const HeaderOne = () => {
+  const { currentPage } = useSelector((store) => store.global);
+  const getAddPropertyMenu = () => {
+    if (currentPage === "agentAdd") {
+      return;
+    }
+    return (
+      <NavLink
+        to={PATH_AGENT_CREATE_INFO_ABSOLUTE}
+        className="link-general mx-lg-5 "
+      >
+        List Your Property
+      </NavLink>
+    );
+  };
   const { isSignedIn } = useSelector((store) => store.user.signin);
   const getMenuByAuthStatus = () => {
     // console.log(localStorage.getItem("access_token") === "null");
@@ -45,7 +59,7 @@ const HeaderOne = () => {
   };
 
   return (
-    <Navbar collapseOnSelect bg="light" expand="lg" className="nav-bg">
+    <Navbar collapseOnSelect bg="light" expand="lg" className="nav-bg py-4">
       <Navbar.Brand>
         <NavLink to={PATH_LANDING}>
           <Image
@@ -63,12 +77,7 @@ const HeaderOne = () => {
           className="me-auto my-2"
           style={{ maxHeight: "100px" }}
         >
-          <NavLink
-            to={PATH_AGENTS_ADD_ABSOLUTE}
-            className="link-general mx-lg-5 "
-          >
-            List Your Property
-          </NavLink>
+          {getAddPropertyMenu()}
           <NavLink to={PATH_AGENTS_SEARCH_ABSOLUTE} className="link-general">
             Find an Agent
           </NavLink>
