@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { setCurrentPage } from "features/global/globalSlice";
 import AddressForm from "components/commons/AddressForm";
 import AgentAddForm from "./AgentAddForm";
-import AgentLogo from "./AgentLogo";
 import AgentCreateImportantInfo from "./AgentCreateImportantInfo";
 import Confirmation from "./Confirmation";
 import Stepper from "react-stepper-horizontal/lib/Stepper";
@@ -42,6 +41,8 @@ const AgentAdd = () => {
     } else if (currentStep === 1) {
       return (
         <AddressForm
+          label="Agent"
+          title="Fill address of your Agent"
           currentStep={currentStep}
           setCurrentStep={setCurrentStep}
         />

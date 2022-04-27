@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+// @ts-nocheck
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
 
 const agentInitialState = {
   addAgent: {
@@ -7,6 +9,15 @@ const agentInitialState = {
     agentLogo: {},
   },
 };
+
+export const createAgent = createAsyncThunk(
+  "agent/createAgent",
+  async (_, thunkAPI) => {
+    // console.log("thunkAPI: ", thunkAPI.getState().agent);
+    const { addAgent } = thunkAPI.getState().agent;
+    const result = await myHomeBackendAPI.post("/agent/create/", addAgent);
+  }
+);
 
 const agentSlice = createSlice({
   name: "agent",
@@ -21,6 +32,7 @@ const agentSlice = createSlice({
     setAgentLogo: (state, action) => {
       state.addAgent.agentLogo = action.payload;
     },
+    //Create Agent
   },
 });
 

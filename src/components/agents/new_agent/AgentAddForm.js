@@ -54,7 +54,7 @@ const AgentAddForm = ({ currentStep, setCurrentStep }) => {
                 type="text"
                 className="form-control form-control-lg input-border-color"
                 label="Agent name"
-                labelClass="form-label fs-5"
+                labelClass="form-label fs-5 mt-2"
                 subscription={{
                   submitting: true,
                   value: true,
