@@ -1,19 +1,29 @@
 // @ts-nocheck
 import ImageInputField from "components/commons/fields/ImageInputField";
-import { setAgentLogo } from "features/agent/agentSlice";
-import React from "react";
+import { setAgentLogo, uploadAgentLogo } from "features/agent/agentSlice";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import AgentCreateImportantInfo from "./AgentCreateImportantInfo";
 
-const AgentLogo = ({ currentStep, setCurrentStep }) => {
+const AgentLogo = () => {
   /**
    * Add agent logo
    */
+  const { state } = useLocation();
+  const [logoData, setlogoData] = useState({
+    agentId: state?.agentId || null,
+    logo: null,
+  });
 
   const dispatch = useDispatch();
 
   return (
-    <div>
-      <div className="mt-3 ">
+    <div className="row">
+      <div className="col-md-5">
+        <AgentCreateImportantInfo />
+      </div>
+      <div className="col-md-7 mt-3 ">
         <p className="fs-2 fw-bold flex-center-general">Logo</p>
         <form>
           <div className="flex-center-general my-4 rounded-3">
@@ -30,7 +40,9 @@ const AgentLogo = ({ currentStep, setCurrentStep }) => {
                   labelClass="flex-center-general"
                   labelId="agent-logo-label"
                   hidden={true}
-                  onChange={(event) => onLogoSelect(event, dispatch)}
+                  onChange={(event) =>
+                    onLogoSelect(event, dispatch, logoData, setlogoData)
+                  }
                   onClick={(event) => onLogoInputClick(event)}
                 />
               </div>
@@ -50,23 +62,25 @@ const AgentLogo = ({ currentStep, setCurrentStep }) => {
               </span>
             </div>
           </div>
-          <div className="row row-cols-1 row-cols-lg-2 mt-5 ">
-            <div className="col flex-center-general">
+          <div className="mt-5">
+            {/* <div className=" flex-center-general my-3">
               <button
                 type="button"
-                className="btn-general py-2 w-75"
-                onClick={() => onBackButtonClick(currentStep, setCurrentStep)}
+                className="btn-general py-2"
+                onClick={() => onBackButtonClick()}
+                style={{ width: "35%" }}
               >
                 Back
               </button>
-            </div>
-            <div className="col flex-center-general my-3 my-lg-0">
+            </div> */}
+            <div className="flex-center-general mb-3">
               <button
                 type="button"
-                className="btn-general py-2 w-75"
-                onClick={() => onConfirmClick(currentStep, setCurrentStep)}
+                className="btn-general py-2"
+                onClick={() => onUploadClick(logoData, dispatch)}
+                style={{ width: "35%" }}
               >
-                Confirm
+                Upload
               </button>
             </div>
           </div>
@@ -87,7 +101,7 @@ const allowUploadLogoClick = () => {
   document.getElementById("agent-logo-input").click();
 };
 
-const onLogoSelect = (event, dispatch) => {
+const onLogoSelect = (event, dispatch, logoData, setlogoData) => {
   /**
    * A function called when a logo picture is selected
    */
@@ -97,8 +111,11 @@ const onLogoSelect = (event, dispatch) => {
     event.target.files[0]
   );
 
-  dispatch(setAgentLogo(event.target.files[0].name));
+  // dispatch(setAgentLogo(event.target.files[0].name));
   //   console.log("EVENT: ", event.target.files[0]);
+  let newLogoData = { ...logoData };
+  newLogoData["logo"] = event.target.files[0];
+  setlogoData(newLogoData);
 };
 
 const onLogoInputClick = (event) => {
@@ -118,24 +135,14 @@ const removeImage = () => {
   document.getElementById("agent-logo-display").src = "";
 };
 
-const onBackButtonClick = (currentStep, setCurrentStep) => {
-  /**
-   * Handles the back button click action
-   */
-  setCurrentStep(currentStep - 1);
-};
 
-const onConfirmClick = (currentStep, setCurrentStep) => {
+const onUploadClick = (logoData, dispatch) => {
   /**
    * Handles the action when confirm button is clicked in the agent logo upload form
    */
 
   /**
-   * When Confirm button clicked, increment the currentStep of the agent add form step
+   * When Upload button clicked, dispatch the uploadAgentLogo action creator
    */
-  // console.log(
-  //   "TARGET: "
-  //   // document.getElementById("agent-logo-input").target.files[0]
-  // );
-  setCurrentStep(currentStep + 1);
+  dispatch(uploadAgentLogo(logoData));
 };

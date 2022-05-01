@@ -1,6 +1,13 @@
 import Axios from "axios";
 import { API_CALL_TIME_OUT } from "../Strings";
 
+const getDefaultAuthorization = () => {
+  const access_token = localStorage.getItem("access_token");
+  if (!!access_token) {
+    return "Bearer " + access_token;
+  } else return null;
+};
+
 export default Axios.create({
   /**
    * Connection parameters to backend REST API
@@ -8,12 +15,8 @@ export default Axios.create({
   baseURL: "http://127.0.0.1:8000",
   timeout: API_CALL_TIME_OUT,
   headers: {
-    Authorization: localStorage.getItem("access_token")
-      ? "Bearer " + localStorage.getItem("access_token")
-      : null,
+    Authorization: getDefaultAuthorization(),
     "Content-Type": "application/json",
     accept: "application/json",
   },
 });
-
-

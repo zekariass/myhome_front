@@ -141,7 +141,7 @@ const AddressForm = ({ label, title, currentStep, setCurrentStep }) => {
                     className="form-control form-control-lg input-border-color"
                     type="text"
                     placeholder=""
-                    label="Building name or number"
+                    label="Building name/num"
                     labelClass="form-label fs-5 mt-2"
                     subscription={{
                       submitting: true,

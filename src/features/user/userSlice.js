@@ -2,6 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
 import { PATH_LANDING } from "components/commons/Strings";
+import { getFormatedResponse } from "features/getFormatedResponse";
 
 const userInitialState = {
   /**
@@ -19,17 +20,9 @@ const userInitialState = {
   signin: {
     isLoading: false,
     signinError: null,
+    signinStatus: null,
     isSignedIn: false,
   },
-};
-
-const getFormatedResponse = (result) => {
-  let response = {};
-  response.data = result.data;
-  response.status = result.status;
-  // console.log("RESULT: ", response);
-
-  return response;
 };
 
 /**
@@ -64,7 +57,7 @@ export const performSignup = createAsyncThunk(
  */
 export const performSignin = createAsyncThunk(
   "user/performSignin",
-  async ({ userCred, navigate }, thunkAPI) => {
+  async ({ userCred, navigate, fromPage }, thunkAPI) => {
     let result = null;
     try {
       result = await myHomeBackendAPI.post("/user/token/", userCred);
@@ -77,7 +70,7 @@ export const performSignin = createAsyncThunk(
         localStorage.setItem("access_token", result.data.access);
         localStorage.setItem("refresh_token", result.data.refresh);
         thunkAPI.dispatch(userSlice.actions.checkUserSigninStatus());
-        navigate(PATH_LANDING, { replace: true });
+        navigate(fromPage, { replace: true });
       }
     } catch (error) {
       result = error.response;
@@ -146,12 +139,14 @@ const userSlice = createSlice({
       // const access_token = localStorage.getItem("access_token");
       state.signin.isLoading = false;
       if (action.payload.status !== 200) {
-        state.signin.signinError = action.payload.data.detail;
+        state.signin.signinError = action.payload.data;
+        state.signin.signinStatus = action.payload.status;
       }
     },
     [performSignin.rejected]: (state, action) => {
       state.signin.isLoading = false;
-      state.signin.signinError = action.payload.data.payload;
+      state.signin.signinError = action.payload.data;
+      state.signin.signinStatus = action.payload.status;
     },
   },
 });

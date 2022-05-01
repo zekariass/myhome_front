@@ -1,7 +1,9 @@
 // @ts-nocheck
+import { PATH_AGENT_LOGO_UPLOAD_ABSOLUTE } from "components/commons/Strings";
 import { createAgent } from "features/agent/agentSlice";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Confirmation = ({ currentStep, setCurrentStep }) => {
   /**
@@ -13,7 +15,15 @@ const Confirmation = ({ currentStep, setCurrentStep }) => {
    */
 
   const { agentData, agentAddress } = useSelector(
-    (store) => store.agent.addAgent
+    (store) => store.agent.addAgent.request
+  );
+
+  /**
+   * selector object that retrieves the agent create error message
+   */
+
+  const { error, status } = useSelector(
+    (store) => store.agent.addAgent.response
   );
 
   /**
@@ -22,6 +32,7 @@ const Confirmation = ({ currentStep, setCurrentStep }) => {
   const { country, region, city } = useSelector((store) => store.address);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   /**
    * Make array of both agentData and agentAddress
@@ -33,6 +44,9 @@ const Confirmation = ({ currentStep, setCurrentStep }) => {
      * Display the agent data and address as property and value
      */
     <div>
+      {status === 409 && (
+        <div className="error-general flex-center-general mb-3">{error}</div>
+      )}
       {renderConfirmationList(allAgentDataArray, country, region, city)}
       <div className="row mt-4">
         <div className="col-lg-6 pt-1 mb-4 flex-center-general order-1 order-lg-0">
@@ -48,7 +62,7 @@ const Confirmation = ({ currentStep, setCurrentStep }) => {
           <button
             className="btn-general py-2 w-75"
             type="button"
-            onClick={() => onCreateBtnClick(dispatch)}
+            onClick={() => onCreateBtnClick(dispatch, navigate)}
           >
             Create Agent
           </button>
@@ -145,6 +159,11 @@ const onBackButtonClick = (currentStep, setCurrentStep) => {
   setCurrentStep(currentStep - 1);
 };
 
-const onCreateBtnClick = (dispatch) => {
-  dispatch(createAgent());
+const onCreateBtnClick = (dispatch, navigate) => {
+  dispatch(
+    createAgent({
+      navigate: navigate,
+      redirectPath: PATH_AGENT_LOGO_UPLOAD_ABSOLUTE,
+    })
+  );
 };

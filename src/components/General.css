@@ -66,12 +66,21 @@
 
 .link-general:hover {
   color: rgb(52, 103, 31) !important;
+  /* color: rgb(9, 122, 220) */
 }
 
 .flex-center-general {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+
+@media (max-width: 576px) {
+  .flex-center-general-sm {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
 }
 
 .flex-start-general {
@@ -145,4 +154,3 @@ body {
 .text-justify {
   text-align: justify;
 }
-

@@ -10,6 +10,7 @@ import {
   PATH_AGENTS_SEARCH_ABSOLUTE,
   PATH_AGENT_CREATE_INFO_ABSOLUTE,
   PATH_LANDING,
+  PATH_PROPERTY_ADD_ABSOLUTE,
   PATH_SAVED_PROPETRTIES,
   PATH_SIGNIN,
   PATH_SIGNUP,
@@ -23,7 +24,8 @@ const HeaderOne = () => {
     }
     return (
       <NavLink
-        to={PATH_AGENT_CREATE_INFO_ABSOLUTE}
+        // to={PATH_AGENT_CREATE_INFO_ABSOLUTE}
+        to={PATH_PROPERTY_ADD_ABSOLUTE}
         className="link-general mx-lg-5 "
       >
         List Your Property

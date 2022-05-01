@@ -23,6 +23,7 @@ const ImageInputField = ({
         <input
           name={name}
           type="file"
+          accept="image/jpeg,image/png,image/gif"
           id={id}
           hidden={hidden}
           onChange={onChange}

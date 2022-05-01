@@ -19,7 +19,7 @@ const AgentAddForm = ({ currentStep, setCurrentStep }) => {
   /**
    * selector orbject from react-redux to retrieve our store data
    */
-  const { agentData } = useSelector((store) => store.agent.addAgent);
+  const { agentData } = useSelector((store) => store.agent.addAgent.request);
 
   const onSubmit = (values) => {
     /**

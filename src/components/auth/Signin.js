@@ -1,12 +1,12 @@
 // @ts-nocheck
 import React from "react";
 import { Field, Form } from "react-final-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ShowImage from "../landing_page/images/landing_image_sm.jpg";
 import Logo from "../commons/images/logo3.JPG";
 import { textInputField } from "components/commons/fields/textInputField";
 import { performSignin, clearSigninData } from "features/user/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
@@ -16,6 +16,15 @@ const Signin = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { signinStatus } = useSelector((store) => store.user.signin);
+
+  /**
+   * Extract the pathName from where the user is redirected to signin page
+   * and send as a parameter to signin action creater in order to redirect
+   * the user to the last clicked link page
+   */
+  const fromPage = location.state?.from?.pathname || "/";
 
   const onSubmit = (values) => {
     /**
@@ -23,8 +32,22 @@ const Signin = () => {
      * After inserting the credentials
      */
     // console.log("VALUES: ", values);
+
+    /**
+     * When there is a new signin, we need to clear signin data store
+     */
     dispatch(clearSigninData());
-    dispatch(performSignin({ userCred: values, navigate: navigate }));
+
+    /**
+     * Dispatch the signin action creater
+     */
+    dispatch(
+      performSignin({
+        userCred: values,
+        navigate: navigate,
+        fromPage: fromPage,
+      })
+    );
   };
 
   return (
@@ -33,8 +56,8 @@ const Signin = () => {
         <div className="row d-flex justify-content-center align-items-center">
           <div className="col col-xl-8">
             <div className="card" style={{ borderRadius: "1rem" }}>
-              <div className="row g-0">
-                <div className="col-md-6 col-lg-5 d-none d-md-block">
+              {/* <div className="row g-0"> */}
+              {/* <div className="col-md-6 col-lg-5 d-none d-md-block">
                   <img
                     src={ShowImage}
                     alt="login form"
@@ -43,52 +66,56 @@ const Signin = () => {
                     height="100%"
                     style={{ borderRadius: "1rem 0 0 1rem" }}
                   />
+                </div> */}
+              {/* <div > */}
+              <div className="card-body p-4 p-lg-5 text-black">
+                <div className="p-5 flex-center-general">
+                  <Form
+                    /**
+                     * React final form
+                     */
+                    onSubmit={onSubmit}
+                    validate={(values) => validateForm(values)}
+                  >
+                    {({ handleSubmit }) =>
+                      signinForm(handleSubmit, signinStatus)
+                    }
+                  </Form>
                 </div>
-                <div className="col-md-6 col-lg-7 d-flex align-items-center">
-                  <div className="card-body p-4 p-lg-5 text-black">
-                    <Form
-                      /**
-                       * React final form
-                       */
-                      onSubmit={onSubmit}
-                      validate={(values) => validateForm(values)}
-                    >
-                      {({ handleSubmit }) => signinForm(handleSubmit)}
-                    </Form>
-                    <Link
-                      to="/"
-                      className="link-general link-size-small link-hover"
-                    >
-                      Forgot password?
-                    </Link>
-                    <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
-                      Don't have an account?
-                      <Link
-                        to="/signup"
-                        className="link-general link-size-normal link-hover ms-1"
-                      >
-                        Signup here
-                      </Link>
-                    </p>
-                    <Link
-                      to="/"
-                      className="link-general link-size-xsmall link-hover link-underline mx-5"
-                    >
-                      Terms of use
-                    </Link>
-                    <Link
-                      to="/"
-                      className="link-general link-size-xsmall link-underline link-hover"
-                    >
-                      Privacy policy
-                    </Link>
-                  </div>
-                </div>
+                {/* <Link
+                  to="/"
+                  className="link-general link-size-small link-hover"
+                >
+                  Forgot password?
+                </Link>
+                <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
+                  Don't have an account?
+                  <Link
+                    to="/signup"
+                    className="link-general link-size-normal link-hover ms-1"
+                  >
+                    Signup here
+                  </Link>
+                </p>
+                <Link
+                  to="/"
+                  className="link-general link-size-xsmall link-hover link-underline mx-5"
+                >
+                  Terms of use
+                </Link>
+                <Link
+                  to="/"
+                  className="link-general link-size-xsmall link-underline link-hover"
+                >
+                  Privacy policy
+                </Link> */}
               </div>
             </div>
+            {/* </div> */}
           </div>
         </div>
       </div>
+      {/* </div> */}
     </section>
   );
 };
@@ -99,7 +126,7 @@ export default Signin;
  * Inline functions
  */
 
-const signinForm = (handleSubmit) => {
+const signinForm = (handleSubmit, signinStatus) => {
   /**
    * Sign in form that accepts user credentials to log into the system
    */
@@ -114,7 +141,11 @@ const signinForm = (handleSubmit) => {
       <h5 className="fw-bold fs-4 mb-3 pb-3" style={{ letterSpacing: "1px" }}>
         Sign into your account
       </h5>
-
+      {signinStatus >= 400 && (
+        <div className="error-general flex-center-general my-2">
+          Unable to signin! check your Username or Password
+        </div>
+      )}
       <div className="form-outline mb-2">
         <Field
           name="email"
@@ -158,11 +189,38 @@ const signinForm = (handleSubmit) => {
           }
         </Field>
       </div>
-
-      <div className="pt-1 mb-4">
-        <button className="btn-general py-2 px-4" type="submit">
-          Login
-        </button>
+      <div className="row">
+        <div className="col-lg-4 pt-1 mb-4 ">
+          <button className="btn-general py-2 px-4 " type="submit">
+            Login
+          </button>
+        </div>
+        <div className="col-lg-8">
+          <Link to="/" className="link-general link-size-small link-hover">
+            Forgot password?
+          </Link>
+          <p className="pb-lg-2" style={{ color: "#393f81" }}>
+            Don't have an account?
+            <Link
+              to="/signup"
+              className="link-general link-size-small link-hover ms-1"
+            >
+              Signup here
+            </Link>
+          </p>
+          <Link
+            to="/"
+            className="link-general link-size-xsmall link-hover link-underline me-5"
+          >
+            Terms of use
+          </Link>
+          <Link
+            to="/"
+            className="link-general link-size-xsmall link-underline link-hover"
+          >
+            Privacy policy
+          </Link>
+        </div>
       </div>
       {/* <FormSpy>
         {({ values }) => {

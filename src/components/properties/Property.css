@@ -1,0 +1,13 @@
+@media (max-width: 576px) {
+  #agent-logo-image {
+    width: 75%;
+    height: 75%;
+  }
+}
+
+@media (min-width: 576px) {
+  #agent-logo-image {
+    width: 95%;
+    height: 95%;
+  }
+}
