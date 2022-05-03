@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React from "react";
+import { FormSpy } from "react-final-form";
 
 export const dropdownInputFiled = (
   input,
@@ -12,17 +13,17 @@ export const dropdownInputFiled = (
   labelClass,
 
   //Custom onChange function passed to handle action when item selected
-  customOnChange,
+  customOnChange = null,
 
   //dispatch object to be used to dispatch the action creater in redux
-  dispatchObj,
+  dispatchObj = null,
   disabled = false
 ) => {
   /**
    * A function that returns regular HTML select field by setting field properties
    *  and state recieved from caller component
    */
-  // console.log("Meta: ", meta);
+  // console.log("valuesssssssss: ", values);
   const { onChange, ...inputRest } = input;
 
   return (

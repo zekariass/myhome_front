@@ -61,9 +61,7 @@ const AddressForm = ({ label, title, currentStep, setCurrentStep }) => {
      * Handles the submit form actton
      * Used as prop in React final form
      */
-
     dispatch(setAgentAddress(values));
-
     /**
      * When continue button clicked, increment the currentStep of the agent add form step
      */
@@ -482,6 +480,9 @@ const onBackButtonClick = (currentStep, setCurrentStep) => {
   setCurrentStep(currentStep - 1);
 };
 
+/**
+ * Get Regions in a country when the country is selected from the dropdown
+ */
 const getRegionsFromBackend = (event, dispatch) => {
   const countryId = event.target.value;
   if (countryId !== "-1") {
@@ -490,7 +491,7 @@ const getRegionsFromBackend = (event, dispatch) => {
 };
 
 /**
- * Get Cities in a country when the Region is selected from the dropdown
+ * Get Cities in a region when the Region is selected from the dropdown
  */
 const getCitiesFromBackend = (event, dispatch) => {
   const cityId = event.target.value;

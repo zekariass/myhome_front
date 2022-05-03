@@ -9,7 +9,6 @@ import SavedProperties from "./properties/SavedProperties";
 import { checkUserSigninStatus } from "../features/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "./commons/ProtectedRoute";
-import AddProperty from "./properties/PropertyAdd";
 import {
   PATH_ADD_PROPERTY,
   PATH_AGENTS_ADD,
@@ -32,7 +31,7 @@ import AgentSearch from "./agents/AgentSearch";
 import AgentCreateInfo from "./agents/new_agent/AgentCreateInfo";
 import AgentLogo from "./agents/new_agent/AgentLogo";
 import PropertyPage from "./properties/PropertyPage";
-import PropertyAdd from "./properties/PropertyAdd";
+import PropertyFormWizard from "./properties/PropertyFormWizard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -56,7 +55,7 @@ const App = () => {
           path={PATH_ADD_PROPERTY}
           element={
             <ProtectedRoute redirectPath={PATH_SIGNIN}>
-              <AddProperty />
+              <PropertyFormWizard />
             </ProtectedRoute>
           }
         />
@@ -75,7 +74,7 @@ const App = () => {
           {/* <Route path={PATH_AGENTS_ADD} element={<AgentAdd />} /> */}
         </Route>
         <Route path={PATH_PROPERTY_HOME} element={<PropertyPage />}>
-          <Route path={PATH_PROPERTY_ADD} element={<PropertyAdd />} />
+          <Route path={PATH_PROPERTY_ADD} element={<PropertyFormWizard />} />
         </Route>
       </Routes>
     </BrowserRouter>

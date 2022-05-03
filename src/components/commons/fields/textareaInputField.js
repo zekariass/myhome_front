@@ -16,7 +16,16 @@ export const textareaInputField = (
   return (
     <div>
       <label className={labelClass}>{label}</label>
-      <textarea {...input} className={className} placeholder={placeholder} />
+      <textarea
+        {...input}
+        className={className}
+        placeholder={placeholder}
+        style={
+          (meta.touched && meta.error) || (meta.error && meta.submitting)
+            ? { borderColor: "red" }
+            : {}
+        }
+      />
       {((meta.touched && meta.error) || (meta.error && meta.submitting)) && (
         <span className="error-general m-2">{meta.error}</span>
       )}

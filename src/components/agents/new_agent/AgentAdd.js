@@ -7,6 +7,7 @@ import AgentAddForm from "./AgentAddForm";
 import AgentCreateImportantInfo from "./AgentCreateImportantInfo";
 import Confirmation from "./Confirmation";
 import Stepper from "react-stepper-horizontal/lib/Stepper";
+import StepperWidget from "components/commons/StepperWidget";
 
 const AgentAdd = () => {
   /**
@@ -65,19 +66,18 @@ const AgentAdd = () => {
     {
       title: "Address",
     },
-    // { title: "Agent logo" },
     { title: "Confirmation" },
   ];
 
-  const stepperProps = {
-    size: 50,
-    completeColor: "rgb(65, 168, 24)",
-    activeColor: "brown",
-    barStyle: "dashed",
-    completeOpacity: "0.5",
-    completeTitleOpacity: "0.5",
-    lineMarginOffset: 10,
-  };
+  // const stepperProps = {
+  //   size: 50,
+  //   completeColor: "rgb(65, 168, 24)",
+  //   activeColor: "brown",
+  //   barStyle: "dashed",
+  //   completeOpacity: "0.5",
+  //   completeTitleOpacity: "0.5",
+  //   lineMarginOffset: 10,
+  // };
 
   return (
     <div className="container">
@@ -86,7 +86,7 @@ const AgentAdd = () => {
       </div>
       <div className="row g-5 mt-3">
         <div className="col-lg-7 input-border-color">
-          <Stepper steps={steps} activeStep={currentStep} {...stepperProps} />
+          <StepperWidget steps={steps} activeStep={currentStep} />
 
           <div className="mt-5">{renderFormSteps()}</div>
         </div>
