@@ -1,22 +1,22 @@
 import React from "react";
 
-export const textInputField = (
+const TextareaCustomInput = ({
   input,
   meta,
   className,
   placeholder,
   label,
-  labelClass
-) => {
+  labelClass,
+}) => {
   /**
-   * A function that returns regular HTML fields by setting field properties
+   * A function that returns regular HTML textarea field by setting field properties
    *  and state recieved from caller component
    */
-  // console.log("META: ", meta);
+  // console.log("META: ", input);
   return (
     <div>
       <label className={labelClass}>{label}</label>
-      <input
+      <textarea
         {...input}
         className={className}
         placeholder={placeholder}
@@ -26,9 +26,12 @@ export const textInputField = (
             : {}
         }
       />
+      {/* Show error message */}
       {((meta.touched && meta.error) || (meta.error && meta.submitting)) && (
         <span className="error-general m-2">{meta.error}</span>
       )}
     </div>
   );
 };
+
+export default TextareaCustomInput;

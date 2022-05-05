@@ -1,6 +1,6 @@
 // @ts-nocheck
 import ImageInputField from "components/commons/fields/ImageInputField";
-import { setAgentLogo, uploadAgentLogo } from "features/agent/agentSlice";
+import { uploadAgentLogo } from "features/agent/agentSlice";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -134,7 +134,6 @@ const removeImage = () => {
   document.getElementById("agent-logo-display-div").style.display = "none";
   document.getElementById("agent-logo-display").src = "";
 };
-
 
 const onUploadClick = (logoData, dispatch) => {
   /**

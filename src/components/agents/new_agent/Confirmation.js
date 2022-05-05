@@ -1,43 +1,66 @@
 // @ts-nocheck
-import { PATH_AGENT_LOGO_UPLOAD_ABSOLUTE } from "components/commons/Strings";
-import { createAgent } from "features/agent/agentSlice";
+import ConfirmationList from "components/commons/ConfirmationList";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Confirmation = ({ currentStep, setCurrentStep }) => {
-  /**
-   * Conformation of entered agent data before submitting to backend
-   */
-
-  /**
-   * selector object that retrieves the agent data from store
-   */
-
-  const { agentData, agentAddress } = useSelector(
-    (store) => store.agent.addAgent.request
-  );
-
-  /**
-   * selector object that retrieves the agent create error message
-   */
-
-  const { error, status } = useSelector(
-    (store) => store.agent.addAgent.response
-  );
+/**
+ * Conformation of entered agent data before submitting to backend
+ */
+const Confirmation = ({ values }) => {
+  const { address, ...agent } = values;
 
   /**
    * selector object that retrieves the address locations such as country, region and city from store
    */
   const { country, region, city } = useSelector((store) => store.address);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  /**
+   * Format Address data so that country, region and city values are changed by names
+   */
+  const formatAddress = () => {
+    let addressNew = {};
+
+    /**
+     * Get IDs from the input values
+     */
+    const countryId = address["country"];
+    const regionId = address["region"];
+    const cityId = address["city"];
+
+    /**
+     * Get objects (data with id and name) from data from store
+     */
+    const countryObj = country.countryList.find(
+      (country) => country.id === parseInt(countryId)
+    );
+
+    const regionObj = region.regionList.find(
+      (region) => region.id === parseInt(regionId)
+    );
+
+    const cityObj = city.cityList.find((city) => city.id === parseInt(cityId));
+
+    /**
+     * Set new object with names of locations
+     */
+    addressNew["country"] = countryObj?.name;
+
+    addressNew["region"] = regionObj?.name;
+
+    addressNew["city"] = cityObj?.name;
+
+    /**
+     * Return new copy of data
+     */
+    return { ...address, ...addressNew };
+  };
 
   /**
-   * Make array of both agentData and agentAddress
+   * selector object that retrieves the agent create error status and response message
    */
-  const allAgentDataArray = [agentData, agentAddress];
+  const { error, status } = useSelector(
+    (store) => store.agent.addAgent.response
+  );
 
   return (
     /**
@@ -47,123 +70,11 @@ const Confirmation = ({ currentStep, setCurrentStep }) => {
       {status === 409 && (
         <div className="error-general flex-center-general mb-3">{error}</div>
       )}
-      {renderConfirmationList(allAgentDataArray, country, region, city)}
-      <div className="row mt-4">
-        <div className="col-lg-6 pt-1 mb-4 flex-center-general order-1 order-lg-0">
-          <button
-            className="btn-general py-2 w-75"
-            type="button"
-            onClick={() => onBackButtonClick(currentStep, setCurrentStep)}
-          >
-            Back
-          </button>
-        </div>
-        <div className="col-lg-6 pt-1 mb-4 flex-center-general order-0 order-lg-1">
-          <button
-            className="btn-general py-2 w-75"
-            type="button"
-            onClick={() => onCreateBtnClick(dispatch, navigate)}
-          >
-            Create Agent
-          </button>
-        </div>
-      </div>
+
+      <ConfirmationList data={agent} title="Agent Data" />
+      <ConfirmationList data={formatAddress()} title="Address Data" />
     </div>
   );
 };
 
 export default Confirmation;
-
-const renderConfirmationList = (allAgentDataArray, country, region, city) => {
-  /**
-   * Render form content into confirmation list page
-   */
-  return allAgentDataArray.map((data, index) => {
-    const objKeys = Object.keys(data);
-    return (
-      <div key={index}>
-        {
-          /**
-           * Check objKeys and if it has name  display a "Agent Info" label
-           * But it contains street then display "Agent Address" label since it is address data
-           */
-          (objKeys.includes("name") && (
-            <div className="fs-4 fw-bold text-muted flex-center-general mb-3">
-              Agent info
-            </div>
-          )) ||
-            (objKeys.includes("street") && (
-              <div className="fs-4 fw-bold text-muted flex-center-general mb-3">
-                Agent Address
-              </div>
-            ))
-        }
-        <div className="row row-cols-1 row-cols-lg-2 my-4">
-          {objKeys.map((key) => {
-            let countryName;
-            let regionName;
-            let cityName;
-
-            /**
-             * Display country by name rather than by id. Name retrieved from redux store
-             */
-            if (key === "country") {
-              const countryObj = country.countryList.find(
-                (cntry) => cntry.id === parseInt(data[key])
-              );
-              countryName = countryObj ? countryObj.name : undefined;
-            }
-
-            /**
-             * Display country by name rather than by id. Name retrieved from redux store
-             */
-            if (key === "region") {
-              const regionObj = region.regionList.find(
-                (rgn) => rgn.id === parseInt(data[key])
-              );
-              regionName = regionObj ? regionObj.name : undefined;
-            }
-
-            /**
-             * Display country by name rather than by id. Name retrieved from redux store
-             */
-            if (key === "city") {
-              const cityObj = city.cityList.find(
-                (cty) => cty.id === parseInt(data[key])
-              );
-              cityName = cityObj ? cityObj.name : undefined;
-            }
-
-            return (
-              <div className="col" key={key}>
-                <label className="fs-6 fw-bold flex-center-general">
-                  {key.toString().toUpperCase().replaceAll("_", "  ")}
-                </label>
-                <p className="fs-6 text-muted flex-center-general">
-                  {countryName || regionName || cityName || data[key]}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  });
-};
-
-//Inline function call
-const onBackButtonClick = (currentStep, setCurrentStep) => {
-  /**
-   * Handles the back button click action
-   */
-  setCurrentStep(currentStep - 1);
-};
-
-const onCreateBtnClick = (dispatch, navigate) => {
-  dispatch(
-    createAgent({
-      navigate: navigate,
-      redirectPath: PATH_AGENT_LOGO_UPLOAD_ABSOLUTE,
-    })
-  );
-};

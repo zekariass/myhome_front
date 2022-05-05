@@ -2,12 +2,11 @@
 import React from "react";
 import { Field, Form } from "react-final-form";
 import { Link, useLocation } from "react-router-dom";
-import ShowImage from "../landing_page/images/landing_image_sm.jpg";
 import Logo from "../commons/images/logo3.JPG";
-import { textInputField } from "components/commons/fields/textInputField";
 import { performSignin, clearSigninData } from "features/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import TextCustomInput from "components/commons/fields/TextCustomInput";
 
 const Signin = () => {
   /**
@@ -155,16 +154,24 @@ const signinForm = (handleSubmit, signinStatus) => {
           label="Email Address"
           labelClass="form-label fs-5"
         >
-          {({ input, meta, className, placeholder, label, labelClass }) =>
-            textInputField(
-              input,
-              meta,
-              className,
-              placeholder,
-              label,
-              labelClass
-            )
-          }
+          {({ input, meta, className, placeholder, label, labelClass }) => (
+            // textInputField(
+            //   input,
+            //   meta,
+            //   className,
+            //   placeholder,
+            //   label,
+            //   labelClass
+            // )
+            <TextCustomInput
+              input={input}
+              meta={meta}
+              className={className}
+              placeholder={placeholder}
+              label={label}
+              labelClass={labelClass}
+            />
+          )}
         </Field>
       </div>
 
@@ -177,16 +184,24 @@ const signinForm = (handleSubmit, signinStatus) => {
           label="Password"
           labelClass="form-label fs-5"
         >
-          {({ input, meta, className, placeholder, label, labelClass }) =>
-            textInputField(
-              input,
-              meta,
-              className,
-              placeholder,
-              label,
-              labelClass
-            )
-          }
+          {({ input, meta, className, placeholder, label, labelClass }) => (
+            // textInputField(
+            //   input,
+            //   meta,
+            //   className,
+            //   placeholder,
+            //   label,
+            //   labelClass
+            // )
+            <TextCustomInput
+              input={input}
+              meta={meta}
+              className={className}
+              placeholder={placeholder}
+              label={label}
+              labelClass={labelClass}
+            />
+          )}
         </Field>
       </div>
       <div className="row">

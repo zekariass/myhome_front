@@ -41,6 +41,32 @@
   border-color: rgb(65, 168, 24) !important;
   color: white;
 }
+.btn-general-danger {
+  font-size: 1.1rem !important;
+  font-weight: bold !important;
+  background-color: brown !important;
+  border-radius: 5px;
+  border-color: brown !important;
+  color: white;
+}
+
+.btn-general-danger:hover {
+  background-color: rgb(119, 24, 24) !important;
+  border-color: rgb(119, 24, 24) !important;
+}
+
+.btn-general-info {
+  font-size: 1.1rem !important;
+  font-weight: bold !important;
+  background-color: rgb(72, 205, 249) !important;
+  border-radius: 5px;
+  border-color: lightblue !important;
+  color: white;
+}
+.btn-general-info:hover {
+  background-color: rgb(48, 143, 175) !important;
+  border-color: rgb(72, 205, 249) !important;
+}
 
 .btn-general-outline {
   font-size: 1rem !important;

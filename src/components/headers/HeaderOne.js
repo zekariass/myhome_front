@@ -24,8 +24,8 @@ const HeaderOne = () => {
     }
     return (
       <NavLink
-        // to={PATH_AGENT_CREATE_INFO_ABSOLUTE}
-        to={PATH_PROPERTY_ADD_ABSOLUTE}
+        to={PATH_AGENT_CREATE_INFO_ABSOLUTE}
+        // to={PATH_PROPERTY_ADD_ABSOLUTE}
         className="link-general mx-lg-5 "
       >
         List Your Property

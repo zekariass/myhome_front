@@ -26,7 +26,7 @@ import {
 } from "./commons/Strings";
 import AgentsList from "./agents/AgentsList";
 import AgentsPage from "./agents/AgentsPage";
-import AgentAdd from "./agents/new_agent/AgentAdd";
+import AgentFormWizard from "./agents/new_agent/AgentFormWizard";
 import AgentSearch from "./agents/AgentSearch";
 import AgentCreateInfo from "./agents/new_agent/AgentCreateInfo";
 import AgentLogo from "./agents/new_agent/AgentLogo";
@@ -62,7 +62,7 @@ const App = () => {
 
         <Route path={PATH_AGENTS_HOME} element={<AgentsPage />}>
           <Route element={<ProtectedRoute redirectPath={PATH_SIGNIN} />}>
-            <Route path={PATH_AGENTS_ADD} element={<AgentAdd />} />
+            <Route path={PATH_AGENTS_ADD} element={<AgentFormWizard />} />
             <Route path={PATH_AGENTS_SEARCH} element={<AgentSearch />} />
             <Route
               path={PATH_AGENT_CREATE_INFO}
@@ -71,7 +71,7 @@ const App = () => {
             <Route path={PATH_AGENT_LOGO_UPLOAD} element={<AgentLogo />} />
           </Route>
           <Route index element={<AgentsList />} />
-          {/* <Route path={PATH_AGENTS_ADD} element={<AgentAdd />} /> */}
+          {/* <Route path={PATH_AGENTS_ADD} element={<AgentFormWizard />} /> */}
         </Route>
         <Route path={PATH_PROPERTY_HOME} element={<PropertyPage />}>
           <Route path={PATH_PROPERTY_ADD} element={<PropertyFormWizard />} />

@@ -3,10 +3,10 @@ import React from "react";
 import { Field, Form } from "react-final-form";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../commons/images/logo3.JPG";
-import { textInputField } from "../commons/fields/textInputField";
-import { checkInputField } from "../commons/fields/checkInputField";
 import { clearSignupData, performSignup } from "features/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import TextCustomInput from "components/commons/fields/TextCustomInput";
+import CheckCustomInput from "components/commons/fields/CheckCustomInput";
 
 const Signup = () => {
   /**
@@ -67,6 +67,13 @@ export default Signup;
  * The following are inline called functions
  */
 
+const fieldSubscription = {
+  submitting: true,
+  value: true,
+  touched: true,
+  error: true,
+};
+
 const signupForm = (handleSubmit) => {
   return (
     <form onSubmit={handleSubmit} className="mx-1 mx-md-4">
@@ -80,16 +87,17 @@ const signupForm = (handleSubmit) => {
               type="text"
               className="form-control form-control-lg"
               placeholder="Enter first name..."
-              subscription={{
-                submitting: true,
-                value: true,
-                touched: true,
-                error: true,
-              }}
+              subscription={fieldSubscription}
             >
-              {({ input, meta, className, placeholder }) =>
-                textInputField(input, meta, className, placeholder)
-              }
+              {({ input, meta, className, placeholder }) => (
+                // textInputField(input, meta, className, placeholder)
+                <TextCustomInput
+                  input={input}
+                  meta={meta}
+                  className={className}
+                  placeholder={placeholder}
+                />
+              )}
             </Field>
           </div>
           <div className="form-outline mb-0">
@@ -98,16 +106,17 @@ const signupForm = (handleSubmit) => {
               type="text"
               className="form-control form-control-lg"
               placeholder="Enter last name..."
-              subscription={{
-                submitting: true,
-                value: true,
-                touched: true,
-                error: true,
-              }}
+              subscription={fieldSubscription}
             >
-              {({ input, meta, className, placeholder }) =>
-                textInputField(input, meta, className, placeholder)
-              }
+              {({ input, meta, className, placeholder }) => (
+                // textInputField(input, meta, className, placeholder)
+                <TextCustomInput
+                  input={input}
+                  meta={meta}
+                  className={className}
+                  placeholder={placeholder}
+                />
+              )}
             </Field>
           </div>
         </div>
@@ -128,9 +137,15 @@ const signupForm = (handleSubmit) => {
               error: true,
             }}
           >
-            {({ input, meta, className, placeholder }) =>
-              textInputField(input, meta, className, placeholder)
-            }
+            {({ input, meta, className, placeholder }) => (
+              // textInputField(input, meta, className, placeholder)
+              <TextCustomInput
+                input={input}
+                meta={meta}
+                className={className}
+                placeholder={placeholder}
+              />
+            )}
           </Field>
         </div>
       </div>
@@ -144,16 +159,17 @@ const signupForm = (handleSubmit) => {
               type="password"
               className="form-control form-control-lg"
               placeholder="Enter password..."
-              subscription={{
-                submitting: true,
-                value: true,
-                touched: true,
-                error: true,
-              }}
+              subscription={fieldSubscription}
             >
-              {({ input, meta, className, placeholder }) =>
-                textInputField(input, meta, className, placeholder)
-              }
+              {({ input, meta, className, placeholder }) => (
+                // textInputField(input, meta, className, placeholder)
+                <TextCustomInput
+                  input={input}
+                  meta={meta}
+                  className={className}
+                  placeholder={placeholder}
+                />
+              )}
             </Field>
           </div>
           <div className="form-outline flex-fill mb-3">
@@ -162,16 +178,17 @@ const signupForm = (handleSubmit) => {
               type="password"
               className="form-control form-control-lg"
               placeholder="Enter password again..."
-              subscription={{
-                submitting: true,
-                value: true,
-                touched: true,
-                error: true,
-              }}
+              subscription={fieldSubscription}
             >
-              {({ input, meta, className, placeholder }) =>
-                textInputField(input, meta, className, placeholder)
-              }
+              {({ input, meta, className, placeholder }) => (
+                // textInputField(input, meta, className, placeholder)
+                <TextCustomInput
+                  input={input}
+                  meta={meta}
+                  className={className}
+                  placeholder={placeholder}
+                />
+              )}
             </Field>
           </div>
         </div>
@@ -193,9 +210,16 @@ const signupForm = (handleSubmit) => {
             error: true,
           }}
         >
-          {({ input, meta, className, label, labelLink }) =>
-            checkInputField(input, meta, className, label, labelLink)
-          }
+          {({ input, meta, className, label, labelLink }) => (
+            // checkInputField(input, meta, className, label, labelLink)
+            <CheckCustomInput
+              input={input}
+              meta={meta}
+              className={className}
+              label={label}
+              labelLink={labelLink}
+            />
+          )}
         </Field>
       </div>
 

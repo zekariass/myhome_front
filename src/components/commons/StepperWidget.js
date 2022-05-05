@@ -10,6 +10,11 @@ const StepperWidget = ({ steps, currentStep }) => {
     completeOpacity: "0.5",
     completeTitleOpacity: "0.5",
     lineMarginOffset: 10,
+    activeTitleColor: "brown",
+    activeBorderColor: "lightblue",
+    activeBorderStyle: "solid",
+    defaultBorderWidth: 4,
+    circleFontSize: 20,
   };
   return (
     <div>

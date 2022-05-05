@@ -2,7 +2,7 @@
 import React from "react";
 import { FormSpy } from "react-final-form";
 
-export const dropdownInputFiled = (
+const DropdownCustomInput = ({
   input,
   meta,
 
@@ -13,12 +13,12 @@ export const dropdownInputFiled = (
   labelClass,
 
   //Custom onChange function passed to handle action when item selected
-  customOnChange = null,
+  customOnChange,
 
   //dispatch object to be used to dispatch the action creater in redux
-  dispatchObj = null,
-  disabled = false
-) => {
+  dispatchObj,
+  disabled,
+}) => {
   /**
    * A function that returns regular HTML select field by setting field properties
    *  and state recieved from caller component
@@ -61,6 +61,7 @@ export const dropdownInputFiled = (
           </option>
         ))}
       </select>
+      {/* Show error message */}
       {((meta.touched && meta.error && !disabled) ||
         (meta.error && meta.submitting && !disabled)) && (
         <span className="error-general m-2">{meta.error}</span>
@@ -68,3 +69,4 @@ export const dropdownInputFiled = (
     </div>
   );
 };
+export default DropdownCustomInput;

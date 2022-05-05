@@ -6,9 +6,9 @@ import { getFormatedResponse } from "features/getFormatedResponse";
 const agentInitialState = {
   addAgent: {
     request: {
-      agentData: {},
-      agentAddress: {},
-      agentLogo: {},
+      // agentData: {},
+      // agentAddress: {},
+      // agentLogo: {},
       requestError: null,
       isLoading: false,
     },
@@ -50,15 +50,16 @@ const agentInitialState = {
 
 export const createAgent = createAsyncThunk(
   "agent/createAgent",
-  async ({ navigate, redirectPath }, thunkAPI) => {
-    const { request } = thunkAPI.getState().agent.addAgent;
+  async ({ values, navigate, redirectPath }, thunkAPI) => {
+    // const { request } = thunkAPI.getState().agent.addAgent;
+    console.log("createAgent: ", values);
     try {
-      const result = await myHomeBackendAPI.post("/agent/create/", request);
+      const result = await myHomeBackendAPI.post("/agent/create/", values);
       const formatedResponse = getFormatedResponse(result);
       /**
        * If agent creation successful navigate to -----
        */
-      // console.log("formatedResponse: ", formatedResponse);
+
       if (parseInt(formatedResponse.status) === 201) {
         /**
          * Pass agentId to logo upload page

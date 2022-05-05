@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Form, FormSpy } from "react-final-form";
+import arrayMutators from "final-form-arrays";
 
 export class Wizard extends Component {
   /**
@@ -89,6 +90,7 @@ export class Wizard extends Component {
         onSubmit={this.handleSubmit}
         initialValues={values}
         validate={this.validate}
+        mutators={{ ...arrayMutators }}
       >
         {({ handleSubmit, submitting, values }) => (
           <form onSubmit={handleSubmit}>

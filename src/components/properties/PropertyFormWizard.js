@@ -1,9 +1,10 @@
 import AgentPreview from "components/agents/AgentPreview";
-import AddressFormNew from "components/commons/AddressFormNew";
+import AddressForm from "components/commons/AddressForm";
 import StepperWidget from "components/commons/StepperWidget";
 import Wizard from "components/commons/Wizard";
 import React, { useState } from "react";
 import { Field } from "react-final-form";
+import Apartment from "./forms/Apartment";
 import ParentProperty from "./forms/ParentProperty";
 
 const PropertyFormWizard = () => {
@@ -20,15 +21,6 @@ const PropertyFormWizard = () => {
   ];
 
   const onSubmit = (values) => {};
-  const Error = (name) => {
-    <Field
-      name={name}
-      subscription={{ error: true, touched: true }}
-      render={({ meta: { touched, error } }) =>
-        touched && error ? <div className="error-general">{error}</div> : null
-      }
-    ></Field>;
-  };
   return (
     <div className="container">
       <div className="row">
@@ -38,14 +30,17 @@ const PropertyFormWizard = () => {
           </div>
           <Wizard
             onSubmit={onSubmit}
-            initialValues={{}}
+            initialValues={{ apartment: { units: [{}] } }}
             setCurrentStep={setCurrentStep}
           >
             <Wizard.Page>
               <ParentProperty />
             </Wizard.Page>
             <Wizard.Page>
-              <AddressFormNew label="address" title="Address" />
+              <Apartment label="apartment" title="Apartment" />
+            </Wizard.Page>
+            <Wizard.Page>
+              <AddressForm label="address" title="Property Address" />
             </Wizard.Page>
           </Wizard>
         </div>
