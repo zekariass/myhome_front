@@ -19,6 +19,7 @@ import {
   PATH_LANDING,
   PATH_PAGE_NOT_FOUND,
   PATH_PROPERTY_ADD,
+  PATH_PROPERTY_FILE_UPLOAD,
   PATH_PROPERTY_HOME,
   PATH_SAVED_PROPETRTIES,
   PATH_SIGNIN,
@@ -32,6 +33,8 @@ import AgentCreateInfo from "./agents/new_agent/AgentCreateInfo";
 import AgentLogo from "./agents/new_agent/AgentLogo";
 import PropertyPage from "./properties/PropertyPage";
 import PropertyFormWizard from "./properties/PropertyFormWizard";
+import PropertyPictureUpload from "./properties/forms/FileUploadInput";
+import PropertyFileUpload from "./properties/forms/PropertyFileUpload";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -75,6 +78,10 @@ const App = () => {
         </Route>
         <Route path={PATH_PROPERTY_HOME} element={<PropertyPage />}>
           <Route path={PATH_PROPERTY_ADD} element={<PropertyFormWizard />} />
+          <Route
+            path={PATH_PROPERTY_FILE_UPLOAD}
+            element={<PropertyFileUpload />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

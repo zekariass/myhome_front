@@ -1,14 +1,21 @@
+// @ts-nocheck
 import AgentPreview from "components/agents/AgentPreview";
 import AddressForm from "components/commons/AddressForm";
 import StepperWidget from "components/commons/StepperWidget";
 import Wizard from "components/commons/Wizard";
-import React, { useState } from "react";
-import { Field } from "react-final-form";
+import React, { useEffect, useState } from "react";
 import Apartment from "./forms/Apartment";
 import ParentProperty from "./forms/ParentProperty";
+import PropertyDataConfirmation from "./PropertyDataConfirmation";
+import { FormSpy } from "react-final-form";
+import { useDispatch, useSelector } from "react-redux";
+import { createProperty } from "features/property/propertySlice";
 
 const PropertyFormWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);
+
+  const dispatch = useDispatch();
+
   const steps = [
     {
       title: "Property",
@@ -17,10 +24,12 @@ const PropertyFormWizard = () => {
       title: "Property Category",
     },
     { title: "Address" },
-    { title: "Pictures" },
+    { title: "Confirmation" },
   ];
 
-  const onSubmit = (values) => {};
+  const onSubmit = (values) => {
+    dispatch(createProperty(values));
+  };
   return (
     <div className="container">
       <div className="row">
@@ -41,6 +50,11 @@ const PropertyFormWizard = () => {
             </Wizard.Page>
             <Wizard.Page>
               <AddressForm label="address" title="Property Address" />
+            </Wizard.Page>
+            <Wizard.Page>
+              <FormSpy>
+                {({ values }) => <PropertyDataConfirmation values={values} />}
+              </FormSpy>
             </Wizard.Page>
           </Wizard>
         </div>

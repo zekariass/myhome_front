@@ -1,9 +1,33 @@
+// @ts-nocheck
 import CheckCustomInput from "components/commons/fields/CheckCustomInput";
 import TextCustomInput from "components/commons/fields/TextCustomInput";
 import React from "react";
 import { Field } from "react-final-form";
 
+/**
+ * Apartment Unit component that an Apartment may have
+ * @param {props} param0
+ * @returns ApartmentUnit form component
+ */
 const ApartmentUnit = ({ label, index, fields, title }) => {
+  /**
+   * A function that validates the function
+   * @param {object} value
+   * @returns error
+   */
+  const validateNumberFieldGeneral = (values) => undefined;
+  // (value) => {
+  //   if (!value) {
+  //     return "Value required";
+  //   }
+  //   if (value && value < 0) {
+  //     return "Negative value not accepted!";
+  //   }
+  // };
+
+  /**
+   * Subscription object for fields
+   */
   const fieldSubscription = {
     submitting: true,
     value: true,
@@ -12,6 +36,7 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
   };
   return (
     <div className="card p-3 shadow-sm">
+      {/* Display remove cut icon starting from the second unit forms */}
       {index + 1 > 1 && (
         <div className="d-flex justify-content-end align-content-end">
           <i
@@ -31,17 +56,10 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
             placeholder=""
             label="Number of Rooms"
             labelClass="form-label fs-5 mt-2"
+            validate={validateNumberFieldGeneral}
             subscription={fieldSubscription}
           >
             {({ input, meta, className, placeholder, label, labelClass }) => (
-              // textInputField(
-              //   input,
-              //   meta,
-              //   className,
-              //   placeholder,
-              //   label,
-              //   labelClass
-              // )
               <TextCustomInput
                 input={input}
                 meta={meta}
@@ -61,17 +79,10 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
             placeholder=""
             label="Number of Bed Rooms"
             labelClass="form-label fs-5 mt-2"
+            validate={validateNumberFieldGeneral}
             subscription={fieldSubscription}
           >
             {({ input, meta, className, placeholder, label, labelClass }) => (
-              // textInputField(
-              //   input,
-              //   meta,
-              //   className,
-              //   placeholder,
-              //   label,
-              //   labelClass
-              // )
               <TextCustomInput
                 input={input}
                 meta={meta}
@@ -91,17 +102,10 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
             placeholder=""
             label="Number of Baths"
             labelClass="form-label fs-5 mt-2"
+            validate={validateNumberFieldGeneral}
             subscription={fieldSubscription}
           >
             {({ input, meta, className, placeholder, label, labelClass }) => (
-              // textInputField(
-              //   input,
-              //   meta,
-              //   className,
-              //   placeholder,
-              //   label,
-              //   labelClass
-              // )
               <TextCustomInput
                 input={input}
                 meta={meta}
@@ -121,17 +125,10 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
             placeholder=""
             label="Floor Level"
             labelClass="form-label fs-5 mt-2"
+            validate={validateNumberFieldGeneral}
             subscription={fieldSubscription}
           >
             {({ input, meta, className, placeholder, label, labelClass }) => (
-              // textInputField(
-              //   input,
-              //   meta,
-              //   className,
-              //   placeholder,
-              //   label,
-              //   labelClass
-              // )
               <TextCustomInput
                 input={input}
                 meta={meta}
@@ -151,17 +148,10 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
             placeholder=""
             label="Total Area"
             labelClass="form-label fs-5 mt-2"
+            validate={validateNumberFieldGeneral}
             subscription={fieldSubscription}
           >
             {({ input, meta, className, placeholder, label, labelClass }) => (
-              // textInputField(
-              //   input,
-              //   meta,
-              //   className,
-              //   placeholder,
-              //   label,
-              //   labelClass
-              // )
               <TextCustomInput
                 input={input}
                 meta={meta}
@@ -173,7 +163,6 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
             )}
           </Field>
         </div>
-        {/* <div className="row row-cols-1 row-cols-sm-2 my-3"> */}
         <div className="col form-outline mb-2 flex-center-general mt-md-5">
           <Field
             name={`${label}.is_furnished`}
@@ -185,7 +174,6 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
             subscription={fieldSubscription}
           >
             {({ input, meta, className, label, labelLink }) => (
-              // checkInputField(input, meta, className, label, labelLink)
               // @ts-ignore
               <CheckCustomInput
                 input={input}
@@ -196,7 +184,6 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
               />
             )}
           </Field>
-          {/* </div> */}
         </div>
       </div>
     </div>

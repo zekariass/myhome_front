@@ -95,7 +95,7 @@ const AddressFormNew = ({ label, title }) => {
                 placeholder=""
                 label={`Street`}
                 labelClass="form-label fs-5 mt-2"
-                validate={streetRequired}
+                // validate={streetRequired}
                 subscription={fieldSubscription}
               >
                 {({
@@ -106,14 +106,6 @@ const AddressFormNew = ({ label, title }) => {
                   label,
                   labelClass,
                 }) => (
-                  // textInputField(
-                  //   input,
-                  //   meta,
-                  //   className,
-                  //   placeholder,
-                  //   label,
-                  //   labelClass
-                  // )
                   <TextCustomInput
                     input={input}
                     meta={meta}
@@ -143,14 +135,6 @@ const AddressFormNew = ({ label, title }) => {
                   label,
                   labelClass,
                 }) => (
-                  // textInputField(
-                  //   input,
-                  //   meta,
-                  //   className,
-                  //   placeholder,
-                  //   label,
-                  //   labelClass
-                  // )
                   <TextCustomInput
                     input={input}
                     meta={meta}
@@ -180,14 +164,6 @@ const AddressFormNew = ({ label, title }) => {
                   label,
                   labelClass,
                 }) => (
-                  // textInputField(
-                  //   input,
-                  //   meta,
-                  //   className,
-                  //   placeholder,
-                  //   label,
-                  //   labelClass
-                  // )
                   <TextCustomInput
                     input={input}
                     meta={meta}
@@ -217,14 +193,6 @@ const AddressFormNew = ({ label, title }) => {
                   label,
                   labelClass,
                 }) => (
-                  // textInputField(
-                  //   input,
-                  //   meta,
-                  //   className,
-                  //   placeholder,
-                  //   label,
-                  //   labelClass
-                  // )
                   <TextCustomInput
                     input={input}
                     meta={meta}
@@ -248,7 +216,7 @@ const AddressFormNew = ({ label, title }) => {
                 ]}
                 customOnChange={getRegionsFromBackend}
                 dispatchObj={dispatch}
-                validate={countryRequired}
+                // validate={countryRequired}
                 subscription={fieldSubscription}
               >
                 {({
@@ -261,16 +229,6 @@ const AddressFormNew = ({ label, title }) => {
                   customOnChange,
                   dispatchObj,
                 }) => (
-                  // dropdownInputFiled(
-                  //   input,
-                  //   meta,
-                  //   options,
-                  //   className,
-                  //   label,
-                  //   labelClass,
-                  //   customOnChange,
-                  //   dispatchObj
-                  // )
                   <DropdownCustomInput
                     input={input}
                     meta={meta}
@@ -299,7 +257,7 @@ const AddressFormNew = ({ label, title }) => {
                 disabled={
                   !values.address?.country || values.address?.country === "-1"
                 }
-                validate={regionRequired}
+                // validate={regionRequired}
                 subscription={fieldSubscription}
               >
                 {({
@@ -313,17 +271,6 @@ const AddressFormNew = ({ label, title }) => {
                   dispatchObj,
                   disabled,
                 }) => (
-                  // dropdownInputFiled(
-                  //   input,
-                  //   meta,
-                  //   options,
-                  //   className,
-                  //   label,
-                  //   labelClass,
-                  //   customOnChange,
-                  //   dispatchObj,
-                  //   disabled
-                  // )
                   <DropdownCustomInput
                     input={input}
                     meta={meta}
@@ -351,7 +298,7 @@ const AddressFormNew = ({ label, title }) => {
                   !values.address?.region ||
                   values.address?.region === "-1"
                 }
-                validate={cityRequired}
+                // validate={cityRequired}
                 subscription={fieldSubscription}
               >
                 {({
@@ -363,17 +310,6 @@ const AddressFormNew = ({ label, title }) => {
                   labelClass,
                   disabled,
                 }) => (
-                  // dropdownInputFiled(
-                  //   input,
-                  //   meta,
-                  //   options,
-                  //   className,
-                  //   label,
-                  //   labelClass,
-                  //   null,
-                  //   null,
-                  //   disabled
-                  // )
                   <DropdownCustomInput
                     input={input}
                     meta={meta}
@@ -397,12 +333,7 @@ const AddressFormNew = ({ label, title }) => {
                   placeholder=""
                   label="Longitude"
                   labelClass="form-label fs-5 mt-2"
-                  subscription={{
-                    submitting: true,
-                    value: true,
-                    touched: true,
-                    error: true,
-                  }}
+                  subscription={fieldSubscription}
                 >
                   {({
                     input,
@@ -412,14 +343,6 @@ const AddressFormNew = ({ label, title }) => {
                     label,
                     labelClass,
                   }) => (
-                    // textInputField(
-                    //   input,
-                    //   meta,
-                    //   className,
-                    //   placeholder,
-                    //   label,
-                    //   labelClass
-                    // )
                     <TextCustomInput
                       input={input}
                       meta={meta}
@@ -439,12 +362,7 @@ const AddressFormNew = ({ label, title }) => {
                   placeholder=""
                   label="Latitude"
                   labelClass="form-label fs-5 mt-2"
-                  subscription={{
-                    submitting: true,
-                    value: true,
-                    touched: true,
-                    error: true,
-                  }}
+                  subscription={fieldSubscription}
                 >
                   {({
                     input,
@@ -454,14 +372,6 @@ const AddressFormNew = ({ label, title }) => {
                     label,
                     labelClass,
                   }) => (
-                    // textInputField(
-                    //   input,
-                    //   meta,
-                    //   className,
-                    //   placeholder,
-                    //   label,
-                    //   labelClass
-                    // )
                     <TextCustomInput
                       input={input}
                       meta={meta}

@@ -11,3 +11,42 @@
     height: 95%;
   }
 }
+
+.picture-upload-container {
+  /* background-color: red; */
+  color: green;
+  /* width: ; */
+  height: 150px;
+  padding: 5px;
+  border: 2px dotted green;
+  cursor: pointer;
+}
+
+.picture-list-container {
+  border: 2px dotted green;
+}
+
+.drop-list {
+  width: 350px !important;
+  background-color: #eee;
+  position: absolute;
+}
+
+.drop-parent {
+  /* width: 300px !important; */
+  z-index: 111;
+}
+
+.btn-drop {
+  background-color: #eee;
+  border: none;
+  width: 100%;
+}
+
+.btn-drop:hover {
+  background-color: rgb(216, 215, 215);
+}
+
+.drop-item:hover {
+  background-color: rgb(216, 215, 215);
+}

@@ -37,8 +37,8 @@ const AgentPreview = () => {
               {agentData?.address?.country.name}
             </div>
           </div>
-          <div className="col flex-center-general">
-            <img src={agentData?.logo?.logo} alt="" id="agent-logo-image" />
+          <div className="col flex-center-general agent-logo-display-div">
+            <img src={agentData?.logo?.logo} alt="" id="agent-logo-display" />
           </div>
         </div>
         <div className="mt-3 flex-center-general-sm">

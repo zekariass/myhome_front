@@ -13,7 +13,9 @@ const ConfirmationList = ({ data, title }) => {
               // @ts-ignore
               .replaceAll("_", "  ")}
           </label>
-          <p className="fs-6 text-muted flex-center-general">{data[key]}</p>
+          <p className="fs-6 text-muted flex-center-general">
+            {String(data[key])}
+          </p>
         </div>
       );
     });
@@ -21,14 +23,12 @@ const ConfirmationList = ({ data, title }) => {
   return (
     <div className="card my-3 shadow">
       <div
-        className="flex-center-general fs-3 fw-bold py-3"
+        className="flex-center-general fs-4 fw-bold py-3"
         style={{ color: "brown" }}
       >
         {title}
       </div>
-      <div className="row row-cols-1 row-cols-sm-2 g-3 ">
-        {renderData()}
-      </div>
+      <div className="row row-cols-1 row-cols-sm-2 g-3 ">{renderData()}</div>
     </div>
   );
 };

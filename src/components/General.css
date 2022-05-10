@@ -180,3 +180,35 @@ body {
 .text-justify {
   text-align: justify;
 }
+
+.delete-general {
+  color: brown;
+}
+
+.delete-general:hover {
+  color: rgb(101, 15, 15);
+}
+
+.view-general {
+  color: rgb(14, 14, 114);
+}
+
+.view-general:hover {
+  color: rgb(90, 90, 208);
+}
+
+.upload-general {
+  color: rgb(65, 168, 24);
+}
+
+.upload-general:hover {
+  color: rgb(32, 87, 10);
+}
+
+.my-modal-header,
+.my-modal-body,
+.my-modal-footer {
+  /* width: 100vw !important ; */
+  /* height: 90vw !important; */
+  background-color: rgb(214, 211, 211);
+}

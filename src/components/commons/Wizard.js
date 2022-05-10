@@ -97,15 +97,17 @@ export class Wizard extends Component {
             <div className="px-3">
               {activePage}
               <div className="row row-cols-1 row-cols-sm-2 my-4">
-                <div className="col my-2 my-sm-0 d-flex align-items-sm-end justify-content-sm-start justify-content-center order-sm-0 order-1">
-                  <button
-                    type="button"
-                    className="btn-general btn-general-hover px-3 py-2"
-                    onClick={this.previous}
-                  >
-                    « Previous
-                  </button>
-                </div>
+                {page > 0 && (
+                  <div className="col my-2 my-sm-0 d-flex align-items-sm-end justify-content-sm-start justify-content-center order-sm-0 order-1">
+                    <button
+                      type="button"
+                      className="btn-general btn-general-hover px-3 py-2"
+                      onClick={this.previous}
+                    >
+                      « Previous
+                    </button>
+                  </div>
+                )}
                 <div className="col d-flex align-items-sm-end justify-content-sm-end justify-content-center">
                   {!isLastPage && (
                     <button

@@ -4,8 +4,13 @@ import DropdownCustomInput from "components/commons/fields/DropdownCustomInput";
 import TextareaCustomInput from "components/commons/fields/TextareaCustomInput";
 import React from "react";
 import { Field } from "react-final-form";
+import { useSelector } from "react-redux";
 
 const ParentProperty = () => {
+  let { data } = useSelector((store) => store.propertyCategory.response);
+
+  data = data.length ? data : [];
+
   const pCategoryRequired = (value) =>
     !value ? "Property Category is required!" : undefined;
   const descriptionRequired = (value) =>
@@ -26,7 +31,7 @@ const ParentProperty = () => {
           className="form-control form-control-lg input-border-color"
           label="Property Category"
           labelClass="form-label fs-5 mt-2"
-          options={[{ id: "-1", name: "--Select Category--" }]}
+          options={[{ id: "-1", name: "--Select Category--" }, ...data]}
           disabled={false}
           // validate={pCategoryRequired}
           subscription={fieldSubscription}
@@ -40,18 +45,6 @@ const ParentProperty = () => {
             labelClass,
             disabled,
           }) => (
-            //   dropdownInputFiled(
-            //     input,
-            //     meta,
-            //     options,
-            //     className,
-            //     label,
-            //     labelClass,
-            //     null,
-            //     null,
-            //     disabled
-            //   )
-
             <DropdownCustomInput
               input={input}
               meta={meta}

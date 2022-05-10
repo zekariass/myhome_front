@@ -13,7 +13,7 @@ const AgentAddForm = () => {
   /**
    * Dispatch object to dispatch our agent data to store
    */
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   /**
    * selector orbject from react-redux to retrieve our store data

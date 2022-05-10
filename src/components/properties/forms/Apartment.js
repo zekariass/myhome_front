@@ -8,6 +8,9 @@ import ApartmentUnit from "./ApartmentUnit";
 const Apartment = ({ label, title }) => {
   const [numberOfUnitsShown, setNumberOfUnitsShown] = useState(1);
 
+  /**
+   * Field subscription object
+   */
   const fieldSubscription = {
     submitting: true,
     value: true,
@@ -15,9 +18,17 @@ const Apartment = ({ label, title }) => {
     error: true,
   };
 
+  /**
+   * Apartment unit field key inside values object
+   */
   const APARTMENT_UNIT_FIELD_NAME = "apartment.units";
 
-  const positiveNumberRequired = (value) => {
+  /**
+   * A function that validates fields
+   * @param {any} value
+   * @returns error
+   */
+  const validateFiedGeneral = (value) => {
     if (!value) {
       return "Value required!";
     }
@@ -29,7 +40,6 @@ const Apartment = ({ label, title }) => {
   return (
     <div>
       <div className="col form-outline mb-2">
-        {/* <FormSpy>{(form) => console.log("PROPERTY VALUES: ", form)}</FormSpy> */}
         <Field
           name={`${label}.floors`}
           className="form-control form-control-lg input-border-color"
@@ -38,17 +48,9 @@ const Apartment = ({ label, title }) => {
           label="Number of floors"
           labelClass="form-label fs-5 mt-2"
           subscription={fieldSubscription}
-          validate={positiveNumberRequired}
+          // validate={validateFiedGeneral}
         >
           {({ input, meta, className, placeholder, label, labelClass }) => (
-            // textInputField(
-            //   input,
-            //   meta,
-            //   className,
-            //   placeholder,
-            //   label,
-            //   labelClass
-            // )
             <TextCustomInput
               input={input}
               meta={meta}
@@ -72,7 +74,6 @@ const Apartment = ({ label, title }) => {
             subscription={fieldSubscription}
           >
             {({ input, meta, className, label, labelLink }) => (
-              // checkInputField(input, meta, className, label, labelLink)
               // @ts-ignore
               <CheckCustomInput
                 input={input}
@@ -96,14 +97,6 @@ const Apartment = ({ label, title }) => {
             subscription={fieldSubscription}
           >
             {({ input, meta, className, label, labelLink, disabled }) => (
-              // checkInputField(
-              //   input,
-              //   meta,
-              //   className,
-              //   label,
-              //   labelLink,
-              //   disabled
-              // )
               <CheckCustomInput
                 input={input}
                 meta={meta}
@@ -118,6 +111,7 @@ const Apartment = ({ label, title }) => {
       </div>
       <div className="my-3">
         <p className="flex-center-general fs-4 fw-bold">Add Apartment Unit</p>
+        {/* FormSpy allows us to access form states without re-rendering the form */}
         <FormSpy>
           {({
             form: {
@@ -125,6 +119,7 @@ const Apartment = ({ label, title }) => {
             },
           }) => (
             <div>
+              {/* Field array allows us to dynamically group of fields  */}
               <FieldArray name={APARTMENT_UNIT_FIELD_NAME}>
                 {({ fields }) =>
                   fields.map((name, index) => {
@@ -144,10 +139,14 @@ const Apartment = ({ label, title }) => {
               </FieldArray>
               <div className="row row-cols-1 row-cols-sm-2 my -5">
                 <div className="col d-flex align-items-sm-end justify-content-sm-end justify-content-center justify-content-center order-sm-0 order-1">
+                  {/* Do not show Remove Unit button if we have only one Unit form */}
                   {numberOfUnitsShown > 1 && (
                     <button
                       type="button"
                       className="btn-general-danger btn-general-hover px-3 py-2"
+                      /**
+                       * Remove the last field item
+                       */
                       onClick={() => pop(APARTMENT_UNIT_FIELD_NAME)}
                     >
                       <i className="cut icon"></i>
@@ -159,6 +158,9 @@ const Apartment = ({ label, title }) => {
                   <button
                     type="button"
                     className="btn-general-info btn-general-hover px-3 py-2"
+                    /**
+                     * Add a field group
+                     */
                     onClick={() => push(APARTMENT_UNIT_FIELD_NAME, undefined)}
                   >
                     <i className="plus icon"></i>
