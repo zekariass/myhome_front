@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
 import { getFormatedResponse } from "features/getFormatedResponse";
 
-const initialPropertyCategoryState = {
+const initialHouseTypeState = {
   request: {
     isLoading: false,
   },
@@ -14,12 +14,12 @@ const initialPropertyCategoryState = {
   },
 };
 
-export const getPropertyCategories = createAsyncThunk(
-  "propertyCategory/getPropertyCategories",
+export const getHouseTypes = createAsyncThunk(
+  "houseType/getHouseTypes",
   async () => {
     let result;
     try {
-      result = await myHomeBackendAPI.get("/property/categories/");
+      result = await myHomeBackendAPI.get("/property/housetypes/");
     } catch (error) {
       result = error.response;
     } finally {
@@ -29,24 +29,24 @@ export const getPropertyCategories = createAsyncThunk(
   }
 );
 
-const propertyCategorySlice = createSlice({
-  name: "propertyCategory",
-  initialState: initialPropertyCategoryState,
+const houseTypeSlice = createSlice({
+  name: "houseType",
+  initialState: initialHouseTypeState,
   reducers: {},
   extraReducers: {
     /**
-     * Getting property categories
+     * Getting house types
      * @param {StateObject} state
      */
-    [getPropertyCategories.pending]: (state) => {
+    [getHouseTypes.pending]: (state) => {
       state.request.isLoading = true;
     },
-    [getPropertyCategories.fulfilled]: (state, action) => {
+    [getHouseTypes.fulfilled]: (state, action) => {
       state.request.isLoading = false;
       state.response.data = action.payload.data;
       state.response.status = action.payload.status;
     },
-    [getPropertyCategories.rejected]: (state, action) => {
+    [getHouseTypes.rejected]: (state, action) => {
       state.request.isLoading = false;
       state.response.data = action.payload.data;
       state.response.status = action.payload.status;
@@ -54,4 +54,4 @@ const propertyCategorySlice = createSlice({
   },
 });
 
-export default propertyCategorySlice.reducer;
+export default houseTypeSlice.reducer;

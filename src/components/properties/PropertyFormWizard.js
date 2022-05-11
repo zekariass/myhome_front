@@ -10,6 +10,7 @@ import PropertyDataConfirmation from "./PropertyDataConfirmation";
 import { FormSpy } from "react-final-form";
 import { useDispatch, useSelector } from "react-redux";
 import { createProperty } from "features/property/propertySlice";
+import PropertyCategoryWizard from "./forms/PropertyCategoryWizard";
 
 const PropertyFormWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -46,7 +47,12 @@ const PropertyFormWizard = () => {
               <ParentProperty />
             </Wizard.Page>
             <Wizard.Page>
-              <Apartment label="apartment" title="Apartment" />
+              <FormSpy>
+                {({ values }) => (
+                  // <Apartment label="apartment" title="Apartment" />
+                  <PropertyCategoryWizard values={values} />
+                )}
+              </FormSpy>
             </Wizard.Page>
             <Wizard.Page>
               <AddressForm label="address" title="Property Address" />

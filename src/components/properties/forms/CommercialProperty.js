@@ -1,16 +1,41 @@
+// @ts-nocheck
 import CheckCustomInput from "components/commons/fields/CheckCustomInput";
+import DropdownCustomInput from "components/commons/fields/DropdownCustomInput";
 import TextCustomInput from "components/commons/fields/TextCustomInput";
 import React, { useState } from "react";
 import { Field, FormSpy } from "react-final-form";
 import { FieldArray } from "react-final-form-arrays";
-import ApartmentUnit from "./ApartmentUnit";
+import { useSelector } from "react-redux";
+import CommercialPropertyUnit from "./CommercialPropertyUnit";
 import IsNewField from "./IsNewField";
 
-const Apartment = ({ label, title }) => {
+const CommercialProperty = ({ label, title }) => {
+  let { data } = useSelector((store) => store.buildingType.response);
+
   const [numberOfUnitsShown, setNumberOfUnitsShown] = useState(1);
 
   /**
-   * Field subscription object
+   * Apartment unit field key inside values object
+   */
+  const COMMERCIAL_PROPERTY_UNIT_FIELD_NAME = "commercial_property.units";
+
+  /**
+   * A function that validates the function
+   * @param {object} values
+   * @returns error
+   */
+  const validateNumberFieldGeneral = (values) => undefined;
+  // (value) => {
+  //   if (!value) {
+  //     return "Value required";
+  //   }
+  //   if (value && value < 0) {
+  //     return "Negative value not accepted!";
+  //   }
+  // };
+
+  /**
+   * Subscription object for fields
    */
   const fieldSubscription = {
     submitting: true,
@@ -19,64 +44,78 @@ const Apartment = ({ label, title }) => {
     error: true,
   };
 
-  /**
-   * Apartment unit field key inside values object
-   */
-  const APARTMENT_UNIT_FIELD_NAME = "apartment.units";
-
-  /**
-   * A function that validates fields
-   * @param {any} value
-   * @returns error
-   */
-  const validateFiedGeneral = (value) => {
-    if (!value) {
-      return "Value required!";
-    }
-    if (value < 0) {
-      return "Negative value no accepted!";
-    }
-  };
-
   return (
     <div>
       <p className="fs-4 fw-bold flex-center-general">{title}</p>
-      <div className="col form-outline mb-2">
-        <Field
-          name={`${label}.floors`}
-          className="form-control form-control-lg input-border-color"
-          type="number"
-          placeholder=""
-          label="Number of floors"
-          labelClass="form-label fs-5 mt-2"
-          subscription={fieldSubscription}
-          // validate={validateFiedGeneral}
-        >
-          {({ input, meta, className, placeholder, label, labelClass }) => (
-            <TextCustomInput
-              input={input}
-              meta={meta}
-              className={className}
-              placeholder={placeholder}
-              label={label}
-              labelClass={labelClass}
-            />
-          )}
-        </Field>
-      </div>
       <div className="row row-cols-1 row-cols-sm-2 my-3">
-        {/* <div className="col form-outline mb-2">
+        <div className="form-outline mb-2">
           <Field
-            name={`${label}.is_new`}
+            name={`${label}.building_type`}
+            className="form-control form-control-lg input-border-color"
+            label="Building Type"
+            labelClass="form-label fs-5 mt-2"
+            options={[{ id: "-1", name: "--Select building type--" }, ...data]}
+            disabled={false}
+            // validate={pCategoryRequired}
+            subscription={fieldSubscription}
+          >
+            {({
+              input,
+              meta,
+              options,
+              className,
+              label,
+              labelClass,
+              disabled,
+            }) => (
+              <DropdownCustomInput
+                input={input}
+                meta={meta}
+                options={options}
+                className={className}
+                label={label}
+                labelClass={labelClass}
+                disabled={disabled}
+              />
+            )}
+          </Field>
+        </div>
+        <div className="col form-outline mb-2">
+          <Field
+            name={`${label}.floors`}
+            className="form-control form-control-lg input-border-color"
+            type="number"
+            placeholder=""
+            label="Number of floors"
+            labelClass="form-label fs-5 mt-2"
+            subscription={fieldSubscription}
+            // validate={validateFiedGeneral}
+          >
+            {({ input, meta, className, placeholder, label, labelClass }) => (
+              <TextCustomInput
+                input={input}
+                meta={meta}
+                className={className}
+                placeholder={placeholder}
+                label={label}
+                labelClass={labelClass}
+              />
+            )}
+          </Field>
+        </div>
+        <IsNewField label={label} />
+        <div className="col form-outline mb-2">
+          <Field
+            name={`${label}.has_parking_space`}
             type="checkbox"
             className="form-check-input me-2"
-            label="Is New?"
+            label="Has Parking Space?"
             labelLink=""
-            initialValue={false}
+            // initialValue={numberOfUnitsShown > 1 ? true : false}
+            // disabled={true}
             subscription={fieldSubscription}
           >
             {({ input, meta, className, label, labelLink }) => (
-              // @ts-ignore
               <CheckCustomInput
                 input={input}
                 meta={meta}
@@ -86,8 +125,7 @@ const Apartment = ({ label, title }) => {
               />
             )}
           </Field>
-        </div> */}
-        <IsNewField label={label} />
+        </div>
         <div className="col form-outline mb-2">
           <Field
             name={`${label}.is_multi_unit`}
@@ -113,7 +151,9 @@ const Apartment = ({ label, title }) => {
         </div>
       </div>
       <div className="my-3">
-        <p className="flex-center-general fs-4 fw-bold">Add Apartment Unit</p>
+        <p className="flex-center-general fs-4 fw-bold">
+          Add Commercial Property Unit
+        </p>
         {/* FormSpy allows us to access form states without re-rendering the form */}
         <FormSpy>
           {({
@@ -123,17 +163,17 @@ const Apartment = ({ label, title }) => {
           }) => (
             <div>
               {/* Field array allows us to dynamically group of fields  */}
-              <FieldArray name={APARTMENT_UNIT_FIELD_NAME}>
+              <FieldArray name={COMMERCIAL_PROPERTY_UNIT_FIELD_NAME}>
                 {({ fields }) =>
                   fields.map((name, index) => {
                     setNumberOfUnitsShown(index + 1);
                     return (
                       <div className="py-3" key={index}>
-                        <ApartmentUnit
+                        <CommercialPropertyUnit
                           label={name}
                           index={index}
                           fields={fields}
-                          title="Add apartment unit"
+                          title="Add Commercial Property unit"
                         />
                       </div>
                     );
@@ -150,7 +190,7 @@ const Apartment = ({ label, title }) => {
                       /**
                        * Remove the last field item
                        */
-                      onClick={() => pop(APARTMENT_UNIT_FIELD_NAME)}
+                      onClick={() => pop(COMMERCIAL_PROPERTY_UNIT_FIELD_NAME)}
                     >
                       <i className="cut icon"></i>
                       Remove Unit
@@ -164,7 +204,9 @@ const Apartment = ({ label, title }) => {
                     /**
                      * Add a field group
                      */
-                    onClick={() => push(APARTMENT_UNIT_FIELD_NAME, undefined)}
+                    onClick={() =>
+                      push(COMMERCIAL_PROPERTY_UNIT_FIELD_NAME, undefined)
+                    }
                   >
                     <i className="plus icon"></i>
                     Add Unit
@@ -179,4 +221,4 @@ const Apartment = ({ label, title }) => {
   );
 };
 
-export default Apartment;
+export default CommercialProperty;

@@ -1,20 +1,18 @@
 // @ts-nocheck
 import CheckCustomInput from "components/commons/fields/CheckCustomInput";
+import DropdownCustomInput from "components/commons/fields/DropdownCustomInput";
 import TextCustomInput from "components/commons/fields/TextCustomInput";
 import React from "react";
 import { Field } from "react-final-form";
+import { useSelector } from "react-redux";
 import AreaField from "./AreaField";
-import CommonResidentialFields from "./CommonResidentialFields";
+import IsNewField from "./IsNewField";
 
-/**
- * Apartment Unit component that an Apartment may have
- * @param {props} param0
- * @returns ApartmentUnit form component
- */
-const ApartmentUnit = ({ label, index, fields, title }) => {
+const Office = ({ label, title }) => {
+  let { data } = useSelector((store) => store.buildingType.response);
   /**
    * A function that validates the function
-   * @param {object} value
+   * @param {object} values
    * @returns error
    */
   const validateNumberFieldGeneral = (values) => undefined;
@@ -37,72 +35,49 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
     error: true,
   };
   return (
-    <div className="card p-3 shadow-sm">
-      {/* Display remove cut icon starting from the second unit forms */}
-      {index + 1 > 1 && (
-        <div className="d-flex justify-content-end align-content-end">
-          <i
-            className="big cut icon text-danger"
-            style={{ cursor: "pointer" }}
-            onClick={() => fields.remove(index)}
-          ></i>
+    <>
+      <p className="fs-4 fw-bold flex-center-general">{title}</p>
+
+      <div className="row row-cols-1 row-cols-sm-2 my-3">
+        <div className="form-outline mb-2">
+          <Field
+            name={`${label}.building_type`}
+            className="form-control form-control-lg input-border-color"
+            label="Building Type"
+            labelClass="form-label fs-5 mt-2"
+            options={[{ id: "-1", name: "--Select building type--" }, ...data]}
+            disabled={false}
+            // validate={pCategoryRequired}
+            subscription={fieldSubscription}
+          >
+            {({
+              input,
+              meta,
+              options,
+              className,
+              label,
+              labelClass,
+              disabled,
+            }) => (
+              <DropdownCustomInput
+                input={input}
+                meta={meta}
+                options={options}
+                className={className}
+                label={label}
+                labelClass={labelClass}
+                disabled={disabled}
+              />
+            )}
+          </Field>
         </div>
-      )}
-      <p className="flex-center-general fs-4 fw-bold">{`Unit #${index + 1}`}</p>
-      <div className="row row-cols-1 row-cols-md-2 g-3">
-        {/* <div className="col form-outline mb-2">
+        <div className="col form-outline mb-2">
           <Field
             name={`${label}.number_of_rooms`}
             className="form-control form-control-lg input-border-color"
             type="number"
             placeholder=""
             label="Number of Rooms"
-            labelClass="form-label fs-5 mt-2"
-            validate={validateNumberFieldGeneral}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, placeholder, label, labelClass }) => (
-              <TextCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                placeholder={placeholder}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
-        </div>
-        <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.number_of_bed_rooms`}
-            className="form-control form-control-lg input-border-color"
-            type="number"
-            placeholder=""
-            label="Number of Bed Rooms"
-            labelClass="form-label fs-5 mt-2"
-            validate={validateNumberFieldGeneral}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, placeholder, label, labelClass }) => (
-              <TextCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                placeholder={placeholder}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
-        </div>
-        <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.number_of_baths`}
-            className="form-control form-control-lg input-border-color"
-            type="number"
-            placeholder=""
-            label="Number of Baths"
             labelClass="form-label fs-5 mt-2"
             validate={validateNumberFieldGeneral}
             subscription={fieldSubscription}
@@ -141,44 +116,19 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
               />
             )}
           </Field>
-        </div> */}
-        <CommonResidentialFields label={label} />
-        {/* <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.area`}
-            className="form-control form-control-lg input-border-color"
-            type="number"
-            placeholder=""
-            label="Total Area"
-            labelClass="form-label fs-5 mt-2"
-            validate={validateNumberFieldGeneral}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, placeholder, label, labelClass }) => (
-              <TextCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                placeholder={placeholder}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
-        </div> */}
+        </div>
         <AreaField label={label} fieldName="area" />
-        {/* <div className="col form-outline mb-2 flex-center-general mt-md-5">
+        <div className="col form-outline mt-3 mt-sm-4 ps-sm-4 mb-2">
           <Field
             name={`${label}.is_furnished`}
             type="checkbox"
-            className="form-check-input me-2"
+            className="form-check-input me-2 mb-3"
             label="Is Furnished?"
             labelLink=""
             initialValue={false}
             subscription={fieldSubscription}
           >
             {({ input, meta, className, label, labelLink }) => (
-              // @ts-ignore
               <CheckCustomInput
                 input={input}
                 meta={meta}
@@ -188,10 +138,11 @@ const ApartmentUnit = ({ label, index, fields, title }) => {
               />
             )}
           </Field>
-        </div> */}
+          <IsNewField label={label} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default ApartmentUnit;
+export default Office;
