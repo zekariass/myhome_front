@@ -1,52 +1,44 @@
-import TextCustomInput from "components/commons/fields/TextCustomInput";
+import CheckField from "components/commons/fields/CheckField";
+import TextField from "components/commons/fields/TextField";
+import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React from "react";
-import { Field } from "react-final-form";
-import AreaField from "./AreaField";
 import CommonResidentialFields from "./CommonResidentialFields";
-import IsNewField from "./IsNewField";
 
-const Condominium = ({ label, title }) => {
-  /**
-   * Field subscription object
-   */
-//   const fieldSubscription = {
-//     submitting: true,
-//     value: true,
-//     touched: true,
-//     error: true,
-//   };
-
+/**
+ * Condominium form
+ * @param {*} param0
+ * @returns
+ */
+const Condominium = ({ name, title }) => {
   return (
     <>
       <p className="fs-4 fw-bold flex-center-general">{title}</p>
-
       <div className="row row-cols-1 row-cols-sm-2 my-3">
-        {/* <div className="col form-outline mb-2">
-        <Field
-          name={`${label}.floors`}
-          className="form-control form-control-lg input-border-color"
-          type="number"
-          placeholder=""
-          label="Number of floors"
-          labelClass="form-label fs-5 mt-2"
-          subscription={fieldSubscription}
-          // validate={validateFiedGeneral}
-        >
-          {({ input, meta, className, placeholder, label, labelClass }) => (
-            <TextCustomInput
-              input={input}
-              meta={meta}
-              className={className}
-              placeholder={placeholder}
-              label={label}
-              labelClass={labelClass}
-            />
-          )}
-        </Field>
-      </div> */}
-        <AreaField label={label} fieldName="area" />
-        <CommonResidentialFields label={label} />
-        <IsNewField label={label} />
+        <div className="col form-outline mb-2">
+          <TextField
+            name={`${name}.area`}
+            className="form-control form-control-lg input-border-color"
+            type="number"
+            placeholder=""
+            label="Area"
+            labelClass="form-label fs-5 mt-2"
+            validate={() => {}}
+            fieldSubscription={FIELD_SUBSCRIPTION}
+          />
+        </div>
+        <CommonResidentialFields name={name} />
+        <div className="col form-outline my-2 order-last">
+          <CheckField
+            name={`${name}.is_new`}
+            type="checkbox"
+            className="form-check-input me-2"
+            label="Is New?"
+            labelLink=""
+            initialValue={false}
+            fieldSubscription={FIELD_SUBSCRIPTION}
+            disabled={false}
+          />
+        </div>
       </div>
     </>
   );

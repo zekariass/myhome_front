@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 /**
  * Conformation of entered agent data before submitting to backend
  */
-const Confirmation = ({ values }) => {
+const AgentDataConfirmation = ({ values, edit }) => {
   const { address, ...agent } = values;
 
   /**
@@ -70,11 +70,24 @@ const Confirmation = ({ values }) => {
       {status === 409 && (
         <div className="error-general flex-center-general mb-3">{error}</div>
       )}
-
-      <ConfirmationList data={agent} title="Agent Data" />
-      <ConfirmationList data={formatAddress()} title="Address Data" />
+      <div className="card p-3 footer-bg shadow-sm my-3">
+        <ConfirmationList
+          data={agent}
+          title="Agent Data"
+          edit={edit(0)}
+          listClassName="card my-2"
+        />
+      </div>
+      <div className="card p-3 footer-bg shadow-sm my-3">
+        <ConfirmationList
+          data={formatAddress()}
+          title="Address Data"
+          edit={edit(1)}
+          listClassName="card my-2"
+        />
+      </div>
     </div>
   );
 };
 
-export default Confirmation;
+export default AgentDataConfirmation;

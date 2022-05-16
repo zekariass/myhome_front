@@ -60,6 +60,9 @@
   color: black;
   padding: 10px 20px;
   border-radius: 50%;
-  
 }
 
+/* light footer bg */
+.agent-form-bg {
+  background-color: rgb(247, 248, 247);
+}

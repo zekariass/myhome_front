@@ -1,11 +1,15 @@
 // @ts-nocheck
-import TextareaCustomInput from "components/commons/fields/TextareaCustomInput";
-import TextCustomInput from "components/commons/fields/TextCustomInput";
+import TextareaField from "components/commons/fields/TextareaField";
+import TextField from "components/commons/fields/TextField";
+import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React from "react";
-import { Field } from "react-final-form";
-import AreaField from "./AreaField";
 
-const AllPurposePropertyUnit = ({ label, title, index, fields }) => {
+/**
+ * All purpose Property Unit form
+ * @param {*} param0
+ * @returns
+ */
+const AllPurposePropertyUnit = ({ name, title, index, fields }) => {
   /**
    * A function that validates the function
    * @param {object} values
@@ -21,19 +25,8 @@ const AllPurposePropertyUnit = ({ label, title, index, fields }) => {
   //   }
   // };
 
-  /**
-   * Subscription object for fields
-   */
-
   const descriptionRequired = (value) =>
     !value ? "Description is required!" : undefined;
-
-  const fieldSubscription = {
-    submitting: true,
-    value: true,
-    touched: true,
-    error: true,
-  };
 
   return (
     <div className="card p-3 shadow-sm">
@@ -49,75 +42,52 @@ const AllPurposePropertyUnit = ({ label, title, index, fields }) => {
       )}
       <p className="flex-center-general fs-4 fw-bold">{`Unit #${index + 1}`}</p>
       <div className="row row-cols-1 row-cols-md-2 g-3">
-        <AreaField label={label} fieldName="area" />
+        <TextField
+          name={`${name}.area`}
+          className="form-control form-control-lg input-border-color"
+          type="number"
+          placeholder=""
+          label="Area"
+          labelClass="form-label fs-5 mt-2"
+          validate={validateNumberFieldGeneral}
+          subscription={FIELD_SUBSCRIPTION}
+        />
+        {/* <AreaField label={label} fieldName="area" /> */}
         <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.number_of_rooms`}
+          <TextField
+            name={`${name}.number_of_rooms`}
             className="form-control form-control-lg input-border-color"
             type="number"
             placeholder=""
             label="Number of Rooms"
             labelClass="form-label fs-5 mt-2"
             validate={validateNumberFieldGeneral}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, placeholder, label, labelClass }) => (
-              <TextCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                placeholder={placeholder}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
         <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.floor`}
+          <TextField
+            name={`${name}.floor`}
             className="form-control form-control-lg input-border-color"
             type="number"
             placeholder=""
             label="Floor Level"
             labelClass="form-label fs-5 mt-2"
             validate={validateNumberFieldGeneral}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, placeholder, label, labelClass }) => (
-              <TextCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                placeholder={placeholder}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
       </div>
       <div className="row">
         <div className="form-outline mb-2">
-          <Field
-            name={`${label}.all_purpose_property_unit_description`}
+          <TextareaField
+            name={`${name}.all_purpose_property_unit_description`}
             className="form-control form-control-lg input-border-color"
             label="All Purpose Property Unit Description"
             labelClass="form-label fs-5 mt-2"
-            subscription={fieldSubscription}
+            subscription={FIELD_SUBSCRIPTION}
             validate={descriptionRequired}
-          >
-            {({ input, meta, className, label, labelClass }) => (
-              // textareaInputField(input, meta, className, "", label, labelClass)
-              <TextareaCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
+          />
         </div>
       </div>
     </div>

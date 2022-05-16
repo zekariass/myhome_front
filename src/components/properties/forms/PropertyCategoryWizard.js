@@ -28,7 +28,7 @@ const PropertyCategoryWizard = ({ values }) => {
   const [selectedPropertyCategoryKey, setSelectedPropertyCategoryKey] =
     useState("");
   const selectedPropertyCategoryId = values.property_category;
-  console.log("selectedPropertyCategoryId: ", selectedPropertyCategoryId);
+  // console.log("selectedPropertyCategoryId: ", selectedPropertyCategoryId);
   const propertyCategories = useSelector(
     (store) => store.propertyCategory.response.data
   );
@@ -38,48 +38,61 @@ const PropertyCategoryWizard = ({ values }) => {
       (category) =>
         parseInt(category.id) === parseInt(selectedPropertyCategoryId)
     );
-    console.log("selectedPropertyCategory: ", selectedPropertyCategory);
+    // console.log("selectedPropertyCategory: ", selectedPropertyCategory);
     if (selectedPropertyCategory) {
       setSelectedPropertyCategoryKey(selectedPropertyCategory.cat_key);
     }
   }, []);
   return (
     <>
+      {/* If selected category is apartment, display Apartment and Apartment unit form */}
       {selectedPropertyCategoryKey === APARTMENT_KEY && (
-        <Apartment label="apartment" title="Apartment" />
+        <Apartment name="category.apartment" title="Apartment" />
       )}
+      {/* If selected category is condominium, display condominium form */}
       {selectedPropertyCategoryKey === CONDOMINIUM_KEY && (
-        <Condominium label="condominium" title="Condominium" />
+        <Condominium name="category.condominium" title="Condominium" />
       )}
+      {/* If selected category is traditional house, display traditional house form */}
       {selectedPropertyCategoryKey === TRADITIONAL_HOUSE_KEY && (
-        <TraditionalHouse label="traditional_house" title="Traditional House" />
+        <TraditionalHouse
+          name="category.traditional_house"
+          title="Traditional House"
+        />
       )}
+      {/* If selected category is villa, display villa form */}
       {selectedPropertyCategoryKey === VILLA_KEY && (
-        <Villa label="villa" title="Villa" />
+        <Villa name="category.villa" title="Villa" />
       )}
+      {/* If selected category is share house, display share house form */}
       {selectedPropertyCategoryKey === SHARE_HOUSE_KEY && (
-        <ShareHouse label="share_house" title="Share House" />
+        <ShareHouse name="category.share_house" title="Share House" />
       )}
+      {/* If selected category is office, display office form */}
       {selectedPropertyCategoryKey === OFFICE_KEY && (
-        <Office label="office" title="Office" />
+        <Office name="category.office" title="Office" />
       )}
+      {/* If selected category is commercial property, display commercial property and its unit form */}
       {selectedPropertyCategoryKey === COMMERCIAL_PROPERTY_KEY && (
         <CommercialProperty
-          label="commercial_property"
+          name="category.commercial_property"
           title="Commercial Property"
         />
       )}
+      {/* If selected category is all purpose property, display all purpose property and unit form */}
       {selectedPropertyCategoryKey === ALL_PURPOSE_PROPERTY_KEY && (
         <AllPurposeProperty
-          label="all_purpose_property"
+          name="category.all_purpose_property"
           title="All Purpose Property"
         />
       )}
+      {/* If selected category is hall, display hall form */}
       {selectedPropertyCategoryKey === HALL_KEY && (
-        <Hall label="hall" title="Hall Property" />
+        <Hall name="category.hall" title="Hall Property" />
       )}
+      {/* If selected category is land, display land form */}
       {selectedPropertyCategoryKey === LAND_KEY && (
-        <Land label="land" title="Land Property" />
+        <Land name="category.land" title="Land Property" />
       )}
     </>
   );

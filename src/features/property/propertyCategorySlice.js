@@ -32,7 +32,9 @@ export const getPropertyCategories = createAsyncThunk(
 const propertyCategorySlice = createSlice({
   name: "propertyCategory",
   initialState: initialPropertyCategoryState,
-  reducers: {},
+  reducers: {
+    
+  },
   extraReducers: {
     /**
      * Getting property categories

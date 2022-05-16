@@ -1,17 +1,16 @@
+// @ts-nocheck
 import React from "react";
 
-const ConfirmationList = ({ data, title }) => {
+const ConfirmationList = ({ data, title, edit, listClassName }) => {
   const renderData = () => {
     const dataKeys = Object.keys(data);
     return dataKeys.map((key) => {
+      let fieldLabel = key.toString().replaceAll("_", "  ");
+      fieldLabel = fieldLabel.charAt(0).toUpperCase() + fieldLabel.slice(1);
       return (
         <div className="col" key={key}>
           <label className="fs-6 fw-bold flex-center-general">
-            {key
-              .toString()
-              .toUpperCase()
-              // @ts-ignore
-              .replaceAll("_", "  ")}
+            {fieldLabel}
           </label>
           <p className="fs-6 text-muted flex-center-general">
             {String(data[key])}
@@ -21,9 +20,10 @@ const ConfirmationList = ({ data, title }) => {
     });
   };
   return (
-    <div className="card my-3 shadow">
+    <div className={listClassName}>
+      <div className="me-3 mt-3 flex-end-general">{edit}</div>
       <div
-        className="flex-center-general fs-4 fw-bold py-3"
+        className="flex-center-general fs-5 fw-bold py-3"
         style={{ color: "brown" }}
       >
         {title}

@@ -1,24 +1,30 @@
 // @ts-nocheck
-import CheckCustomInput from "components/commons/fields/CheckCustomInput";
-import DropdownCustomInput from "components/commons/fields/DropdownCustomInput";
-import TextareaCustomInput from "components/commons/fields/TextareaCustomInput";
-import TextCustomInput from "components/commons/fields/TextCustomInput";
+import CheckField from "components/commons/fields/CheckField";
+import DropdownField from "components/commons/fields/DropdownField";
+import TextareaField from "components/commons/fields/TextareaField";
+import TextField from "components/commons/fields/TextField";
+import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React, { useState } from "react";
-import { Field, FormSpy } from "react-final-form";
+import { FormSpy } from "react-final-form";
 import { FieldArray } from "react-final-form-arrays";
 import { useSelector } from "react-redux";
 import AllPurposePropertyUnit from "./AllPurposePropertyUnit";
-import IsNewField from "./IsNewField";
 
-const AllPurposeProperty = ({ label, title }) => {
+/**
+ * All purpose property form
+ * @param {*} param0
+ * @returns
+ */
+const AllPurposeProperty = ({ name, title }) => {
   let { data } = useSelector((store) => store.buildingType.response);
 
   const [numberOfUnitsShown, setNumberOfUnitsShown] = useState(1);
 
   /**
-   * Apartment unit field key inside values object
+   * All purpose property field key inside values object
    */
-  const ALL_PURPOSE_PROPERTY_UNIT_FIELD_NAME = "all_purpose_property.units";
+  const ALL_PURPOSE_PROPERTY_UNIT_FIELD_NAME =
+    "category.all_purpose_property.units";
 
   /**
    * A function that validates the function
@@ -35,164 +41,90 @@ const AllPurposeProperty = ({ label, title }) => {
   //   }
   // };
 
-  /**
-   * Subscription object for fields
-   */
-  const fieldSubscription = {
-    submitting: true,
-    value: true,
-    touched: true,
-    error: true,
-  };
-
   return (
     <div>
       <p className="fs-4 fw-bold flex-center-general">{title}</p>
       <div className="row my-3">
         <div className="col-12 col-sm-6 form-outline mb-2">
-          <Field
-            name={`${label}.building_type`}
+          <DropdownField
+            name={`${name}.building_type`}
             className="form-control form-control-lg input-border-color"
             label="Building Type"
             labelClass="form-label fs-5 mt-2"
             options={[{ id: "-1", name: "--Select building type--" }, ...data]}
             disabled={false}
-            // validate={pCategoryRequired}
-            subscription={fieldSubscription}
-          >
-            {({
-              input,
-              meta,
-              options,
-              className,
-              label,
-              labelClass,
-              disabled,
-            }) => (
-              <DropdownCustomInput
-                input={input}
-                meta={meta}
-                options={options}
-                className={className}
-                label={label}
-                labelClass={labelClass}
-                disabled={disabled}
-              />
-            )}
-          </Field>
+            validate={() => {}}
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
         <div className="col-12 col-sm-6 form-outline mb-2">
-          <Field
-            name={`${label}.floors`}
+          <TextField
+            name={`${name}.floors`}
             className="form-control form-control-lg input-border-color"
             type="number"
             placeholder=""
             label="Number of floors"
             labelClass="form-label fs-5 mt-2"
-            subscription={fieldSubscription}
-            // validate={validateFiedGeneral}
-          >
-            {({ input, meta, className, placeholder, label, labelClass }) => (
-              <TextCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                placeholder={placeholder}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
+            subscription={FIELD_SUBSCRIPTION}
+            validate={() => {}}
+          />
         </div>
         <div className="col-12 form-outline mb-2">
-          <Field
-            name={`${label}.best_for`}
+          <TextareaField
+            name={`${name}.best_for`}
+            className="form-control form-control-lg input-border-color"
+            label="Best for"
+            labelClass="form-label fs-5 mt-2"
+            subscription={FIELD_SUBSCRIPTION}
+            validate={() => {}}
+          />
+        </div>
+        <div className="col-12 form-outline mb-2">
+          <TextareaField
+            name={`${name}.all_purpose_property_description`}
             className="form-control form-control-lg input-border-color"
             label="All Purpose Property Description"
             labelClass="form-label fs-5 mt-2"
-            subscription={fieldSubscription}
-            // validate={descriptionRequired}
-          >
-            {({ input, meta, className, label, labelClass }) => (
-              // textareaInputField(input, meta, className, "", label, labelClass)
-              <TextareaCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
+            subscription={FIELD_SUBSCRIPTION}
+            validate={() => {}}
+          />
         </div>
-        <div className="col-12 form-outline mb-2">
-          <Field
-            name={`${label}.all_purpose_property_description`}
-            className="form-control form-control-lg input-border-color"
-            label="All Purpose Property Description"
-            labelClass="form-label fs-5 mt-2"
-            subscription={fieldSubscription}
-            // validate={descriptionRequired}
-          >
-            {({ input, meta, className, label, labelClass }) => (
-              // textareaInputField(input, meta, className, "", label, labelClass)
-              <TextareaCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
-        </div>
-        <div className="col-auto">
-          <IsNewField label={label} />
+        <div className="col-auto form-outline my-2 order-last">
+          <CheckField
+            name={`${name}.is_new`}
+            type="checkbox"
+            className="form-check-input me-2"
+            label="Is New?"
+            labelLink=""
+            initialValue={false}
+            disabled={false}
+            subscription={FIELD_SUBSCRIPTION}
+          />
+          {/* <IsNewField label={label} /> */}
         </div>
         <div className="col-auto form-outline my-2">
-          <Field
-            name={`${label}.has_parking_space`}
+          <CheckField
+            name={`${name}.has_parking_space`}
             type="checkbox"
             className="form-check-input me-2"
             label="Has Parking Space?"
             labelLink=""
-            // initialValue={numberOfUnitsShown > 1 ? true : false}
-            // disabled={true}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, label, labelLink }) => (
-              <CheckCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelLink={labelLink}
-              />
-            )}
-          </Field>
+            initialValue={false}
+            disabled={false}
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
         <div className="col-auto form-outline my-2">
-          <Field
-            name={`${label}.is_multi_unit`}
+          <CheckField
+            name={`${name}.is_multi_unit`}
             type="checkbox"
             className="form-check-input me-2"
             label="Is Multi Unit?"
             labelLink=""
             initialValue={numberOfUnitsShown > 1 ? true : false}
             disabled={true}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, label, labelLink, disabled }) => (
-              <CheckCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelLink={labelLink}
-                disabled
-              />
-            )}
-          </Field>
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
       </div>
       <div className="my-3">
@@ -215,7 +147,7 @@ const AllPurposeProperty = ({ label, title }) => {
                     return (
                       <div className="py-3" key={index}>
                         <AllPurposePropertyUnit
-                          label={name}
+                          name={name}
                           index={index}
                           fields={fields}
                           title="Add All Purpose Property unit"

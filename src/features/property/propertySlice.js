@@ -12,6 +12,7 @@ const initialPropertyState = {
     error: null,
     status: null,
   },
+  formInitialValues: {},
 };
 
 export const createProperty = createAsyncThunk(
@@ -39,7 +40,11 @@ export const createProperty = createAsyncThunk(
 const propertySlice = createSlice({
   name: "property",
   initialState: initialPropertyState,
-  reducers: {},
+  reducers: {
+    setFormInitialValue: (state, action) => {
+      state.formInitialValues = action.payload;
+    },
+  },
   extraReducers: {
     /**
      * Create property
@@ -60,5 +65,7 @@ const propertySlice = createSlice({
     },
   },
 });
+
+export const { setFormInitialValue } = propertySlice.actions;
 
 export default propertySlice.reducer;

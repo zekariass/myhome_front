@@ -1,28 +1,23 @@
-import CheckCustomInput from "components/commons/fields/CheckCustomInput";
-import TextCustomInput from "components/commons/fields/TextCustomInput";
+import CheckField from "components/commons/fields/CheckField";
+import TextField from "components/commons/fields/TextField";
+import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React, { useState } from "react";
-import { Field, FormSpy } from "react-final-form";
+import { FormSpy } from "react-final-form";
 import { FieldArray } from "react-final-form-arrays";
 import ApartmentUnit from "./ApartmentUnit";
-import IsNewField from "./IsNewField";
 
-const Apartment = ({ label, title }) => {
+/**
+ * Apartment form
+ * @param {*} param0
+ * @returns
+ */
+const Apartment = ({ name, title }) => {
   const [numberOfUnitsShown, setNumberOfUnitsShown] = useState(1);
-
-  /**
-   * Field subscription object
-   */
-  const fieldSubscription = {
-    submitting: true,
-    value: true,
-    touched: true,
-    error: true,
-  };
 
   /**
    * Apartment unit field key inside values object
    */
-  const APARTMENT_UNIT_FIELD_NAME = "apartment.units";
+  const APARTMENT_UNIT_FIELD_NAME = "category.apartment.units";
 
   /**
    * A function that validates fields
@@ -42,74 +37,41 @@ const Apartment = ({ label, title }) => {
     <div>
       <p className="fs-4 fw-bold flex-center-general">{title}</p>
       <div className="col form-outline mb-2">
-        <Field
-          name={`${label}.floors`}
-          className="form-control form-control-lg input-border-color"
+        <TextField
+          name={`${name}.floors`}
           type="number"
           placeholder=""
           label="Number of floors"
+          className="form-control form-control-lg input-border-color"
           labelClass="form-label fs-5 mt-2"
-          subscription={fieldSubscription}
-          // validate={validateFiedGeneral}
-        >
-          {({ input, meta, className, placeholder, label, labelClass }) => (
-            <TextCustomInput
-              input={input}
-              meta={meta}
-              className={className}
-              placeholder={placeholder}
-              label={label}
-              labelClass={labelClass}
-            />
-          )}
-        </Field>
+          fieldSubscription={FIELD_SUBSCRIPTION}
+          validate={validateFiedGeneral}
+        />
       </div>
       <div className="row row-cols-1 row-cols-sm-2 my-3">
-        {/* <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.is_new`}
+        <div className="col form-outline my-2 order-last">
+          <CheckField
+            name={`${name}.is_new`}
             type="checkbox"
             className="form-check-input me-2"
             label="Is New?"
             labelLink=""
             initialValue={false}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, label, labelLink }) => (
-              // @ts-ignore
-              <CheckCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelLink={labelLink}
-              />
-            )}
-          </Field>
-        </div> */}
-        <IsNewField label={label} />
+            disabled={false}
+            fieldSubscription={FIELD_SUBSCRIPTION}
+          />
+        </div>
         <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.is_multi_unit`}
+          <CheckField
+            name={`${name}.is_multi_unit`}
             type="checkbox"
             className="form-check-input me-2"
             label="Is Multi Unit?"
             labelLink=""
             initialValue={numberOfUnitsShown > 1 ? true : false}
             disabled={true}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, label, labelLink, disabled }) => (
-              <CheckCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelLink={labelLink}
-                disabled
-              />
-            )}
-          </Field>
+            fieldSubscription={FIELD_SUBSCRIPTION}
+          />
         </div>
       </div>
       <div className="my-3">
@@ -130,7 +92,7 @@ const Apartment = ({ label, title }) => {
                     return (
                       <div className="py-3" key={index}>
                         <ApartmentUnit
-                          label={name}
+                          name={name}
                           index={index}
                           fields={fields}
                           title="Add apartment unit"

@@ -1,11 +1,15 @@
 // @ts-nocheck
-import CheckCustomInput from "components/commons/fields/CheckCustomInput";
-import TextCustomInput from "components/commons/fields/TextCustomInput";
+import CheckField from "components/commons/fields/CheckField";
+import TextField from "components/commons/fields/TextField";
+import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React from "react";
-import { Field } from "react-final-form";
-import AreaField from "./AreaField";
 
-const Land = ({ label, title }) => {
+/**
+ * Land form
+ * @param {*} param0
+ * @returns
+ */
+const Land = ({ name, title }) => {
   /**
    * A function that validates the function
    * @param {object} values
@@ -21,112 +25,71 @@ const Land = ({ label, title }) => {
   //   }
   // };
 
-  /**
-   * Subscription object for fields
-   */
-  const fieldSubscription = {
-    submitting: true,
-    value: true,
-    touched: true,
-    error: true,
-  };
-
   return (
     <div>
       <p className="fs-4 fw-bold flex-center-general">{title}</p>
       <div className="row row-cols-1 row-cols-sm-2 my-3">
-        <AreaField label={label} fieldName="area" />
         <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.length`}
+          <TextField
+            name={`${name}.area`}
+            className="form-control form-control-lg input-border-color"
+            type="number"
+            placeholder=""
+            label="Area"
+            labelClass="form-label fs-5 mt-2"
+            validate={validateNumberFieldGeneral}
+            subscription={FIELD_SUBSCRIPTION}
+          />
+        </div>
+        <div className="col form-outline mb-2">
+          <TextField
+            name={`${name}.length`}
             className="form-control form-control-lg input-border-color"
             type="number"
             placeholder=""
             label="Land Length"
             labelClass="form-label fs-5 mt-2"
             validate={validateNumberFieldGeneral}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, placeholder, label, labelClass }) => (
-              <TextCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                placeholder={placeholder}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
         <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.width`}
+          <TextField
+            name={`${name}.width`}
             className="form-control form-control-lg input-border-color"
             type="number"
             placeholder=""
             label="Land Width"
             labelClass="form-label fs-5 mt-2"
             validate={validateNumberFieldGeneral}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, placeholder, label, labelClass }) => (
-              <TextCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                placeholder={placeholder}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
       </div>
       <div className="row">
         <div className="col-auto form-outline mb-2 mt-3">
-          <Field
-            name={`${label}.has_plan`}
+          <CheckField
+            name={`${name}.has_plan`}
             type="checkbox"
             className="form-check-input me-2"
             label="The Land has Plan?"
             labelLink=""
-            // initialValue={numberOfUnitsShown > 1 ? true : false}
-            // disabled={true}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, label, labelLink }) => (
-              <CheckCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelLink={labelLink}
-              />
-            )}
-          </Field>
+            initialValue={true}
+            disabled={false}
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
         <div className="col-auto form-outline mb-2 mt-3">
-          <Field
-            name={`${label}.has_debt`}
+          <CheckField
+            name={`${name}.has_debt`}
             type="checkbox"
             className="form-check-input me-2"
             label="The Land has Unpaid Debt?"
             labelLink=""
-            // initialValue={numberOfUnitsShown > 1 ? true : false}
-            // disabled={true}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, label, labelLink }) => (
-              <CheckCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelLink={labelLink}
-              />
-            )}
-          </Field>
+            initialValue={false}
+            disabled={false}
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
       </div>
     </div>

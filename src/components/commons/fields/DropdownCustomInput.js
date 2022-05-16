@@ -18,6 +18,7 @@ const DropdownCustomInput = ({
   //dispatch object to be used to dispatch the action creater in redux
   dispatchObj,
   disabled,
+  // onPropCategoryCange,
 }) => {
   /**
    * A function that returns regular HTML select field by setting field properties

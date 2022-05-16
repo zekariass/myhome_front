@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import React, { useState } from "react";
+import React from "react";
 import FileUploadInput from "./FileUploadInput";
 
 const PropertyFileUpload = () => {

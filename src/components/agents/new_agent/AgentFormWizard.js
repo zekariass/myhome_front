@@ -4,14 +4,15 @@ import { useDispatch } from "react-redux";
 import { setCurrentPage } from "features/global/globalSlice";
 import AgentAddForm from "./AgentAddForm";
 import AgentCreateImportantInfo from "./AgentCreateImportantInfo";
-import Confirmation from "./Confirmation";
+import AgentDataConfirmation from "./AgentDataConfirmation";
 import StepperWidget from "components/commons/StepperWidget";
 import Wizard from "components/commons/Wizard";
 import AddressForm from "components/commons/AddressForm";
 import { createAgent } from "features/agent/agentSlice";
 import { PATH_AGENT_LOGO_UPLOAD_ABSOLUTE } from "components/commons/Strings";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormSpy } from "react-final-form";
+import { goToPage } from "features/common/wizardSlice";
 
 const AgentFormWizard = () => {
   /**
@@ -60,13 +61,34 @@ const AgentFormWizard = () => {
     { title: "Confirmation" },
   ];
 
+  /**
+   * Handle the click event of edit button
+   * @param {number} step
+   */
+  const onEditClick = (step) => {
+    setCurrentStep(step);
+    dispatch(goToPage(step));
+  };
+
+  /**
+   * Edit the form at a specific step in confirmation page
+   * @param {number} step
+   */
+  const edit = (step) => {
+    return (
+      <Link to="#" onClick={() => onEditClick(step)} className="link-general">
+        Edit
+      </Link>
+    );
+  };
+
   return (
     <div className="container">
       <div className="my-3">
         <p className="fs-4 fw-bold flex-center-general">Create Agent Free</p>
       </div>
       <div className="row g-5 mt-3">
-        <div className="col-lg-7 input-border-color">
+        <div className="col-lg-7 shadow-sm card">
           <StepperWidget steps={steps} currentStep={currentStep} />
 
           <div className="mt-5">
@@ -84,7 +106,7 @@ const AgentFormWizard = () => {
               <FormSpy>
                 {({ values }) => (
                   <Wizard.Page>
-                    <Confirmation values={values} />
+                    <AgentDataConfirmation values={values} edit={edit} />
                   </Wizard.Page>
                 )}
               </FormSpy>

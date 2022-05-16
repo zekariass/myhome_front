@@ -1,23 +1,29 @@
 // @ts-nocheck
-import CheckCustomInput from "components/commons/fields/CheckCustomInput";
-import DropdownCustomInput from "components/commons/fields/DropdownCustomInput";
-import TextCustomInput from "components/commons/fields/TextCustomInput";
+import CheckField from "components/commons/fields/CheckField";
+import DropdownField from "components/commons/fields/DropdownField";
+import TextField from "components/commons/fields/TextField";
+import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React, { useState } from "react";
-import { Field, FormSpy } from "react-final-form";
+import { FormSpy } from "react-final-form";
 import { FieldArray } from "react-final-form-arrays";
 import { useSelector } from "react-redux";
 import CommercialPropertyUnit from "./CommercialPropertyUnit";
-import IsNewField from "./IsNewField";
 
-const CommercialProperty = ({ label, title }) => {
+/**
+ * Commercial Property Unit
+ * @param {*} param0
+ * @returns
+ */
+const CommercialProperty = ({ name, title }) => {
   let { data } = useSelector((store) => store.buildingType.response);
 
   const [numberOfUnitsShown, setNumberOfUnitsShown] = useState(1);
 
   /**
-   * Apartment unit field key inside values object
+   * Commercial property field key inside values object
    */
-  const COMMERCIAL_PROPERTY_UNIT_FIELD_NAME = "commercial_property.units";
+  const COMMERCIAL_PROPERTY_UNIT_FIELD_NAME =
+    "category.commercial_property.units";
 
   /**
    * A function that validates the function
@@ -34,120 +40,66 @@ const CommercialProperty = ({ label, title }) => {
   //   }
   // };
 
-  /**
-   * Subscription object for fields
-   */
-  const fieldSubscription = {
-    submitting: true,
-    value: true,
-    touched: true,
-    error: true,
-  };
-
   return (
     <div>
       <p className="fs-4 fw-bold flex-center-general">{title}</p>
       <div className="row row-cols-1 row-cols-sm-2 my-3">
         <div className="form-outline mb-2">
-          <Field
-            name={`${label}.building_type`}
+          <DropdownField
+            name={`${name}.building_type`}
             className="form-control form-control-lg input-border-color"
             label="Building Type"
             labelClass="form-label fs-5 mt-2"
             options={[{ id: "-1", name: "--Select building type--" }, ...data]}
             disabled={false}
-            // validate={pCategoryRequired}
-            subscription={fieldSubscription}
-          >
-            {({
-              input,
-              meta,
-              options,
-              className,
-              label,
-              labelClass,
-              disabled,
-            }) => (
-              <DropdownCustomInput
-                input={input}
-                meta={meta}
-                options={options}
-                className={className}
-                label={label}
-                labelClass={labelClass}
-                disabled={disabled}
-              />
-            )}
-          </Field>
+            validate={() => {}}
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
         <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.floors`}
+          <TextField
+            name={`${name}.floors`}
             className="form-control form-control-lg input-border-color"
             type="number"
             placeholder=""
             label="Number of floors"
             labelClass="form-label fs-5 mt-2"
-            subscription={fieldSubscription}
-            // validate={validateFiedGeneral}
-          >
-            {({ input, meta, className, placeholder, label, labelClass }) => (
-              <TextCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                placeholder={placeholder}
-                label={label}
-                labelClass={labelClass}
-              />
-            )}
-          </Field>
+            subscription={FIELD_SUBSCRIPTION}
+            validate={() => {}}
+          />
         </div>
-        <IsNewField label={label} />
+        <CheckField
+          name={`${name}.is_new`}
+          type="checkbox"
+          className="form-check-input me-2"
+          label="Is New?"
+          labelLink=""
+          initialValue={false}
+          subscription={FIELD_SUBSCRIPTION}
+        />
         <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.has_parking_space`}
+          <CheckField
+            name={`${name}.has_parking_space`}
             type="checkbox"
             className="form-check-input me-2"
             label="Has Parking Space?"
             labelLink=""
-            // initialValue={numberOfUnitsShown > 1 ? true : false}
-            // disabled={true}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, label, labelLink }) => (
-              <CheckCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelLink={labelLink}
-              />
-            )}
-          </Field>
+            initialValue={false}
+            disabled={false}
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
         <div className="col form-outline mb-2">
-          <Field
-            name={`${label}.is_multi_unit`}
+          <CheckField
+            name={`${name}.is_multi_unit`}
             type="checkbox"
             className="form-check-input me-2"
             label="Is Multi Unit?"
             labelLink=""
             initialValue={numberOfUnitsShown > 1 ? true : false}
             disabled={true}
-            subscription={fieldSubscription}
-          >
-            {({ input, meta, className, label, labelLink, disabled }) => (
-              <CheckCustomInput
-                input={input}
-                meta={meta}
-                className={className}
-                label={label}
-                labelLink={labelLink}
-                disabled
-              />
-            )}
-          </Field>
+            subscription={FIELD_SUBSCRIPTION}
+          />
         </div>
       </div>
       <div className="my-3">
@@ -170,7 +122,7 @@ const CommercialProperty = ({ label, title }) => {
                     return (
                       <div className="py-3" key={index}>
                         <CommercialPropertyUnit
-                          label={name}
+                          name={name}
                           index={index}
                           fields={fields}
                           title="Add Commercial Property unit"

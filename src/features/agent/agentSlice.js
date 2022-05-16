@@ -52,7 +52,7 @@ export const createAgent = createAsyncThunk(
   "agent/createAgent",
   async ({ values, navigate, redirectPath }, thunkAPI) => {
     // const { request } = thunkAPI.getState().agent.addAgent;
-    console.log("createAgent: ", values);
+    // console.log("createAgent: ", values);
     try {
       const result = await myHomeBackendAPI.post("/agent/create/", values);
       const formatedResponse = getFormatedResponse(result);
@@ -93,7 +93,7 @@ export const getAgent = createAsyncThunk("agent/getAgent", async () => {
     result = error.response;
   } finally {
     const formattedResponse = getFormatedResponse(result);
-    console.log("formattedResponse: ", formattedResponse);
+    // console.log("formattedResponse: ", formattedResponse);
     return formattedResponse;
   }
 });
@@ -120,7 +120,7 @@ export const uploadAgentLogo = createAsyncThunk(
       });
 
       if (result.status === 201) {
-        console.log(result.data);
+        // console.log(result.data);
       }
     } catch (error) {
       result = error.response;

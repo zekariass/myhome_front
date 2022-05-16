@@ -3,12 +3,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Form, FormSpy } from "react-final-form";
 import arrayMutators from "final-form-arrays";
-import { connect } from "react-redux";
-import {
-  nextPage,
-  previousPage,
-  goToPage,
-} from "features/common/wizardSlice";
 
 export class Wizard extends Component {
   /**
@@ -24,7 +18,7 @@ export class Wizard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // page: this.props.activeWizard,
+      page: 0,
       values: props.initialValues || {},
     };
   }
@@ -38,18 +32,8 @@ export class Wizard extends Component {
    * A function that handles the nezt button and submit button click
    */
   next = (values) => {
-    // this.setState({
-    //   page: Math.min(this.state.page + 1, this.props.children.length - 1),
-    //   values,
-    // });
-
-    const nextPage = Math.min(
-      this.props.activeWizard + 1,
-      this.props.children.length - 1
-    );
-    this.props.nextPage(nextPage);
-
     this.setState({
+      page: Math.min(this.state.page + 1, this.props.children.length - 1),
       values,
     });
 
@@ -57,7 +41,7 @@ export class Wizard extends Component {
      * Call the stepper set function from parrent component and increment it
      */
     this.props.setCurrentStep(
-      Math.min(this.props.activeWizard + 1, this.props.children.length - 1)
+      Math.min(this.state.page + 1, this.props.children.length - 1)
     );
   };
 
@@ -65,14 +49,10 @@ export class Wizard extends Component {
    * A function that handles the next button and submit button click
    */
   previous = () => {
-    // this.setState({
-    //   page: Math.max(this.props.page - 1, 0),
-    // });
-
-    const prevPage = Math.max(this.props.activeWizard - 1, 0);
-    this.props.nextPage(prevPage);
-
-    this.props.setCurrentStep(Math.max(this.props.activeWizard - 1, 0));
+    this.setState({
+      page: Math.max(this.state.page - 1, 0),
+    });
+    this.props.setCurrentStep(Math.max(this.state.page - 1, 0));
   };
 
   /**
@@ -81,7 +61,7 @@ export class Wizard extends Component {
    */
   validate = (values) => {
     const activePage = React.Children.toArray(this.props.children)[
-      this.props.activeWizard
+      this.state.page
     ];
     return activePage.props.validate ? activePage.props.validate(values) : {};
   };
@@ -91,7 +71,7 @@ export class Wizard extends Component {
    */
   handleSubmit = (values) => {
     const { children, onSubmit } = this.props;
-    const page = this.props.activeWizard;
+    const { page } = this.state;
     const isLastPage = page === React.Children.count(children) - 1;
     if (isLastPage) {
       return onSubmit(values);
@@ -101,8 +81,7 @@ export class Wizard extends Component {
 
   render() {
     const { children } = this.props;
-    const { values } = this.state;
-    const page = this.props.activeWizard;
+    const { page, values } = this.state;
     const activePage = React.Children.toArray(children)[page];
     const isLastPage = page === React.Children.count(children) - 1;
     return (
@@ -164,10 +143,4 @@ export class Wizard extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  activeWizard: state.propertyWizard.activePage,
-});
-
-const mapDispatchToProps = { nextPage, previousPage, goToPage };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Wizard);
+export default Wizard;

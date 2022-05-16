@@ -6,6 +6,7 @@ import buildingTypeSlice from "features/property/buildingTypeSlice";
 import houseTypeSlice from "features/property/houseTypeSlice";
 import propertyCategorySlice from "features/property/propertyCategorySlice";
 import propertySlice from "features/property/propertySlice";
+import wizardSlice from "features/common/wizardSlice";
 import userSlice from "features/user/userSlice";
 
 export const reduxStore = configureStore({
@@ -18,5 +19,6 @@ export const reduxStore = configureStore({
     propertyCategory: propertyCategorySlice,
     houseType: houseTypeSlice,
     buildingType: buildingTypeSlice,
+    propertyWizard: wizardSlice,
   },
 });
