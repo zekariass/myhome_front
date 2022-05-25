@@ -17,7 +17,7 @@ const initialPropertyState = {
 
 export const createProperty = createAsyncThunk(
   "property/createProperty",
-  async (values, thunkApi) => {
+  async ({ values, navigate, successPath }, thunkApi) => {
     /**
      * Get agent id of current user
      */
@@ -28,6 +28,13 @@ export const createProperty = createAsyncThunk(
     let result;
     try {
       result = await myHomeBackendAPI.post("/property/create/", values);
+      if (result.status === 201) {
+        console.log("PROPERTY RESULT: ", result.data);
+        navigate(successPath, {
+          replace: true,
+          state: { propertyId: result.data.id },
+        });
+      }
     } catch (error) {
       result = error.response;
     } finally {

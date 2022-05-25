@@ -79,7 +79,7 @@ const CommercialPropertyUnit = ({ name, title, index, fields }) => {
       <div className="row">
         <div className="form-outline mb-2">
           <TextareaField
-            name={`${name}.cop_prop_unit_description`}
+            name={`${name}.com_prop_unit_description`}
             className="form-control form-control-lg input-border-color"
             label="Commercial Property Unit Description"
             labelClass="form-label fs-5 mt-2"

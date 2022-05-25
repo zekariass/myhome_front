@@ -17,7 +17,7 @@ const PropertyDataConfirmation = ({ values, edit }) => {
   //Destructure the category data into units and rest. Units are available only
   //in some of categories, such as Apartment
   const { units, ...categoryRest } = Object.values(category)[0];
-  console.log("UNITS: ", Object.values(category));
+  // console.log("UNITS: ", Object.values(category));
 
   //Selector object that retrieves the address locations such as country, region and city from store
   const { country, region, city } = useSelector((store) => store.address);

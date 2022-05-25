@@ -15,6 +15,7 @@ import {
   PATH_AGENTS_HOME,
   PATH_AGENTS_SEARCH,
   PATH_AGENT_CREATE_INFO,
+  PATH_AGENT_DASHBOARD,
   PATH_AGENT_LOGO_UPLOAD,
   PATH_LANDING,
   PATH_PAGE_NOT_FOUND,
@@ -35,6 +36,7 @@ import PropertyPage from "./properties/PropertyPage";
 import PropertyFormWizard from "./properties/PropertyFormWizard";
 import PropertyPictureUpload from "./properties/forms/FileUploadInput";
 import PropertyFileUpload from "./properties/forms/PropertyFileUpload";
+import AgentDashboard from "./agents/AgentDashboard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -72,6 +74,7 @@ const App = () => {
               element={<AgentCreateInfo />}
             />
             <Route path={PATH_AGENT_LOGO_UPLOAD} element={<AgentLogo />} />
+            <Route path={PATH_AGENT_DASHBOARD} element={<AgentDashboard />} />
           </Route>
           <Route index element={<AgentsList />} />
           {/* <Route path={PATH_AGENTS_ADD} element={<AgentFormWizard />} /> */}

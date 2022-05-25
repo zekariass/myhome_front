@@ -13,7 +13,8 @@ import PropertyCategoryWizard from "./forms/PropertyCategoryWizard";
 
 import formatPropertyData from "./formatPropertyData";
 import { goToPage } from "features/common/wizardSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { PATH_PROPERTY_FILE_UPLOAD_ABSOLUTE } from "components/commons/Strings";
 
 /**
  *Property form wizard component that show property add and edit steps
@@ -21,6 +22,7 @@ import { Link } from "react-router-dom";
  */
 const PropertyFormWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const navigate = useNavigate();
 
   /**
    * Get property categories from backend
@@ -49,8 +51,14 @@ const PropertyFormWizard = () => {
    */
   const onSubmit = (values) => {
     const newValues = formatPropertyData(values, data);
-    console.log("newValues AFTER: ", newValues);
-    dispatch(createProperty(newValues));
+    // console.log("newValues AFTER: ", newValues);
+    dispatch(
+      createProperty({
+        values: newValues,
+        navigate: navigate,
+        successPath: PATH_PROPERTY_FILE_UPLOAD_ABSOLUTE,
+      })
+    );
   };
 
   /**

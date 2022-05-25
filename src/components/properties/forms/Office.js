@@ -104,6 +104,18 @@ const Office = ({ name, title }) => {
             disabled={false}
           />
         </div>
+        <div className="col form-outline mt-3 mt-sm-4 ps-sm-4 mb-2">
+          <CheckField
+            name={`${name}.has_parking_space`}
+            type="checkbox"
+            className="form-check-input me-2"
+            label="Has Parking Space?"
+            labelLink=""
+            initialValue={true}
+            fieldSubscription={FIELD_SUBSCRIPTION}
+            disabled={false}
+          />
+        </div>
       </div>
     </>
   );

@@ -1,16 +1,25 @@
 // @ts-nocheck
+import FileDropzoneField from "components/properties/forms/FileDropzoneField";
 import MyModal from "components/commons/Modal";
-import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import ImageLabelDropdown from "./ImageLabelDropdown";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import ImageController from "./ImageController";
+import { isFileUploaded } from "features/property/propertyFileSlice";
+import { useDispatch } from "react-redux";
+import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
+import VideoController from "./VideoController";
 
-const FileUploadInput = ({ fileType, maxFiles, title, onChange }) => {
+const FileUploadInput = ({ fileType, maxFiles, title, propertyId }) => {
   /**
    * State variables that hold images, videos and VR 360 degree images of properties
    */
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
   const [vrImage360, setVrImage360] = useState([]);
+  const [fileStoreKeys, setFileStoreKeys] = useState([]);
+  const [fileSrcToDisplay, setFileSrcToDisplay] = useState(null);
+
+  const { state } = useLocation();
 
   /**
    * State variables that control the modal display for preview of files uploaded
@@ -19,47 +28,75 @@ const FileUploadInput = ({ fileType, maxFiles, title, onChange }) => {
   const [fileIndexToDisplay, setFileIndexToDisplay] = useState(0);
   const [fileTypeToDisplay, setFileTypeToDisplay] = useState("image");
 
-  /**
-   * onDrop finction that handles the drag and drop or file selection event
-   */
-  const onDrop = useCallback(
-    (acceptedFile) => {
-      console.log(acceptedFile);
-      /**
-       * Switch condition that handles the onDrop based on file type seleted or dropped
-       */
-      switch (fileType) {
-        case "video":
-          if (acceptedFile[0].type.includes("video")) {
-            setVideos([...videos, acceptedFile]);
-          }
-          break;
-        case "image":
-          if (acceptedFile[0].type.includes("image")) {
-            setImages([...images, acceptedFile]);
-            if (typeof onChange === "function") {
-              onChange(acceptedFile);
-            }
-          }
-          break;
-        case "vrImage360":
-        default:
-          break;
-      }
-    },
-    [images, videos, vrImage360]
-  );
+  const dispatch = useDispatch();
 
-  /**
-   * Dropzone configuration
-   */
-  const { getInputProps, getRootProps, isDragActive } = useDropzone({
-    accept:
-      fileType === "image"
-        ? { "image/*": [".png", ".gif", ".jpeg", ".jpg"], "video/*": [] }
-        : { "video/*": [".mp4", ".mkv", ".avi", ".wmv", ".m4p"] },
-    onDrop,
-  });
+  //FUnction that handles when an image is dropped
+  const onImageDrop = async (file, fileKey) => {
+    // console.log("UPLOADED IMAGE DATA: ", images);
+
+    try {
+      //create form data
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("property", propertyId);
+
+      //Api post request
+      const result = await myHomeBackendAPI.post(
+        "/property/image/create/",
+        formData
+      );
+      //If api request is successful, set uploaded flag to true in redux store
+      //fileKey is generated from curret date time and passed from file input component
+      if (result.status === 201) {
+        const uploaded = {};
+        uploaded.type = "image";
+        uploaded[fileKey] = true;
+
+        //Dispatch the file upload status to redux store
+        dispatch(isFileUploaded(uploaded));
+
+        //Update the iamges state to the result from the backend
+        const resultImage = {};
+        resultImage[fileKey] = result.data;
+        setImages([...images, resultImage]);
+      }
+    } catch (error) {}
+  };
+
+  //Function that handles when an video is dropped
+  const onVideoDrop = async (file, fileKey) => {
+    // console.log("FILE UPLOADED: ", file);
+
+    try {
+      //create form data
+      const formData = new FormData();
+      formData.append("video", file);
+      formData.append("property", propertyId);
+      formData.append("type", file.type);
+
+      //Api post request
+      const result = await myHomeBackendAPI.post(
+        "/property/video/create/",
+        formData
+      );
+      //If api request is successful, set uploaded flag to true in redux store
+      //fileKey is generated from curret date time and passed from file input component
+      if (result.status === 201) {
+        const uploaded = {};
+        uploaded.type = "video";
+        uploaded[fileKey] = true;
+
+        //Dispatch the file upload status to redux store
+        dispatch(isFileUploaded(uploaded));
+
+        //Update the iamges state to the result from the backend
+        const resultVideo = {};
+        resultVideo[fileKey] = result.data;
+        setVideos([...videos, resultVideo]);
+      }
+    } catch (error) {}
+  };
+  const onVrImageDrop = () => {};
 
   /**
    * A function that handles the deletion of the file from the preview list
@@ -93,13 +130,13 @@ const FileUploadInput = ({ fileType, maxFiles, title, onChange }) => {
    * A function that returns model bodey element to display based on the file type
    * @returns ReactElement
    */
-  const showModalBodyMessage = () => {
+  const showModalBodyMessage = (imageSrc) => {
     switch (fileTypeToDisplay) {
       case "image":
         return (
           <div>
             <img
-              src={URL.createObjectURL(images[fileIndexToDisplay][0])}
+              src={fileSrcToDisplay}
               alt="Property Image"
               width="100%"
               height="400vh"
@@ -109,7 +146,7 @@ const FileUploadInput = ({ fileType, maxFiles, title, onChange }) => {
       case "video":
         return (
           <video width="100%" height="400vh" controls autoPlay>
-            <source src={URL.createObjectURL(videos[fileIndexToDisplay][0])} />
+            <source src={fileSrcToDisplay} />
           </video>
         );
       default:
@@ -118,141 +155,115 @@ const FileUploadInput = ({ fileType, maxFiles, title, onChange }) => {
   };
 
   return (
-    <div className="container">
+    <div className="">
       <p className="fs-5">{title}</p>
-      <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 row-cols-xl-8 g-3">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
         {/* Display list of images preview */}
 
         {fileType === "image" &&
           images.length > 0 &&
           images.map((image, index) => (
-            <div className="col" key={index}>
-              <div className="picture-list-container shadow">
-                <div className="p-1">
-                  <div className="card">
-                    <img
-                      src={URL.createObjectURL(image[0])}
-                      alt=""
-                      width="100%"
-                      height="150px"
-                      className="p-2"
-                    />
-                  </div>
-                </div>
-                <div className="row row-cols-3 g-3 pb-2 pt-1">
-                  <div className="col flex-center-general">
-                    <i
-                      className="trash icon delete-general"
-                      role="button"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        removeFile(index);
-                      }}
-                    ></i>
-                  </div>
-                  <div className="col flex-center-general">
-                    <i
-                      className="eye icon view-general"
-                      role="button"
-                      onClick={(event) => {
-                        setFileIndexToDisplay(index);
-                        setFileTypeToDisplay("image");
-                        setIsModalOpen(true);
-                      }}
-                    ></i>
-                  </div>
-                  <div className="col flex-center-general">
-                    <i
-                      className="upload icon upload-general"
-                      role="button"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        removeFile(index);
-                      }}
-                    ></i>
-                  </div>
-                </div>
-                <div className="border-top">
-                  <div className="dropdown drop-parent">
-                    <ImageLabelDropdown />
-                  </div>
-                </div>
-              </div>
+            <div key={index}>
+              <ImageController
+                index={index}
+                image={image}
+                removeFile={removeFile}
+                setFileIndexToDisplay={setFileIndexToDisplay}
+                setFileTypeToDisplay={setFileTypeToDisplay}
+                setIsModalOpen={setIsModalOpen}
+                propertyId={propertyId}
+                fileStoreKey={fileStoreKeys[index]}
+                setFileSrcToDisplay={setFileSrcToDisplay}
+              />
             </div>
           ))}
 
         {/* Displays list of videos preview */}
         {fileType === "video" &&
           videos.length > 0 &&
-          videos.map((vid, index) => (
-            <div className="col" key={index}>
-              <div className="picture-list-container shadow">
-                <div className="p-1">
-                  <div className="card">
-                    <video width="100%" height="100%" className="p-2" controls>
-                      <source
-                        src={URL.createObjectURL(vid[0])}
-                        type={vid[0].type}
-                      />
-                    </video>
-                  </div>
-                </div>
-                <div className="row row-cols-3 g-3 pb-2 pt-1">
-                  <div className="col flex-center-general">
-                    <i
-                      className="trash icon delete-general"
-                      role="button"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        removeFile(index);
-                      }}
-                    ></i>
-                  </div>
-                  <div className="col flex-center-general">
-                    <i
-                      className="large play circle outline icon view-general"
-                      role="button"
-                      onClick={(event) => {
-                        // event.stopPropagation();
-                        setFileIndexToDisplay(index);
-                        setFileTypeToDisplay("video");
-                        setIsModalOpen(true);
-                      }}
-                    ></i>
-                  </div>
-                  <div className="col flex-center-general">
-                    <i
-                      className="upload icon upload-general"
-                      role="button"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        removeFile(index);
-                      }}
-                    ></i>
-                  </div>
-                </div>
-              </div>
+          videos.map((video, index) => (
+            <div key={index}>
+              <VideoController
+                index={index}
+                video={video}
+                removeFile={removeFile}
+                setFileIndexToDisplay={setFileIndexToDisplay}
+                setFileTypeToDisplay={setFileTypeToDisplay}
+                setIsModalOpen={setIsModalOpen}
+                propertyId={propertyId}
+                fileStoreKey={fileStoreKeys[index]}
+                setFileSrcToDisplay={setFileSrcToDisplay}
+              />
             </div>
+            // <div className="col" key={index}>
+            //   <div className="picture-list-container shadow">
+            //     <div className="p-1">
+            //       <div className="card">
+            //         <video width="100%" height="100%" className="p-2" controls>
+            //           <source
+            //             src={URL.createObjectURL(vid[0])}
+            //             type={vid[0].type}
+            //           />
+            //         </video>
+            //       </div>
+            //     </div>
+            //     <div className="row row-cols-3 g-3 pb-2 pt-1">
+            //       <div className="col flex-center-general">
+            //         <i
+            //           className="trash icon delete-general"
+            //           role="button"
+            //           onClick={(event) => {
+            //             event.stopPropagation();
+            //             removeFile(index);
+            //           }}
+            //         ></i>
+            //       </div>
+            //       <div className="col flex-center-general">
+            //         <i
+            //           className="large play circle outline icon view-general"
+            //           role="button"
+            //           onClick={(event) => {
+            //             // event.stopPropagation();
+            //             setFileIndexToDisplay(index);
+            //             setFileTypeToDisplay("video");
+            //             setIsModalOpen(true);
+            //           }}
+            //         ></i>
+            //       </div>
+            //       <div className="col flex-center-general">
+            //         <i
+            //           className="upload icon upload-general"
+            //           role="button"
+            //           onClick={(event) => {
+            //             event.stopPropagation();
+            //             removeFile(index);
+            //           }}
+            //         ></i>
+            //       </div>
+            //     </div>
+            //   </div>
+            // </div>
           ))}
 
         {/* Show the input widget */}
         {((fileType === "video" && maxFiles > videos.length) ||
           (fileType === "image" && maxFiles > images.length) ||
           (fileType === "vrImage360" && maxFiles > vrImage360.length)) && (
-          <div className="col">
-            <div className="card ">
-              <div
-                {...getRootProps({
-                  className:
-                    "picture-upload-container footer-bg flex-center-general",
-                })}
-              >
-                <input {...getInputProps()} />
-                <div>
-                  <p className="fs-1"> +</p>
-                </div>
-              </div>
-            </div>
+          <div className="col px-5 px-sm-0">
+            <FileDropzoneField
+              setImages={setImages}
+              images={images}
+              setVideos={setVideos}
+              videos={videos}
+              vrImage360={vrImage360}
+              setVrImage360={setVrImage360}
+              fileType={fileType}
+              // onFileDrop={onFileDrop}
+              fileStoreKeys={fileStoreKeys}
+              setFileStoreKeys={setFileStoreKeys}
+              onImageDrop={onImageDrop}
+              onVideoDrop={onVideoDrop}
+            />
           </div>
         )}
       </div>
