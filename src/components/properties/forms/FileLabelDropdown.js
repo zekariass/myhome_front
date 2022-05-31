@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getPropertyFileLabels,
   updatePropertyImageLabel,
-} from "features/property/propertyFileSlice";
+} from "features/agent_dashboard/property/propertyFileSlice";
 import CheckField from "components/commons/fields/CheckField";
 import { Field, Form } from "react-final-form";
 

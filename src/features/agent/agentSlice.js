@@ -34,11 +34,20 @@ const agentInitialState = {
         isLoading: false,
       },
       response: {
-        data: {},
         error: null,
         status: null,
       },
     },
+    deleteLogo: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+    },
+    data: [],
   },
 };
 
@@ -64,6 +73,7 @@ export const createAgent = createAsyncThunk(
         /**
          * Pass agentId to logo upload page
          */
+        thunkAPI.dispatch(getAgent());
         navigate(redirectPath, {
           replace: true,
           state: { agentId: formatedResponse.data?.id },
@@ -113,15 +123,36 @@ export const uploadAgentLogo = createAsyncThunk(
     form_data.append("agent", logoData.agentId);
     let result;
     try {
-      result = myHomeBackendAPI.post("/agent/logo/upload/", form_data, {
+      result = await myHomeBackendAPI.post("/agent/logo/upload/", form_data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
       if (result.status === 201) {
-        // console.log(result.data);
+        console.log("LOGO RESULT: ", result.data);
       }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formatted_response = getFormatedResponse(result);
+      return formatted_response;
+    }
+  }
+);
+
+//============================================================================
+/**
+ * Agent logo delete
+ */
+//============================================================================
+export const deleteAgentLogo = createAsyncThunk(
+  "agentLogo/deleteAgentLogo",
+  async (logoId, _) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.delete(`/agent/logo/${logoId}/delete/`);
+      console.log("agentLogo/deleteAgentLogo: ", result.data);
     } catch (error) {
       result = error.response;
     } finally {
@@ -198,12 +229,31 @@ const agentSlice = createSlice({
     [uploadAgentLogo.fulfilled]: (state, action) => {
       state.logo.uploadLogo.request.isLoading = false;
       state.logo.uploadLogo.response.status = action.payload.status;
-      state.logo.uploadLogo.response.data = action.payload.data;
+      state.logo.data = [...state.logo.data, action.payload.data];
     },
     [uploadAgentLogo.rejected]: (state, action) => {
       state.logo.uploadLogo.request.isLoading = false;
       state.logo.uploadLogo.response.status = action.payload.status;
       state.logo.uploadLogo.response.error = action.payload.data;
+    },
+
+    //============================================================================
+    /**
+     * Delete Agent logo
+     */
+    //============================================================================
+    [deleteAgentLogo.pending]: (state) => {
+      state.logo.deleteLogo.request.isLoading = true;
+    },
+    [deleteAgentLogo.fulfilled]: (state, action) => {
+      state.logo.deleteLogo.request.isLoading = false;
+      state.logo.deleteLogo.response.status = action.payload.status;
+      state.logo.data = [];
+    },
+    [deleteAgentLogo.rejected]: (state, action) => {
+      state.logo.deleteLogo.request.isLoading = false;
+      state.logo.deleteLogo.response.status = action.payload.status;
+      state.logo.deleteLogo.response.error = action.payload.data;
     },
   },
 });

@@ -9,28 +9,34 @@ import { Field, FormSpy } from "react-final-form";
 import { OnChange } from "react-final-form-listeners";
 import { useDispatch, useSelector } from "react-redux";
 import DropdownCustomInput from "./fields/DropdownCustomInput";
+import DropdownField from "./fields/DropdownField";
 import TextCustomInput from "./fields/TextCustomInput";
+import TextField from "./fields/TextField";
 
-const AddressFormNew = ({ label, title }) => {
+const AddressForm = ({ label, title }) => {
   /**
    * dispatch object to dispatch the address data to redux store
    */
   const dispatch = useDispatch();
 
   /**
-   * Retrieve Regions from redux store
+   * Retrieve locations from redux store
    */
-  const { regionList } = useSelector((store) => store.address.region);
+  const {
+    region: { regionList },
+    city: { cityList },
+    country: { countryList },
+  } = useSelector((store) => store.address);
 
-  /**
-   * Retrieve Cities from redux store
-   */
-  const { cityList } = useSelector((store) => store.address.city);
+  // /**
+  //  * Retrieve Cities from redux store
+  //  */
+  // const { cityList } = useSelector((store) => store.address.city);
 
-  /**
-   * Retrieve country list from redux store
-   */
-  const { countryList } = useSelector((store) => store.address.country);
+  // /**
+  //  * Retrieve country list from redux store
+  //  */
+  // const { countryList } = useSelector((store) => store.address.country);
 
   /**
    * Field subscription setting
@@ -88,7 +94,7 @@ const AddressFormNew = ({ label, title }) => {
 
           <div className="row row-cols-1 row-cols-md-2 g-3 py-3">
             <div className="col form-outline mb-2">
-              <Field
+              <TextField
                 name={`${label}.street`}
                 className="form-control form-control-lg input-border-color"
                 type="text"
@@ -97,28 +103,11 @@ const AddressFormNew = ({ label, title }) => {
                 labelClass="form-label fs-5 mt-2"
                 // validate={streetRequired}
                 subscription={fieldSubscription}
-              >
-                {({
-                  input,
-                  meta,
-                  className,
-                  placeholder,
-                  label,
-                  labelClass,
-                }) => (
-                  <TextCustomInput
-                    input={input}
-                    meta={meta}
-                    className={className}
-                    placeholder={placeholder}
-                    label={label}
-                    labelClass={labelClass}
-                  />
-                )}
-              </Field>
+              />
             </div>
+
             <div className="col form-outline mb-2">
-              <Field
+              <TextField
                 name={`${label}.building_name_or_number`}
                 className="form-control form-control-lg input-border-color"
                 type="text"
@@ -126,28 +115,11 @@ const AddressFormNew = ({ label, title }) => {
                 label="Building name/num"
                 labelClass="form-label fs-5 mt-2"
                 subscription={fieldSubscription}
-              >
-                {({
-                  input,
-                  meta,
-                  className,
-                  placeholder,
-                  label,
-                  labelClass,
-                }) => (
-                  <TextCustomInput
-                    input={input}
-                    meta={meta}
-                    className={className}
-                    placeholder={placeholder}
-                    label={label}
-                    labelClass={labelClass}
-                  />
-                )}
-              </Field>
+              />
             </div>
+
             <div className="col form-outline mb-2">
-              <Field
+              <TextField
                 name={`${label}.room_number`}
                 className="form-control form-control-lg input-border-color"
                 type="text"
@@ -155,28 +127,11 @@ const AddressFormNew = ({ label, title }) => {
                 label="Room number"
                 labelClass="form-label fs-5 mt-2"
                 subscription={fieldSubscription}
-              >
-                {({
-                  input,
-                  meta,
-                  className,
-                  placeholder,
-                  label,
-                  labelClass,
-                }) => (
-                  <TextCustomInput
-                    input={input}
-                    meta={meta}
-                    className={className}
-                    placeholder={placeholder}
-                    label={label}
-                    labelClass={labelClass}
-                  />
-                )}
-              </Field>
+              />
             </div>
+
             <div className="col form-outline mb-2">
-              <Field
+              <TextField
                 name={`${label}.post_code`}
                 className="form-control form-control-lg input-border-color"
                 type="text"
@@ -184,28 +139,11 @@ const AddressFormNew = ({ label, title }) => {
                 label={`Post code`}
                 labelClass="form-label fs-5 mt-2"
                 subscription={fieldSubscription}
-              >
-                {({
-                  input,
-                  meta,
-                  className,
-                  placeholder,
-                  label,
-                  labelClass,
-                }) => (
-                  <TextCustomInput
-                    input={input}
-                    meta={meta}
-                    className={className}
-                    placeholder={placeholder}
-                    label={label}
-                    labelClass={labelClass}
-                  />
-                )}
-              </Field>
+              />
             </div>
+
             <div className="col form-outline mb-2">
-              <Field
+              <DropdownField
                 name={`${label}.country`}
                 className="form-control form-control-lg input-border-color"
                 label="Country"
@@ -218,32 +156,11 @@ const AddressFormNew = ({ label, title }) => {
                 dispatchObj={dispatch}
                 // validate={countryRequired}
                 subscription={fieldSubscription}
-              >
-                {({
-                  input,
-                  meta,
-                  options,
-                  className,
-                  label,
-                  labelClass,
-                  customOnChange,
-                  dispatchObj,
-                }) => (
-                  <DropdownCustomInput
-                    input={input}
-                    meta={meta}
-                    options={options}
-                    className={className}
-                    label={label}
-                    labelClass={labelClass}
-                    customOnChange={customOnChange}
-                    dispatchObj={dispatchObj}
-                  />
-                )}
-              </Field>
+              />
             </div>
+
             <div className="col form-outline mb-2">
-              <Field
+              <DropdownField
                 name={`${label}.region`}
                 className="form-control form-control-lg input-border-color"
                 label="Region"
@@ -259,34 +176,11 @@ const AddressFormNew = ({ label, title }) => {
                 }
                 // validate={regionRequired}
                 subscription={fieldSubscription}
-              >
-                {({
-                  input,
-                  meta,
-                  options,
-                  className,
-                  label,
-                  labelClass,
-                  customOnChange,
-                  dispatchObj,
-                  disabled,
-                }) => (
-                  <DropdownCustomInput
-                    input={input}
-                    meta={meta}
-                    options={options}
-                    className={className}
-                    label={label}
-                    labelClass={labelClass}
-                    customOnChange={customOnChange}
-                    dispatchObj={dispatchObj}
-                    disabled={disabled}
-                  />
-                )}
-              </Field>
+              />
             </div>
+
             <div className="col form-outline mb-2">
-              <Field
+              <DropdownField
                 name={`${label}.city`}
                 className="form-control form-control-lg input-border-color"
                 label="City"
@@ -300,33 +194,13 @@ const AddressFormNew = ({ label, title }) => {
                 }
                 // validate={cityRequired}
                 subscription={fieldSubscription}
-              >
-                {({
-                  input,
-                  meta,
-                  options,
-                  className,
-                  label,
-                  labelClass,
-                  disabled,
-                }) => (
-                  <DropdownCustomInput
-                    input={input}
-                    meta={meta}
-                    options={options}
-                    className={className}
-                    label={label}
-                    labelClass={labelClass}
-                    disabled={disabled}
-                  />
-                )}
-              </Field>
+              />
             </div>
           </div>
           <div className="">
             <div className="row row-cols-1 row-cols-md-2 g-3 mt-1">
               <div className="col form-outline mb-2">
-                <Field
+                <TextField
                   name={`${label}.longitude`}
                   className="form-control form-control-lg input-border-color"
                   type="text"
@@ -334,28 +208,11 @@ const AddressFormNew = ({ label, title }) => {
                   label="Longitude"
                   labelClass="form-label fs-5 mt-2"
                   subscription={fieldSubscription}
-                >
-                  {({
-                    input,
-                    meta,
-                    className,
-                    placeholder,
-                    label,
-                    labelClass,
-                  }) => (
-                    <TextCustomInput
-                      input={input}
-                      meta={meta}
-                      className={className}
-                      placeholder={placeholder}
-                      label={label}
-                      labelClass={labelClass}
-                    />
-                  )}
-                </Field>
+                />
               </div>
+
               <div className="col form-outline mb-2">
-                <Field
+                <TextField
                   name={`${label}.latitude`}
                   className="form-control form-control-lg input-border-color"
                   type="text"
@@ -363,25 +220,7 @@ const AddressFormNew = ({ label, title }) => {
                   label="Latitude"
                   labelClass="form-label fs-5 mt-2"
                   subscription={fieldSubscription}
-                >
-                  {({
-                    input,
-                    meta,
-                    className,
-                    placeholder,
-                    label,
-                    labelClass,
-                  }) => (
-                    <TextCustomInput
-                      input={input}
-                      meta={meta}
-                      className={className}
-                      placeholder={placeholder}
-                      label={label}
-                      labelClass={labelClass}
-                    />
-                  )}
-                </Field>
+                />
               </div>
             </div>
           </div>
@@ -391,7 +230,7 @@ const AddressFormNew = ({ label, title }) => {
   );
 };
 
-export default AddressFormNew;
+export default AddressForm;
 
 //Inline functions
 

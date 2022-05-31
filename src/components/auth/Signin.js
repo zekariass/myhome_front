@@ -25,6 +25,8 @@ const Signin = () => {
    */
   const fromPage = location.state?.from?.pathname || "/";
 
+  console.log("fromPage: ", fromPage);
+
   const onSubmit = (values) => {
     /**
      * Handles the event when the user clicks "Signin" button

@@ -9,6 +9,9 @@ import { useSelector } from "react-redux";
 import {
   PATH_AGENTS_SEARCH_ABSOLUTE,
   PATH_AGENT_CREATE_INFO_ABSOLUTE,
+  PATH_AGENT_DASHBOARD,
+  PATH_AGENT_DASHBOARD_STAT_ABSOLUTE,
+  PATH_AGENT_LOGO_UPLOAD_ABSOLUTE,
   PATH_LANDING,
   PATH_PROPERTY_ADD_ABSOLUTE,
   PATH_PROPERTY_FILE_UPLOAD_ABSOLUTE,
@@ -19,31 +22,56 @@ import {
 
 const HeaderOne = () => {
   const { currentPage } = useSelector((store) => store.global);
+  const { isSignedIn } = useSelector((store) => store.user.signin);
+  const agentExist = useSelector(
+    (store) => store.agent.getAgent.response.data?.id
+  );
+
   const getAddPropertyMenu = () => {
-    if (currentPage === "agentAdd") {
-      return;
+    // if (currentPage === "agentAdd") {
+    //   return;
+    // }
+
+    // console.log("AGENTEXIST? ", agentExist);
+
+    if (isSignedIn && agentExist !== undefined) {
+      return (
+        <NavLink
+          // to={PATH_AGENT_CREATE_INFO_ABSOLUTE}
+          // to={PATH_AGENT_DASHBOARD}
+          // to={PATH_PROPERTY_FILE_UPLOAD_ABSOLUTE}
+          to={PATH_AGENT_DASHBOARD}
+          // to={PATH_AGENT_LOGO_UPLOAD_ABSOLUTE}
+          className="link-general link-size-small mx-lg-5 "
+        >
+          Dashboard
+        </NavLink>
+      );
     }
     return (
       <NavLink
-        // to={PATH_AGENT_CREATE_INFO_ABSOLUTE}
-        to={PATH_PROPERTY_ADD_ABSOLUTE}
+        to={PATH_AGENT_CREATE_INFO_ABSOLUTE}
+        // to={PATH_PROPERTY_ADD_ABSOLUTE}
         // to={PATH_PROPERTY_FILE_UPLOAD_ABSOLUTE}
-        className="link-general mx-lg-5 "
+        // to={PATH_AGENT_DASHBOARD}
+        className="link-general link-size-small mx-lg-5 "
       >
         List Your Property
       </NavLink>
     );
   };
-  const { isSignedIn } = useSelector((store) => store.user.signin);
   const getMenuByAuthStatus = () => {
     // console.log(localStorage.getItem("access_token") === "null");
     if (!isSignedIn) {
       return (
         <Nav>
-          <NavLink to={PATH_SIGNIN} className="link-general mx-lg-5">
+          <NavLink
+            to={PATH_SIGNIN}
+            className="link-general link-size-small mx-lg-5"
+          >
             Signin
           </NavLink>
-          <NavLink to={PATH_SIGNUP} className="link-general">
+          <NavLink to={PATH_SIGNUP} className="link-general link-size-small">
             Signup
           </NavLink>
         </Nav>
@@ -52,10 +80,13 @@ const HeaderOne = () => {
 
     return (
       <Nav>
-        <NavLink to={PATH_SAVED_PROPETRTIES} className="link-general mx-lg-5">
+        <NavLink
+          to={PATH_SAVED_PROPETRTIES}
+          className="link-general link-size-small mx-lg-5"
+        >
           Saved Properties
         </NavLink>
-        {/* <NavLink to="#" className="link-general"> */}
+        {/* <NavLink to="#" className="link-general link-size-small"> */}
         <MenuDropdown />
         {/* </NavLink> */}
       </Nav>
@@ -82,12 +113,21 @@ const HeaderOne = () => {
           style={{ maxHeight: "100px" }}
         >
           {getAddPropertyMenu()}
-          <NavLink to={PATH_AGENTS_SEARCH_ABSOLUTE} className="link-general">
+          {/* <NavLink
+            to={PATH_AGENT_DASHBOARD}
+            className="link-general link-size-small mx-lg-5"
+          >
+            Dashboard
+          </NavLink> */}
+          <NavLink
+            to={PATH_AGENTS_SEARCH_ABSOLUTE}
+            className="link-general link-size-small"
+          >
             Find an Agent
           </NavLink>
         </Nav>
         {getMenuByAuthStatus()}
-        <NavLink to="/" className="link-general mx-lg-5">
+        <NavLink to="/" className="link-general link-size-small mx-lg-5">
           En
           <span>
             <i className="world icon"></i>

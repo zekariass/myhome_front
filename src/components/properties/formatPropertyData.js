@@ -31,7 +31,7 @@ const formatPropertyData = (values, data) => {
   //  Select the right category based on selected category ID
   //  The values object may have multiple category data which does not correspond to the propety category ID
   //  in values object
-  switch (categoryObj.cat_key) {
+  switch (categoryObj?.cat_key) {
     case APARTMENT_KEY:
       category = { apartment: category.apartment };
       break;

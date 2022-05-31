@@ -1,6 +1,12 @@
 // @ts-nocheck
-import { PATH_AGENT_DASHBOARD_ABSOLUTE } from "components/commons/Strings";
-import React from "react";
+import {
+  PATH_AGENT_DASHBOARD,
+  PATH_AGENT_DASHBOARD_PROPERTY_DETAIL_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_PROPERTY_LIST,
+  PATH_AGENT_DASHBOARD_PROPERTY_LIST_ABSOLUTE,
+} from "components/commons/Strings";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import FileUploadInput from "./FileUploadInput";
 
@@ -9,14 +15,43 @@ import FileUploadInput from "./FileUploadInput";
  * @returns
  */
 const PropertyFileUpload = () => {
+  const systemParams = useSelector((store) => store.system.systemParams.data);
+  const [totalImages, setTotalImages] = useState(0);
+  const [totalVideos, setTotalVideos] = useState(0);
+
+  // console.log("systemParams: ", systemParams);
+
+  useEffect(() => {
+    systemParams.forEach((param) => {
+      if (param.param_name === "PROPERTY_IMAGES") {
+        setTotalImages(parseInt(param.param_value));
+      } else if (param.param_name === "PROPERTY_VIDEOS") {
+        setTotalVideos(parseInt(param.param_value));
+      }
+    });
+  }, [systemParams]);
+
   const { state } = useLocation();
+  // console.log("PARAMS: ", totalImages, totalVideos);
+
   // console.log("STATE: ", state);
+
   const propertyId = state?.propertyId;
+  const videos_count = state?.videos_count;
+  const images_count = state?.images_count;
+  const from = state?.from;
 
   const navigate = useNavigate();
 
   const onFinishClick = () => {
-    navigate(PATH_AGENT_DASHBOARD_ABSOLUTE, { replace: true });
+    const redirectPath =
+      from === "property_detail"
+        ? PATH_AGENT_DASHBOARD_PROPERTY_DETAIL_ABSOLUTE
+        : PATH_AGENT_DASHBOARD_PROPERTY_LIST_ABSOLUTE;
+    navigate(redirectPath, {
+      replace: true,
+      state: { propertyId: propertyId },
+    });
   };
 
   return (
@@ -26,14 +61,14 @@ const PropertyFileUpload = () => {
           <div className="my-5">
             <FileUploadInput
               fileType="image"
-              maxFiles={10}
+              maxFiles={totalImages - images_count}
               title="Upload property pictures"
               propertyId={propertyId}
             />
           </div>
           <FileUploadInput
             fileType="video"
-            maxFiles={4}
+            maxFiles={totalVideos - videos_count}
             title="Upload property video"
             propertyId={propertyId}
           />

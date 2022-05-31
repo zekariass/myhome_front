@@ -1,4 +1,4 @@
-import { isFileUploaded } from "features/property/propertyFileSlice";
+import { isFileUploaded } from "features/agent_dashboard/property/propertyFileSlice";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDispatch } from "react-redux";

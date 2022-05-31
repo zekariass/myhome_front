@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
+import { getFormatedResponse } from "features/getFormatedResponse";
+import { getPropertiesByAgent } from "../agent_dashboard/property/propertySlice";
 
 const initialAddressState = {
   country: {
@@ -14,6 +16,10 @@ const initialAddressState = {
   city: {
     isLoading: false,
     cityList: [],
+  },
+  updateAddress: {
+    request: { isLoading: false },
+    response: { error: null, status: null, data: {} },
   },
 };
 
@@ -79,6 +85,34 @@ export const getCitiesByRegion = createAsyncThunk(
   }
 );
 
+/**
+ * Update address
+ */
+export const updateAddress = createAsyncThunk(
+  "address/updateAddress",
+  async (addressData, thunkApi) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.put(
+        `/common/address/${addressData.id}/update/`,
+        addressData
+      );
+      if (result.status === 200) {
+        thunkApi.dispatch(
+          getPropertiesByAgent(
+            thunkApi.getState().agent.getAgent.response.data.id
+          )
+        );
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
 const addressSlice = createSlice({
   name: "address",
   initialState: initialAddressState,
@@ -134,6 +168,22 @@ const addressSlice = createSlice({
     },
     [getCitiesByRegion.rejected]: (state, action) => {
       console.log("Rejected!");
+    },
+    /**
+     * Update address
+     */
+    [updateAddress.pending]: (state) => {
+      state.updateAddress.request.isLoading = true;
+    },
+    [updateAddress.fulfilled]: (state, action) => {
+      state.updateAddress.request.isLoading = false;
+      state.updateAddress.response.data = action.payload.data;
+      state.updateAddress.response.status = action.payload.status;
+    },
+    [updateAddress.rejected]: (state, action) => {
+      state.updateAddress.request.isLoading = false;
+      state.updateAddress.response.error = action.payload.data;
+      state.updateAddress.response.status = action.payload.status;
     },
   },
 });

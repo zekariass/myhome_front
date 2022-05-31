@@ -4,7 +4,7 @@ import MyModal from "components/commons/Modal";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ImageController from "./ImageController";
-import { isFileUploaded } from "features/property/propertyFileSlice";
+import { isFileUploaded } from "features/agent_dashboard/property/propertyFileSlice";
 import { useDispatch } from "react-redux";
 import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
 import VideoController from "./VideoController";
@@ -156,124 +156,134 @@ const FileUploadInput = ({ fileType, maxFiles, title, propertyId }) => {
 
   return (
     <div className="">
-      <p className="fs-5">{title}</p>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
-        {/* Display list of images preview */}
+      {maxFiles > 0 && (
+        <div>
+          <p className="fw-bold">
+            You have {maxFiles} {fileType}s to be uploaded
+          </p>
+          <p className="fs-5">{title}</p>
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
+            {/* Display list of images preview */}
 
-        {fileType === "image" &&
-          images.length > 0 &&
-          images.map((image, index) => (
-            <div key={index}>
-              <ImageController
-                index={index}
-                image={image}
-                removeFile={removeFile}
-                setFileIndexToDisplay={setFileIndexToDisplay}
-                setFileTypeToDisplay={setFileTypeToDisplay}
-                setIsModalOpen={setIsModalOpen}
-                propertyId={propertyId}
-                fileStoreKey={fileStoreKeys[index]}
-                setFileSrcToDisplay={setFileSrcToDisplay}
-              />
-            </div>
-          ))}
+            {fileType === "image" &&
+              images.length > 0 &&
+              images.map((image, index) => (
+                <div key={index}>
+                  <ImageController
+                    index={index}
+                    image={image}
+                    removeFile={removeFile}
+                    setFileIndexToDisplay={setFileIndexToDisplay}
+                    setFileTypeToDisplay={setFileTypeToDisplay}
+                    setIsModalOpen={setIsModalOpen}
+                    propertyId={propertyId}
+                    fileStoreKey={fileStoreKeys[index]}
+                    setFileSrcToDisplay={setFileSrcToDisplay}
+                  />
+                </div>
+              ))}
 
-        {/* Displays list of videos preview */}
-        {fileType === "video" &&
-          videos.length > 0 &&
-          videos.map((video, index) => (
-            <div key={index}>
-              <VideoController
-                index={index}
-                video={video}
-                removeFile={removeFile}
-                setFileIndexToDisplay={setFileIndexToDisplay}
-                setFileTypeToDisplay={setFileTypeToDisplay}
-                setIsModalOpen={setIsModalOpen}
-                propertyId={propertyId}
-                fileStoreKey={fileStoreKeys[index]}
-                setFileSrcToDisplay={setFileSrcToDisplay}
-              />
-            </div>
-            // <div className="col" key={index}>
-            //   <div className="picture-list-container shadow">
-            //     <div className="p-1">
-            //       <div className="card">
-            //         <video width="100%" height="100%" className="p-2" controls>
-            //           <source
-            //             src={URL.createObjectURL(vid[0])}
-            //             type={vid[0].type}
-            //           />
-            //         </video>
-            //       </div>
-            //     </div>
-            //     <div className="row row-cols-3 g-3 pb-2 pt-1">
-            //       <div className="col flex-center-general">
-            //         <i
-            //           className="trash icon delete-general"
-            //           role="button"
-            //           onClick={(event) => {
-            //             event.stopPropagation();
-            //             removeFile(index);
-            //           }}
-            //         ></i>
-            //       </div>
-            //       <div className="col flex-center-general">
-            //         <i
-            //           className="large play circle outline icon view-general"
-            //           role="button"
-            //           onClick={(event) => {
-            //             // event.stopPropagation();
-            //             setFileIndexToDisplay(index);
-            //             setFileTypeToDisplay("video");
-            //             setIsModalOpen(true);
-            //           }}
-            //         ></i>
-            //       </div>
-            //       <div className="col flex-center-general">
-            //         <i
-            //           className="upload icon upload-general"
-            //           role="button"
-            //           onClick={(event) => {
-            //             event.stopPropagation();
-            //             removeFile(index);
-            //           }}
-            //         ></i>
-            //       </div>
-            //     </div>
-            //   </div>
-            // </div>
-          ))}
+            {/* Displays list of videos preview */}
+            {fileType === "video" &&
+              videos.length > 0 &&
+              videos.map((video, index) => (
+                <div key={index}>
+                  <VideoController
+                    index={index}
+                    video={video}
+                    removeFile={removeFile}
+                    setFileIndexToDisplay={setFileIndexToDisplay}
+                    setFileTypeToDisplay={setFileTypeToDisplay}
+                    setIsModalOpen={setIsModalOpen}
+                    propertyId={propertyId}
+                    fileStoreKey={fileStoreKeys[index]}
+                    setFileSrcToDisplay={setFileSrcToDisplay}
+                  />
+                </div>
+                // <div className="col" key={index}>
+                //   <div className="picture-list-container shadow">
+                //     <div className="p-1">
+                //       <div className="card">
+                //         <video width="100%" height="100%" className="p-2" controls>
+                //           <source
+                //             src={URL.createObjectURL(vid[0])}
+                //             type={vid[0].type}
+                //           />
+                //         </video>
+                //       </div>
+                //     </div>
+                //     <div className="row row-cols-3 g-3 pb-2 pt-1">
+                //       <div className="col flex-center-general">
+                //         <i
+                //           className="trash icon delete-general"
+                //           role="button"
+                //           onClick={(event) => {
+                //             event.stopPropagation();
+                //             removeFile(index);
+                //           }}
+                //         ></i>
+                //       </div>
+                //       <div className="col flex-center-general">
+                //         <i
+                //           className="large play circle outline icon view-general"
+                //           role="button"
+                //           onClick={(event) => {
+                //             // event.stopPropagation();
+                //             setFileIndexToDisplay(index);
+                //             setFileTypeToDisplay("video");
+                //             setIsModalOpen(true);
+                //           }}
+                //         ></i>
+                //       </div>
+                //       <div className="col flex-center-general">
+                //         <i
+                //           className="upload icon upload-general"
+                //           role="button"
+                //           onClick={(event) => {
+                //             event.stopPropagation();
+                //             removeFile(index);
+                //           }}
+                //         ></i>
+                //       </div>
+                //     </div>
+                //   </div>
+                // </div>
+              ))}
 
-        {/* Show the input widget */}
-        {((fileType === "video" && maxFiles > videos.length) ||
-          (fileType === "image" && maxFiles > images.length) ||
-          (fileType === "vrImage360" && maxFiles > vrImage360.length)) && (
-          <div className="col px-5 px-sm-0">
-            <FileDropzoneField
-              setImages={setImages}
-              images={images}
-              setVideos={setVideos}
-              videos={videos}
-              vrImage360={vrImage360}
-              setVrImage360={setVrImage360}
-              fileType={fileType}
-              // onFileDrop={onFileDrop}
-              fileStoreKeys={fileStoreKeys}
-              setFileStoreKeys={setFileStoreKeys}
-              onImageDrop={onImageDrop}
-              onVideoDrop={onVideoDrop}
-            />
+            {/* Show the input widget */}
+            {((fileType === "video" && maxFiles > videos.length) ||
+              (fileType === "image" && maxFiles > images.length) ||
+              (fileType === "vrImage360" && maxFiles > vrImage360.length)) && (
+              <div className="col px-5 px-sm-0">
+                <FileDropzoneField
+                  setImages={setImages}
+                  images={images}
+                  setVideos={setVideos}
+                  videos={videos}
+                  vrImage360={vrImage360}
+                  setVrImage360={setVrImage360}
+                  fileType={fileType}
+                  // onFileDrop={onFileDrop}
+                  fileStoreKeys={fileStoreKeys}
+                  setFileStoreKeys={setFileStoreKeys}
+                  onImageDrop={onImageDrop}
+                  onVideoDrop={onVideoDrop}
+                />
+              </div>
+            )}
+            {maxFiles === 0 && (
+              <div>You have uploaded all the file! update instead</div>
+            )}
           </div>
-        )}
-      </div>
-      {isModalOpen && (
-        <MyModal
-          show={isModalOpen}
-          onHide={() => setIsModalOpen(false)}
-          bodyMessage={showModalBodyMessage}
-          title="Your media view"
-        />
+          {isModalOpen && (
+            <MyModal
+              show={isModalOpen}
+              onHide={() => setIsModalOpen(false)}
+              bodyMessage={showModalBodyMessage}
+              title="Your media view"
+            />
+          )}
+        </div>
       )}
     </div>
   );

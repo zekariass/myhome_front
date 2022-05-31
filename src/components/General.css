@@ -212,3 +212,45 @@ body {
   /* height: 90vw !important; */
   background-color: rgb(214, 211, 211);
 }
+
+/* PICTURE UPLOAD */
+.picture-list-container {
+  border: 5px solid rgb(136, 181, 136);
+  border-radius: 5px;
+}
+
+/* DATA DISPLAY */
+.display-title {
+  color: brown;
+}
+
+/* IMAGE GALLERY */
+.gallery-slider-active-div {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.gallery-slider-active-img {
+  border: 5px solid rgb(65, 168, 24);
+}
+
+.gallery-slider {
+  width: 100%;
+  height: 100px;
+}
+.gallery-slider-div {
+  width: 65%;
+}
+
+@media screen and  (max-width: 992px){
+  .gallery-slider-div {
+    width: 85%;
+  }
+}
+
+.gallery-slider-icon {
+  color: rgb(65, 168, 24);
+  cursor: pointer;
+}
+.gallery-slider-icon:hover {
+  color: rgb(32, 88, 9);
+}

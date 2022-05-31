@@ -8,13 +8,16 @@ import ParentProperty from "./forms/ParentProperty";
 import PropertyDataConfirmation from "./PropertyDataConfirmation";
 import { FormSpy } from "react-final-form";
 import { useDispatch, useSelector } from "react-redux";
-import { createProperty } from "features/property/propertySlice";
+import { createProperty } from "features/agent_dashboard/property/propertySlice";
 import PropertyCategoryWizard from "./forms/PropertyCategoryWizard";
 
 import formatPropertyData from "./formatPropertyData";
 import { goToPage } from "features/common/wizardSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { PATH_PROPERTY_FILE_UPLOAD_ABSOLUTE } from "components/commons/Strings";
+import {
+  PATH_AGENT_DASHBOARD_PROPERTY_FILE_UPLOAD_ABSOLUTE,
+  PATH_PROPERTY_FILE_UPLOAD_ABSOLUTE,
+} from "components/commons/Strings";
 
 /**
  *Property form wizard component that show property add and edit steps
@@ -52,11 +55,13 @@ const PropertyFormWizard = () => {
   const onSubmit = (values) => {
     const newValues = formatPropertyData(values, data);
     // console.log("newValues AFTER: ", newValues);
+    // setCurrentStep(0);
     dispatch(
       createProperty({
         values: newValues,
         navigate: navigate,
-        successPath: PATH_PROPERTY_FILE_UPLOAD_ABSOLUTE,
+        successPath: PATH_AGENT_DASHBOARD_PROPERTY_FILE_UPLOAD_ABSOLUTE,
+        // setCurrentStep: setCurrentStep,
       })
     );
   };
@@ -117,22 +122,22 @@ const PropertyFormWizard = () => {
                 <AddressForm label="address" title="Property Address" />
               </Wizard.Page>
               {/* Shows property data confirmation page */}
-              <Wizard.Page>
-                <FormSpy>
-                  {({ values }) => (
+              <FormSpy>
+                {({ values }) => (
+                  <Wizard.Page>
                     <PropertyDataConfirmation
                       values={values}
                       edit={edit}
                       steps={steps}
                     />
-                  )}
-                </FormSpy>
-              </Wizard.Page>
+                  </Wizard.Page>
+                )}
+              </FormSpy>
             </Wizard>
           </div>
         </div>
         <div className="col-lg-5 mt-sm-3">
-          {/* Agent information preview  */}
+          Some information
           <AgentPreview />
         </div>
       </div>

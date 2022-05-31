@@ -2,13 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import agentSlice from "features/agent/agentSlice";
 import addressSlice from "features/common/addressSlice";
 import globalSlice from "features/global/globalSlice";
-import buildingTypeSlice from "features/property/buildingTypeSlice";
-import houseTypeSlice from "features/property/houseTypeSlice";
-import propertyCategorySlice from "features/property/propertyCategorySlice";
-import propertySlice from "features/property/propertySlice";
+import buildingTypeSlice from "features/agent_dashboard/property/buildingTypeSlice";
+import houseTypeSlice from "features/agent_dashboard/property/houseTypeSlice";
+import propertyCategorySlice from "features/agent_dashboard/property/propertyCategorySlice";
+import propertySlice from "features/agent_dashboard/property/propertySlice";
 import wizardSlice from "features/common/wizardSlice";
 import userSlice from "features/user/userSlice";
-import propertyFileSlice from "features/property/propertyFileSlice";
+import propertyFileSlice from "features/agent_dashboard/property/propertyFileSlice";
+import paramSlice from "features/system/paramSlice";
 
 export const reduxStore = configureStore({
   reducer: {
@@ -22,5 +23,6 @@ export const reduxStore = configureStore({
     buildingType: buildingTypeSlice,
     propertyWizard: wizardSlice,
     propertyFile: propertyFileSlice,
+    system: paramSlice,
   },
 });

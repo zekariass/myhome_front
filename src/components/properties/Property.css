@@ -22,10 +22,7 @@
   cursor: pointer;
 }
 
-.picture-list-container {
-  border: 5px solid rgb(136, 181, 136);
-  border-radius: 5px;
-}
+
 
 .drop-list {
   width: 350px !important;

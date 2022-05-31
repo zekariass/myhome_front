@@ -62,6 +62,7 @@ const DropdownCustomInput = ({
             e.g. property categories has "name", while house types and building types has "type" */}
             {option.name}
             {option.type}
+            {option.level}
           </option>
         ))}
       </select>

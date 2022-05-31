@@ -6,7 +6,7 @@ import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const ParentProperty = () => {
+const ParentProperty = ({ categoryDisabled }) => {
   let { data } = useSelector((store) => store.propertyCategory.response);
 
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const ParentProperty = () => {
           label="Property Category"
           labelClass="form-label fs-5 mt-2"
           options={[{ id: "-1", name: "--Select Category--" }, ...data]}
-          disabled={false}
+          disabled={categoryDisabled}
           dispatchObj={null}
           customOnChange={null}
           validate={() => {}}
