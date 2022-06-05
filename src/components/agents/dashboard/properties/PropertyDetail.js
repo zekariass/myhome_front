@@ -1,20 +1,43 @@
 // @ts-nocheck
+import { getAmenitiesByAmenityCategory } from "components/commons/getAmenitiesByAmenityCategory";
 import DataDisplay from "components/commons/DataDisplay";
 import MinimisedImageGallery from "components/commons/MinimisedImageGallery";
 import MyModal from "components/commons/Modal";
 import {
+  ALL_PURPOSE_PROPERTY_KEY,
+  APARTMENT_KEY,
+  COMMERCIAL_PROPERTY_KEY,
+  CONDOMINIUM_KEY,
+  HALL_KEY,
+  LAND_KEY,
+  OFFICE_KEY,
   PATH_AGENT_DASHBOARD,
+  PATH_AGENT_DASHBOARD_AMENITY_ADD,
   PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD,
-  PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_POI_ADD,
   PATH_AGENT_DASHBOARD_PROPERTY,
   PATH_AGENT_DASHBOARD_PROPERTY_ADDRESS_EDIT_ABSOLUTE,
   PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE,
   PATH_AGENT_DASHBOARD_PROPERTY_FILE_UPLOAD_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_PROPERTY_RULE_ADD,
+  PATH_AGENT_DASHBOARD_TRANSPORT_FACILITY_ADD,
+  SHARE_HOUSE_KEY,
+  TRADITIONAL_HOUSE_KEY,
+  VILLA_KEY,
 } from "components/commons/Strings";
-import { getPropertyDetail } from "features/agent_dashboard/property/propertySlice";
-import React, { useEffect, useMemo, useState } from "react";
+import {
+  deleteAmnityLink,
+  deleteEdufaLink,
+  deletePoiLink,
+  deleteRule,
+  deleteTranfaLink,
+  getPropertyDetail,
+} from "features/agent_dashboard/property/propertySlice";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import DataDisplayTabular from "components/commons/DataDisplayTabular";
+import RelatedPropertyDetail from "./RelatedPropertyDetail";
 
 const PropertyDetail = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -27,26 +50,31 @@ const PropertyDetail = () => {
   const [transportFacility, setTransportFacility] = useState({});
   const [pointOfInterest, setPointOfInterest] = useState({});
   const [propertyCategory, setPropertyCategory] = useState({});
+  const [rules, setRules] = useState({});
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
   const [propertyBasicData, setPropertyBasicData] = useState({});
   const [propertyRestData, setPropertyRestData] = useState({});
+  const [relatedProperty, setRelatedProperty] = useState({});
 
-  // const [editFormPath, setEditFormPath] = useState(null);
-
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  //Get property data from redux store from backend
   const property = useSelector(
     (store) => store.property.singlePropertyAction.data
-  ); //useMemo(() => location.state?.property);
-
+  );
   useEffect(() => {
+    //Get property ID from location state sent by previous component
     const propertyId = location.state?.propertyId;
+
+    //Get detail of specific propert identified by propertyId for display
     dispatch(getPropertyDetail(propertyId));
   }, []);
 
   useEffect(() => {
+    //Destructure the property for display
     const {
       address,
       agent,
@@ -54,60 +82,50 @@ const PropertyDetail = () => {
       education_facility,
       transport_facility,
       point_of_interest,
+      rules,
       property_category,
       images,
       videos,
       virtual_tours,
+      related_property,
       ...propertyRestData
     } = property;
 
+    //Set states
     setAmenities(amenity);
     setAddress(address);
     setEducationFacility(education_facility);
     setTransportFacility(transport_facility);
     setPointOfInterest(point_of_interest);
-    setPropertyCategory(property_category);
+    setRules(rules);
+    const new_property_category = property_category ? property_category : {};
+    setPropertyCategory(new_property_category);
     setImages(images);
     setVideos(videos);
     setPropertyRestData(propertyRestData);
+    setRelatedProperty(related_property);
 
     setPropertyBasicData({
       ...propertyRestData,
       category: property_category?.name,
     });
 
-    const { country, region, city, ...addressRest } = address;
-    setFormattedAddressName({
-      ...addressRest,
-      country: country?.name,
-      region: region?.name,
-      city: city?.name,
-    });
-
-    const tempAmenitiesByCategory = {};
-
-    amenity.forEach((amen) => {
-      tempAmenitiesByCategory[amen.category.name] = [];
-    });
-
-    amenity.forEach((amen) => {
-      Object.keys(tempAmenitiesByCategory).forEach((categoryKey) => {
-        if (categoryKey === amen.category.name) {
-          tempAmenitiesByCategory[categoryKey] = [
-            ...tempAmenitiesByCategory[categoryKey],
-            amen.name,
-          ];
-        }
+    //Destructure address and format country, region, and city by name for display
+    if (address) {
+      const { country, region, city, ...addressRest } = address;
+      setFormattedAddressName({
+        ...addressRest,
+        country: country?.name,
+        region: region?.name,
+        city: city?.name,
       });
-    });
-    setAmenitiesByCategory(tempAmenitiesByCategory);
+    }
+
+    setAmenitiesByCategory(getAmenitiesByAmenityCategory(amenity));
   }, [property]);
 
-  // console.log("address: ", address);
-
-  // console.log("PROPERTY: ", addressRest);
-
-  const modalBodyMessage = () => {
+  //Renders the message to display in modal for video view
+  const modalVideoBodyMessage = () => {
     return (
       <video width="100%" height="100%" className="" controls autoPlay>
         <source src={fileToDIsplay?.video} type={fileToDIsplay?.type} />
@@ -115,6 +133,7 @@ const PropertyDetail = () => {
     );
   };
 
+  //Format property data as initial value for edit form
   const preparePropertyInitialValues = () => {
     let {
       added_on,
@@ -131,6 +150,7 @@ const PropertyDetail = () => {
     return initialValues;
   };
 
+  //Format Address data as initial value for edit form
   const preparePropAddressInitialValues = () => {
     const { country, region, city, ...addressRest } = address;
     const formattedAddressWithId = {
@@ -143,14 +163,161 @@ const PropertyDetail = () => {
     return { address: formattedAddressWithId };
   };
 
+  //Handle deletion of Education facility.It does not actually delete the education facility,
+  //rather it delete the link to the property in the intermediate table.
+  const onEdufaDelete = (edufaId) => {
+    const deleteData = { property: property?.id, edufa: edufaId };
+    dispatch(deleteEdufaLink(deleteData));
+  };
+
+  //Handle deletion of transport facility. It does not actually delete the transport facility,
+  //rather it delete the link to the property in the intermediate table.
+  const onTranfaDelete = (tranfaId) => {
+    const deleteData = { property: property?.id, tranfa: tranfaId };
+    dispatch(deleteTranfaLink(deleteData));
+  };
+
+  //Handle deletion of point of interest. It does not actually delete the point of interest,
+  //rather it delete the link to the property in the intermediate table.
+  const onPoiDelete = (poiId) => {
+    const deleteData = { property: property?.id, poi: poiId };
+    dispatch(deletePoiLink(deleteData));
+  };
+
+  //Handle deletion of Amenity. It does not actually delete the Amenity,
+  //rather it delete the link to the property in the intermediate table.
+  const onAmenityDelete = (amenId) => {
+    const deleteData = { property: property?.id, amenity: amenId };
+    dispatch(deleteAmnityLink(deleteData));
+  };
+
+  //Handle deletion of Rule.
+  const onRuleDelete = (ruleId) => {
+    const deleteData = { property: property?.id, rule: ruleId };
+    dispatch(deleteRule(deleteData));
+  };
+
+  /**
+   * Format Education facility data for tabular display
+   * @returns
+   */
+  const formatEdufa = () => {
+    //Holds the formatted poi data
+    let formattedEdufa = [];
+
+    //Columns of of table to display
+    const columns = [
+      "id",
+      "edufa_level",
+      "name",
+      "ownership",
+      "description",
+      "distance_from_property",
+      "distance_unit",
+    ];
+
+    //Format the data
+    educationFacility.forEach((edufa) => {
+      let { edufa_level, near_by_properties, added_on, ...edufaRest } = edufa;
+
+      const newEdufa = {
+        edufa_level: edufa_level?.level,
+        ...edufaRest,
+      };
+
+      formattedEdufa = [...formattedEdufa, newEdufa];
+    });
+    return { data: formattedEdufa, columns: columns };
+  };
+
+  /**
+   * Format property rules data for tabular display
+   * @returns
+   */
+  const formatRules = () => {
+    //Holds the formatted rules data
+    // let formattedEdufa = [];
+
+    //Columns of of table to display
+    const columns = ["id", "title", "strictness", "description"];
+    return { data: rules, columns: columns };
+  };
+
+  /**
+   * Format Transport Facility data for tabular display
+   * @returns
+   */
+  const formatPoi = () => {
+    //Holds the formatted poi data
+    let formattedPois = [];
+
+    //Columns of of table to display
+    const columns = [
+      "id",
+      "poi_category",
+      "name",
+      "description",
+      "distance_from_property",
+      "distance_unit",
+    ];
+
+    //Format the data
+    pointOfInterest.forEach((poi) => {
+      let { poi_category, near_by_properties, added_on, ...poiRest } = poi;
+      added_on = new Date(added_on).toDateString();
+
+      const newPoi = {
+        poi_category: poi_category?.name,
+        ...poiRest,
+      };
+
+      formattedPois = [...formattedPois, newPoi];
+    });
+    return { data: formattedPois, columns: columns };
+  };
+
+  /**
+   * Format Transport Facility data for tabular display
+   * @returns
+   */
+  const formatTranfa = () => {
+    //Array to hold records of formatted tranfa data
+    let formattedTranfa = [];
+
+    //Columns for display
+    const columns = [
+      "id",
+      "trans_fa_category",
+      "name",
+      "description",
+      "distance_from_property",
+      "distance_unit",
+    ];
+
+    //Farmat the original data
+    transportFacility.forEach((tranfa) => {
+      const { trans_fa_category, near_by_properties, ...tranfaRest } = tranfa;
+
+      const newTranfa = {
+        ...tranfaRest,
+        trans_fa_category: trans_fa_category?.name,
+      };
+
+      formattedTranfa = [...formattedTranfa, newTranfa];
+    });
+
+    return { data: formattedTranfa, columns: columns };
+  };
+
   return (
     <main className="my-3">
       <div className="mb-3">
+        {/* List images of the property */}
         <MinimisedImageGallery data={images} />
       </div>
 
       <div className="d-flex justify-content-end my-4 ">
-        {videos.length > 0 && (
+        {images?.length > 0 && (
           <div className="">
             <Link to="#" className="link-general link-size-small py-2 px-3">
               See All Pictures
@@ -160,12 +327,14 @@ const PropertyDetail = () => {
       </div>
 
       <div className="row">
-        {videos.length > 0 && (
+        {videos?.length > 0 && (
           <div>
             <p className="fw-bold">Videos</p>
           </div>
         )}
-        {videos.map((video, index) => (
+
+        {/* List videos of the property */}
+        {videos?.map((video, index) => (
           <div className="col-auto flex-center-general" key={index}>
             <div className="card p-2" style={{ width: "200px" }}>
               <video width="100%" height="100%" className="" controls>
@@ -185,14 +354,16 @@ const PropertyDetail = () => {
           </div>
         ))}
       </div>
+
+      {/* Modal to play the video */}
       <MyModal
         show={openModal}
         onHide={() => setOpenModal(false)}
-        bodyMessage={modalBodyMessage}
+        bodyMessage={modalVideoBodyMessage}
         title="Play your video"
       />
       <div className="d-flex justify-content-end my-4 row row-cols-auto">
-        {videos.length > 0 && (
+        {videos?.length > 0 && (
           <div className="col">
             <Link to="#" className="link-general link-size-small py-2 px-3">
               See All Videos
@@ -217,21 +388,12 @@ const PropertyDetail = () => {
         </div>
       </div>
 
-      <MyModal
+      {/* <MyModal
         show={openModal}
         onHide={() => setOpenModal(false)}
-        bodyMessage={modalBodyMessage}
+        bodyMessage={modalVideoBodyMessage}
         title="Play your video"
-      />
-
-      {/* <div className="w-50">
-        <iframe
-          src="https://www.marzipano.net/demos/sample-tour"
-          height="200"
-          width="300"
-          title="Iframe Example"
-        ></iframe>
-      </div> */}
+      /> */}
 
       <div className="row row-cols-1 row-cols-lg-2 g-4">
         <div className="col card-table">
@@ -258,12 +420,116 @@ const PropertyDetail = () => {
         </div>
       </div>
 
-      {educationFacility.length > 0 && (
+      {Object.keys(relatedProperty).length > 0 && (
+        <div className="py-3">
+          {propertyCategory?.cat_key === APARTMENT_KEY && (
+            <RelatedPropertyDetail
+              message="This is Apartment. You can view and manage your land below"
+              listTitle="Apartment detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+
+          {propertyCategory?.cat_key === COMMERCIAL_PROPERTY_KEY && (
+            <RelatedPropertyDetail
+              message="This is Commercial Property. You can view and manage your land below"
+              listTitle="Commercial Property detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+
+          {propertyCategory?.cat_key === SHARE_HOUSE_KEY && (
+            <RelatedPropertyDetail
+              message="This is share house. You can view and manage your land below"
+              listTitle="Share house detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+
+          {propertyCategory?.cat_key === TRADITIONAL_HOUSE_KEY && (
+            <RelatedPropertyDetail
+              message="This is traditional house. You can view and manage your land below"
+              listTitle="Traditional house detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+
+          {propertyCategory?.cat_key === CONDOMINIUM_KEY && (
+            <RelatedPropertyDetail
+              message="This is Condominium house. You can view and manage your land below"
+              listTitle="Condominium house detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+
+          {propertyCategory?.cat_key === HALL_KEY && (
+            <RelatedPropertyDetail
+              message="This is Hall. You can view and manage your land below"
+              listTitle="Hall detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+
+          {propertyCategory?.cat_key === VILLA_KEY && (
+            <RelatedPropertyDetail
+              message="This is Villa. You can view and manage your land below"
+              listTitle="Villa detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+
+          {propertyCategory?.cat_key === OFFICE_KEY && (
+            <RelatedPropertyDetail
+              message="This is Office. You can view and manage your land below"
+              listTitle="Office detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+
+          {propertyCategory?.cat_key === ALL_PURPOSE_PROPERTY_KEY && (
+            <RelatedPropertyDetail
+              message="This is All Purpose Property. You can view and manage your land below"
+              listTitle="All Purpose Property detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+
+          {propertyCategory?.cat_key === LAND_KEY && (
+            <RelatedPropertyDetail
+              message="This is Land. You can view and manage your land below"
+              listTitle="Land detail"
+              editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              editInitialValues={preparePropertyInitialValues()}
+              relatedProperty={relatedProperty}
+            />
+          )}
+        </div>
+      )}
+      {educationFacility?.length > 0 && (
         <div className="my-4">
           <p className="fw-bold display-title ">Education Facility</p>
 
-          <div className="row row-cols-1 row-cols-lg-2 g-3">
+          {/* <div className="row row-cols-1 row-cols-lg-2 g-3">
             {educationFacility.map((edufa, index) => {
+              //Format the Education facility for display
               const {
                 edufa_level,
                 distance_from_property,
@@ -280,14 +546,28 @@ const PropertyDetail = () => {
                   <div className="card card-cell px-4">
                     <DataDisplay
                       data={formattedEdufa}
-                      editable={true}
+                      editable={false}
+                      deletable={true}
+                      onDelete={() => onEdufaDelete(edufa.id)}
                       // onEdit={() => {}}
-                      path=""
+                      // path={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD}`}
+                      // editInitialValues={edufa}
                     />
                   </div>
                 </div>
               );
             })}
+          </div> */}
+          <div className="card p-4">
+            <DataDisplayTabular
+              data={formatEdufa()}
+              editable={false}
+              deletable={true}
+              onDelete={onEdufaDelete}
+              // onEdit={() => {}}
+              // path={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD}`}
+              // editInitialValues={edufa}
+            />
           </div>
           <div className="d-flex justify-content-end my-4">
             <Link
@@ -301,12 +581,13 @@ const PropertyDetail = () => {
         </div>
       )}
 
-      {transportFacility.length > 0 && (
+      {transportFacility?.length > 0 && (
         <div className="">
           <p className="fw-bold display-title ">Transport Facility</p>
 
-          <div className="row row-cols-1 row-cols-lg-2 g-3">
+          {/* <div className="row row-cols-1 row-cols-lg-2 g-3">
             {transportFacility.map((tranfa, index) => {
+              //Format the transport facility for display
               const {
                 trans_fa_category,
                 distance_from_property,
@@ -323,7 +604,9 @@ const PropertyDetail = () => {
                   <div className="card card-cell px-4">
                     <DataDisplay
                       data={formattedTranfa}
-                      editable={true}
+                      deletable={true}
+                      onDelete={() => onTranfaDelete(tranfa.id)}
+                      // editable={true}
                       // onEdit={() => {}}
                       path=""
                     />
@@ -331,21 +614,38 @@ const PropertyDetail = () => {
                 </div>
               );
             })}
+          </div> */}
+
+          <div className="card p-4">
+            <DataDisplayTabular
+              data={formatTranfa()}
+              deletable={true}
+              onDelete={onTranfaDelete}
+              editable={false}
+              // onEdit={() => {}}
+              path=""
+            />
           </div>
+
           <div className="d-flex justify-content-end my-4">
-            <button className="btn-general py-2 px-3 ">
+            <Link
+              to={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_TRANSPORT_FACILITY_ADD}`}
+              state={{ propertyId: property?.id }}
+              className="link-general link-size-small py-2 px-3 "
+            >
               Add Transport Facility
-            </button>
+            </Link>
           </div>
         </div>
       )}
 
-      {pointOfInterest.length > 0 && (
+      {pointOfInterest?.length > 0 && (
         <div className="">
           <p className="fw-bold display-title ">Point of Interests</p>
 
-          <div className="row row-cols-1 row-cols-lg-2 g-3">
+          {/* <div className="row row-cols-1 row-cols-lg-2 g-3">
             {pointOfInterest.map((poi, index) => {
+              //Format the point of interests for display
               const {
                 poi_category,
                 distance_from_property,
@@ -370,50 +670,133 @@ const PropertyDetail = () => {
                 </div>
               );
             })}
+          </div> */}
+
+          <div className="card p-4">
+            <DataDisplayTabular
+              data={formatPoi()}
+              editable={false}
+              deletable={true}
+              // onEdit={() => {}}
+              onDelete={onPoiDelete}
+              path=""
+            />
           </div>
+
           <div className="d-flex justify-content-end my-4">
-            <button className="btn-general py-2 px-3 ">
+            <Link
+              to={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_POI_ADD}`}
+              state={{ propertyId: property?.id }}
+              className="link-general link-size-xsmall"
+            >
               Add Point of Interest
-            </button>
+            </Link>
           </div>
         </div>
       )}
 
-      {amenities.length > 0 && (
+      {rules?.length > 0 && (
+        <div className="">
+          <p className="fw-bold display-title ">Property Rules</p>
+
+          <div className="card p-4">
+            <DataDisplayTabular
+              data={formatRules()}
+              originalData={rules}
+              editable={true}
+              deletable={true}
+              onEdit={{
+                path: `${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_PROPERTY_RULE_ADD}`,
+                propertyId: property?.id,
+              }}
+              onDelete={onRuleDelete}
+              path=""
+            />
+          </div>
+
+          <div className="d-flex justify-content-end my-4">
+            <Link
+              to={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_PROPERTY_RULE_ADD}`}
+              state={{ propertyId: property?.id }}
+              className="link-general link-size-xsmall"
+            >
+              Add Rule
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* List amenities by category */}
+      {amenities?.length > 0 && (
         <div className="my-4">
           <p className="fw-bold display-title ">Amenities</p>
 
-          <div className="row row-cols-1 row-cols-lg-2 g-3">
-            {Object.keys(amenitiesByCategory).map((category, index) => {
-              // console.log("amenitiesByCategory: ", amenitiesByCategory);
-              return (
-                <div className="col card-table" key={index}>
-                  <div className="card card-cell px-4">
-                    <DataDisplay
-                      data={amenitiesByCategory[category]}
-                      title={category}
+          <div className="card">
+            <div className="row row-cols-1 row-cols-lg-2 g-3">
+              {Object.keys(amenitiesByCategory).map((category, index) => {
+                // let data = [];
+                // amenitiesByCategory[category]?.forEach((amenity) => {
+                //   data = [...data, amenity?.name];
+                // });
+                // return (
+                //   <div className="col card-table" key={index}>
+                //     <div className="card card-cell px-4">
+                //       <DataDisplay data={data} title={category} path="" />
+                //     </div>
+                //   </div>
+                // );
+
+                let amenData = [];
+                amenitiesByCategory[category]?.forEach((amenity) => {
+                  const amenObj = { name: amenity?.name, id: amenity?.id };
+                  amenData = [...amenData, amenObj];
+                });
+
+                const columns = ["name"];
+
+                // console.log("amenData: ", amenData);
+
+                return (
+                  <div className=" p-4">
+                    <p className="fw-bold  mt-3">{category}</p>
+                    <DataDisplayTabular
+                      data={{ data: amenData, columns: columns }}
+                      editable={false}
+                      deletable={true}
+                      // onEdit={() => {}}
+                      onDelete={onAmenityDelete}
                       path=""
                     />
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
           <div className="d-flex justify-content-end my-4">
-            <button className="btn-general py-2 px-3 ">Add Amenity</button>
+            <Link
+              to={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_AMENITY_ADD}`}
+              state={{ property: property }}
+              className="link-general link-size-xsmall"
+            >
+              Add Amenity
+            </Link>
           </div>
         </div>
       )}
 
       <div className="row row-cols-auto g-5 my-2">
-        {amenities.length === 0 && (
+        {amenities?.length === 0 && (
           <div className="col">
-            <Link to="" className="link-general link-size-xsmall">
+            <Link
+              to={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_AMENITY_ADD}`}
+              state={{ property: property }}
+              className="link-general link-size-xsmall"
+            >
               Add Amenity
             </Link>
           </div>
         )}
-        {educationFacility.length === 0 && (
+        {educationFacility?.length === 0 && (
           <div className="col">
             <Link
               to={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD}`}
@@ -424,17 +807,36 @@ const PropertyDetail = () => {
             </Link>
           </div>
         )}
-        {transportFacility.length === 0 && (
+        {transportFacility?.length === 0 && (
           <div className="col">
-            <Link to="" className="link-general link-size-xsmall">
+            <Link
+              to={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_TRANSPORT_FACILITY_ADD}`}
+              state={{ propertyId: property?.id }}
+              className="link-general link-size-xsmall"
+            >
               Add Transport Facility
             </Link>
           </div>
         )}
-        {pointOfInterest.length === 0 && (
+        {pointOfInterest?.length === 0 && (
           <div className="col">
-            <Link to="" className="link-general link-size-xsmall">
+            <Link
+              to={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_POI_ADD}`}
+              state={{ propertyId: property?.id }}
+              className="link-general link-size-xsmall"
+            >
               Add Point of Interest
+            </Link>
+          </div>
+        )}
+        {rules?.length === 0 && (
+          <div className="col">
+            <Link
+              to={`${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${property.id}/${PATH_AGENT_DASHBOARD_PROPERTY_RULE_ADD}`}
+              state={{ propertyId: property?.id }}
+              className="link-general link-size-xsmall"
+            >
+              Add Rule
             </Link>
           </div>
         )}

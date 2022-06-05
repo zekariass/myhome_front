@@ -1,19 +1,18 @@
 import React from "react";
-import { Form, FormSpy } from "react-final-form";
+import { Form } from "react-final-form";
 
+/**
+ * Re-usable component for add and edit forms
+ * @param {object} param0
+ * @returns
+ */
 const EditFormTemplate = ({ children, initialValues, onSubmit }) => {
-  // console.log("initialValue: ", initialValues);
   return (
     <div className="card p-3 my-3 edit-form">
       <Form onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             {children}
-            {/* <FormSpy>
-            {({ values }) => {
-              console.log("NEW ADD VALUES: ", values);
-            }}
-          </FormSpy> */}
             <div className="flex-end-general">
               <button className="btn-general py-2 px-3" type="submit">
                 Save

@@ -12,6 +12,16 @@ const initialPropertyCategoryState = {
     error: null,
     status: null,
   },
+  getPropertyCategory: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: [],
+  },
 };
 
 export const getPropertyCategories = createAsyncThunk(
@@ -29,12 +39,25 @@ export const getPropertyCategories = createAsyncThunk(
   }
 );
 
+export const getPropertyCategory = createAsyncThunk(
+  "propertyCategory/getPropertyCategory",
+  async (lookup) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/property/categories/${lookup}`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
 const propertyCategorySlice = createSlice({
   name: "propertyCategory",
   initialState: initialPropertyCategoryState,
-  reducers: {
-    
-  },
+  reducers: {},
   extraReducers: {
     /**
      * Getting property categories
@@ -52,6 +75,24 @@ const propertyCategorySlice = createSlice({
       state.request.isLoading = false;
       state.response.data = action.payload.data;
       state.response.status = action.payload.status;
+    },
+
+    /**
+     * Getting a specific property category
+     * @param {StateObject} state
+     */
+    [getPropertyCategory.pending]: (state) => {
+      state.request.isLoading = true;
+    },
+    [getPropertyCategory.fulfilled]: (state, action) => {
+      state.getPropertyCategory.request.isLoading = false;
+      state.getPropertyCategory.data = action.payload.data;
+      state.getPropertyCategory.response.status = action.payload.status;
+    },
+    [getPropertyCategory.rejected]: (state, action) => {
+      state.getPropertyCategory.request.isLoading = false;
+      state.getPropertyCategory.response.error = action.payload.data;
+      state.getPropertyCategory.response.status = action.payload.status;
     },
   },
 });

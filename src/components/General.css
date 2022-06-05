@@ -1,4 +1,8 @@
 /* This css file contains general css selectors that can be used throughout the application */
+.bg-general {
+  background-color: rgb(205, 226, 205) !important;
+}
+
 .link-general {
   font-size: 1.1rem !important;
   font-weight: bold !important;
@@ -241,7 +245,7 @@ body {
   width: 65%;
 }
 
-@media screen and  (max-width: 992px){
+@media screen and (max-width: 992px) {
   .gallery-slider-div {
     width: 85%;
   }

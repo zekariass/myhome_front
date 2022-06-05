@@ -13,8 +13,12 @@ const ParentPropertyEdit = () => {
 
   const { initialValues } = location.state;
 
+  /**
+   * Handle when the update/save button is clicked
+   * Dispatch the action creator that sends the data to backend
+   * @param {object} values
+   */
   const onUpdateSubmit = (values) => {
-    // console.log("PROP VALUES: ", values);
     dispatch(updateProperty(values));
     navigate(-1, { replace: true });
   };

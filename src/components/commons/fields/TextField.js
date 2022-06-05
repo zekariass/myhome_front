@@ -11,6 +11,7 @@ const TextField = ({
   className,
   labelClass,
   validate,
+  onInputChange,
 }) => {
   return (
     <Field
@@ -22,6 +23,7 @@ const TextField = ({
       labelClass={labelClass}
       subscription={fieldSubscription}
       validate={validate}
+      
     >
       {({ input, meta, className, placeholder, label, labelClass }) => (
         <TextCustomInput
@@ -31,6 +33,7 @@ const TextField = ({
           placeholder={placeholder}
           label={label}
           labelClass={labelClass}
+          onInputChange={onInputChange}
         />
       )}
     </Field>

@@ -17,7 +17,9 @@ import {
   PATH_AGENT_CREATE_INFO,
   PATH_AGENT_DASHBOARD,
   PATH_AGENT_DASHBOARD_AGENT_INFO,
+  PATH_AGENT_DASHBOARD_AMENITY_ADD,
   PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD,
+  PATH_AGENT_DASHBOARD_POI_ADD,
   PATH_AGENT_DASHBOARD_PROPERTY,
   PATH_AGENT_DASHBOARD_PROPERTY_ADD,
   PATH_AGENT_DASHBOARD_PROPERTY_ADDRESS_EDIT,
@@ -26,7 +28,9 @@ import {
   PATH_AGENT_DASHBOARD_PROPERTY_EDIT,
   PATH_AGENT_DASHBOARD_PROPERTY_FILE_UPLOAD,
   PATH_AGENT_DASHBOARD_PROPERTY_LIST,
+  PATH_AGENT_DASHBOARD_PROPERTY_RULE_ADD,
   PATH_AGENT_DASHBOARD_STAT,
+  PATH_AGENT_DASHBOARD_TRANSPORT_FACILITY_ADD,
   PATH_AGENT_LOGO_UPLOAD,
   PATH_DYNAMIC_PROPERTY,
   PATH_LANDING,
@@ -60,6 +64,10 @@ import ConditionalEdit from "./agents/dashboard/properties/ParentPropertyEdit";
 import PropertyAddressEdit from "./agents/dashboard/properties/PropertyAddressEdit";
 import ParentPropertyEdit from "./agents/dashboard/properties/ParentPropertyEdit";
 import EducationFacility from "./agents/dashboard/properties/EducationFacility";
+import TransportFacility from "./agents/dashboard/properties/TransportFacility";
+import PointOfInterest from "./agents/dashboard/properties/PointOfInterest";
+import Amenity from "./agents/dashboard/properties/Amenity";
+import PropertyRule from "./agents/dashboard/properties/PropertyRule";
 
 const App = () => {
   const { isSignedIn } = useSelector((store) => store.user.signin);
@@ -154,6 +162,26 @@ const App = () => {
               <Route
                 path={`${PATH_DYNAMIC_PROPERTY}/${PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD}`}
                 element={<EducationFacility />}
+              />
+
+              <Route
+                path={`${PATH_DYNAMIC_PROPERTY}/${PATH_AGENT_DASHBOARD_TRANSPORT_FACILITY_ADD}`}
+                element={<TransportFacility />}
+              />
+
+              <Route
+                path={`${PATH_DYNAMIC_PROPERTY}/${PATH_AGENT_DASHBOARD_POI_ADD}`}
+                element={<PointOfInterest />}
+              />
+
+              <Route
+                path={`${PATH_DYNAMIC_PROPERTY}/${PATH_AGENT_DASHBOARD_AMENITY_ADD}`}
+                element={<Amenity />}
+              />
+
+              <Route
+                path={`${PATH_DYNAMIC_PROPERTY}/${PATH_AGENT_DASHBOARD_PROPERTY_RULE_ADD}`}
+                element={<PropertyRule />}
               />
             </Route>
           </Route>

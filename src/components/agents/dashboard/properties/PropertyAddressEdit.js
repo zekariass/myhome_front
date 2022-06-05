@@ -24,6 +24,11 @@ const PropertyAddressEdit = () => {
     dispatch(getCitiesByRegion(regionId));
   }, []);
 
+  /**
+   * Handle when the update/save button is clicked
+   * Dispatch the action creator that sends the data to backend
+   * @param {object} values
+   */
   const onUpdateSubmit = (values) => {
     dispatch(updateAddress(values.address));
     navigate(-1, { replace: true });
