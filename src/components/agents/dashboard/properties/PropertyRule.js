@@ -25,7 +25,9 @@ const PropertyRule = () => {
   useEffect(() => {
     setIsEdit(location?.state?.isEdit);
 
-    const initValue = location?.state?.rule ? location?.state?.rule : {};
+    const initValue = location?.state?.initialValues
+      ? location?.state?.initialValues
+      : {};
     setInitialValues(initValue);
 
     const propertyId = location?.state?.propertyId

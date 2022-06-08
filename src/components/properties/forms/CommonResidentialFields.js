@@ -1,3 +1,4 @@
+// @ts-nocheck
 import CheckField from "components/commons/fields/CheckField";
 import TextField from "components/commons/fields/TextField";
 import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";

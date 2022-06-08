@@ -47,7 +47,7 @@ const PropertyFileUpload = () => {
     const redirectPath =
       from === "property_detail"
         ? PATH_AGENT_DASHBOARD_PROPERTY_DETAIL_ABSOLUTE
-        : PATH_AGENT_DASHBOARD_PROPERTY_LIST_ABSOLUTE;
+        : -1;
     navigate(redirectPath, {
       replace: true,
       state: { propertyId: propertyId },

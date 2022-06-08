@@ -5,7 +5,6 @@ import {
   getPropertyFileLabels,
   updatePropertyImageLabel,
 } from "features/agent_dashboard/property/propertyFileSlice";
-import CheckField from "components/commons/fields/CheckField";
 import { Field, Form } from "react-final-form";
 
 /**

@@ -9,6 +9,8 @@ const DataDisplayTabular = ({
   onEdit,
   deletable,
   onDelete,
+  manageable,
+  onManage,
 }) => {
   const [dataArray, setDataArray] = useState([]);
   const [columns, setColumns] = useState([]);
@@ -33,9 +35,12 @@ const DataDisplayTabular = ({
           <table className="table table-striped table-bordered align-middle border-1">
             <thead>
               <tr className="bg-general">
-                {columns.map((col, index) => (
-                  <th key={index}>{col}</th>
-                ))}
+                {columns.map((col, index) => {
+                  let colName = col.replaceAll("_", " ");
+                  colName = colName.charAt(0).toUpperCase() + colName.slice(1);
+
+                  return <th key={index}>{colName}</th>;
+                })}
                 <th>Action</th>
               </tr>
             </thead>
@@ -43,15 +48,15 @@ const DataDisplayTabular = ({
               {dataArray.map((record, index) => (
                 <tr key={index}>
                   {columns.map((col, index) => (
-                    <td key={index}>{record[col]}</td>
+                    <td key={index}>{String(record[col])}</td>
                   ))}
-                  <td>
+                  <td className="flex-center-general">
                     {editable && (
                       <Link
                         to={onEdit?.path}
                         className="link-general link-size-small"
                         state={{
-                          rule: originalData[index],
+                          initialValues: originalData[index],
                           isEdit: true,
                           propertyId: onEdit?.propertyId,
                         }}
@@ -60,14 +65,27 @@ const DataDisplayTabular = ({
                         Edit
                       </Link>
                     )}
-                    {editable && deletable && <span>|</span>}
+                    {editable && deletable && <span className="px-2">|</span>}
                     {deletable && (
                       <Link
                         to=""
-                        className="link-general link-size-small"
+                        className="link-general-danger link-size-small"
                         onClick={() => onDelete(record.id)}
                       >
                         Delete
+                      </Link>
+                    )}
+                    {((editable && manageable) ||
+                      (deletable && manageable)) && (
+                      <span className="px-2">|</span>
+                    )}
+                    {manageable && (
+                      <Link
+                        to={onManage?.path ? onManage?.path : ""}
+                        className="link-general link-size-small"
+                        state={{ data: originalData[index] }}
+                      >
+                        Manage
                       </Link>
                     )}
                   </td>

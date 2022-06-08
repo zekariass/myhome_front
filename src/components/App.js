@@ -18,7 +18,21 @@ import {
   PATH_AGENT_DASHBOARD,
   PATH_AGENT_DASHBOARD_AGENT_INFO,
   PATH_AGENT_DASHBOARD_AMENITY_ADD,
+  PATH_AGENT_DASHBOARD_APARTMENTUNIT_DETAIL,
+  PATH_AGENT_DASHBOARD_APARTMENTUNIT_EDIT,
+  PATH_AGENT_DASHBOARD_APARTMENT_DETAIL,
+  PATH_AGENT_DASHBOARD_APARTMENT_EDIT,
+  PATH_AGENT_DASHBOARD_APARTMENT_LIST,
+  PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_EDIT,
+  PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_DETAIL,
+  PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_EDIT,
+  PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_LIST,
+  PATH_AGENT_DASHBOARD_CONDOMINIUM_DETAIL,
+  PATH_AGENT_DASHBOARD_CONDOMINIUM_DETAIL_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_CONDOMINIUM_EDIT,
+  PATH_AGENT_DASHBOARD_CONDOMINIUM_LIST,
   PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD,
+  PATH_AGENT_DASHBOARD_LAND_EDIT,
   PATH_AGENT_DASHBOARD_POI_ADD,
   PATH_AGENT_DASHBOARD_PROPERTY,
   PATH_AGENT_DASHBOARD_PROPERTY_ADD,
@@ -29,8 +43,17 @@ import {
   PATH_AGENT_DASHBOARD_PROPERTY_FILE_UPLOAD,
   PATH_AGENT_DASHBOARD_PROPERTY_LIST,
   PATH_AGENT_DASHBOARD_PROPERTY_RULE_ADD,
+  PATH_AGENT_DASHBOARD_SHAREHOUSE_DETAIL,
+  PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT,
+  PATH_AGENT_DASHBOARD_SHAREHOUSE_LIST,
   PATH_AGENT_DASHBOARD_STAT,
+  PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_DETAIL,
+  PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_EDIT,
+  PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_LIST,
   PATH_AGENT_DASHBOARD_TRANSPORT_FACILITY_ADD,
+  PATH_AGENT_DASHBOARD_VILLA_DETAIL,
+  PATH_AGENT_DASHBOARD_VILLA_EDIT,
+  PATH_AGENT_DASHBOARD_VILLA_LIST,
   PATH_AGENT_LOGO_UPLOAD,
   PATH_DYNAMIC_PROPERTY,
   PATH_LANDING,
@@ -68,6 +91,29 @@ import TransportFacility from "./agents/dashboard/properties/TransportFacility";
 import PointOfInterest from "./agents/dashboard/properties/PointOfInterest";
 import Amenity from "./agents/dashboard/properties/Amenity";
 import PropertyRule from "./agents/dashboard/properties/PropertyRule";
+import LandEdit from "./agents/dashboard/properties/LandEdit";
+import ShareHouseEdit from "./agents/dashboard/properties/ShareHouseEdit";
+import ApartmentList from "./agents/dashboard/properties/ApartmentList";
+import ApartmentEdit from "./agents/dashboard/properties/ApartmentEdit";
+import ApartmentDetail from "./agents/dashboard/properties/ApartmentDetail";
+import ApartmentUnit from "./properties/forms/ApartmentUnit";
+import ApartmentUnitDetail from "./agents/dashboard/properties/ApartmentUnitDetail";
+import ApartmentUnitEdit from "./agents/dashboard/properties/ApartmentUnitEdit";
+import VillaList from "./agents/dashboard/properties/VillaList";
+import VillaEdit from "./agents/dashboard/properties/VillaEdit";
+import VillaDetail from "./agents/dashboard/properties/VillaDetail";
+import CondominiumList from "./agents/dashboard/properties/CondominiumList";
+import CondominiumDetail from "./agents/dashboard/properties/CondominiumDetail";
+import CondominiumEdit from "./agents/dashboard/properties/CondominiumEdit";
+import TraditionalHouseList from "./agents/dashboard/properties/TraditionalHouseList";
+import TraditionalHouseDetail from "./agents/dashboard/properties/TraditionalHouseDetail";
+import TraditionalHouseEdit from "./agents/dashboard/properties/TraditionalHouseEdit";
+import CommercialPropertyList from "./agents/dashboard/properties/CommercialPropertyList";
+import CommercialPropertyEdit from "./agents/dashboard/properties/CommercialPropertyEdit";
+import CommercialPropertyDetail from "./agents/dashboard/properties/CommercialPropertyDetail";
+import CommercialPropertyUnitEdit from "./agents/dashboard/properties/CommercialPropertyUnitEdit";
+import ShareHouseList from "./agents/dashboard/properties/ShareHouseList";
+import ShareHouseDetail from "./agents/dashboard/properties/ShareHouseDetail";
 
 const App = () => {
   const { isSignedIn } = useSelector((store) => store.user.signin);
@@ -145,6 +191,102 @@ const App = () => {
                 path={PATH_AGENT_DASHBOARD_PROPERTY_LIST}
                 element={<PropertyList />}
               />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_APARTMENT_LIST}
+                element={<ApartmentList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_APARTMENT_DETAIL}
+                element={<ApartmentDetail />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_APARTMENT_EDIT}
+                element={<ApartmentEdit />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_APARTMENTUNIT_DETAIL}
+                element={<ApartmentUnitDetail />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_APARTMENTUNIT_EDIT}
+                element={<ApartmentUnitEdit />}
+              />
+
+              {/*============= VILLA ========================================== */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_VILLA_LIST}
+                element={<VillaList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_VILLA_EDIT}
+                element={<VillaEdit />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_VILLA_DETAIL}
+                element={<VillaDetail />}
+              />
+
+              {/*============= CONDOMINIUM ========================================== */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_CONDOMINIUM_LIST}
+                element={<CondominiumList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_CONDOMINIUM_DETAIL}
+                element={<CondominiumDetail />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_CONDOMINIUM_EDIT}
+                element={<CondominiumEdit />}
+              />
+
+              {/*============= TRADITIONAL HOUSE ========================================== */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_LIST}
+                element={<TraditionalHouseList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_DETAIL}
+                element={<TraditionalHouseDetail />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_EDIT}
+                element={<TraditionalHouseEdit />}
+              />
+
+              {/*============= COMMERCIAL PROPERTY ========================================== */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_LIST}
+                element={<CommercialPropertyList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_EDIT}
+                element={<CommercialPropertyEdit />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_DETAIL}
+                element={<CommercialPropertyDetail />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_EDIT}
+                element={<CommercialPropertyUnitEdit />}
+              />
+
+              {/* ============================================================== */}
               <Route
                 path={PATH_AGENT_DASHBOARD_PROPERTY_DETAIL}
                 element={<PropertyDetail />}
@@ -159,6 +301,28 @@ const App = () => {
                 element={<ParentPropertyEdit />}
               />
 
+              <Route
+                path={PATH_AGENT_DASHBOARD_LAND_EDIT}
+                element={<LandEdit />}
+              />
+
+              {/* ================ SHAREHOUSE ======================================== */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT}
+                element={<ShareHouseEdit />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_SHAREHOUSE_LIST}
+                element={<ShareHouseList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_SHAREHOUSE_DETAIL}
+                element={<ShareHouseDetail />}
+              />
+
+              {/* ================ EDUCATION FACILITY ================================= */}
               <Route
                 path={`${PATH_DYNAMIC_PROPERTY}/${PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD}`}
                 element={<EducationFacility />}

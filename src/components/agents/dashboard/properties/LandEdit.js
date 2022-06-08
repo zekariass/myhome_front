@@ -1,18 +1,20 @@
 // @ts-nocheck
-import { PATH_AGENT_DASHBOARD_PROPERTY_DETAIL } from "components/commons/Strings";
-import ParentProperty from "components/properties/forms/ParentProperty";
+import Land from "components/properties/forms/Land";
+import { updateLand } from "features/agent_dashboard/property/propertyCategorySlice";
 import { updateProperty } from "features/agent_dashboard/property/propertySlice";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import EditFormTemplate from "./EditFormTemplate";
 
-const ParentPropertyEdit = () => {
+const LandEdit = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { initialValues } = location.state;
+  const { initialValues } = location?.state;
+
+  // console.log("initialValues: ", initialValues);
 
   /**
    * Handle when the update/save button is clicked
@@ -20,22 +22,19 @@ const ParentPropertyEdit = () => {
    * @param {object} values
    */
   const onUpdateSubmit = (values) => {
-    dispatch(
-      updateProperty({
-        newPropertyData: values,
-        navigate: navigate,
-        redirectPath: PATH_AGENT_DASHBOARD_PROPERTY_DETAIL,
-      })
-    );
+    dispatch(updateLand({ updateData: values.address, navigate: navigate }));
     // navigate(-1, { replace: true });
   };
   return (
     <div className="flex-center-general">
-      <EditFormTemplate initialValues={initialValues} onSubmit={onUpdateSubmit}>
-        <ParentProperty categoryDisabled={true} />
+      <EditFormTemplate
+        initialValues={{ address: initialValues }}
+        onSubmit={onUpdateSubmit}
+      >
+        <Land name="address" title="Edit Land Property" />
       </EditFormTemplate>
     </div>
   );
 };
 
-export default ParentPropertyEdit;
+export default LandEdit;

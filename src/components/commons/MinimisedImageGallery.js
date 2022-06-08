@@ -7,7 +7,7 @@ const MinimisedImageGallery = ({ data }) => {
 
   return (
     <div>
-      {data.length > 0 && (
+      {data?.length > 0 && (
         <div>
           <div className="d-none d-md-block">
             <div className="row">

@@ -20,9 +20,9 @@ const DataDisplay = ({
       {dataObjectType === "Object" && (
         <div>
           <p className="fw-bold display-title mt-3">{title}</p>
-          <div className="row">
+          <div className="flex-end-general">
             {editable && (
-              <div className="col flex-end-general my-3">
+              <div className="my-3">
                 <Link
                   to={path}
                   className="link-general link-size-small"
@@ -32,11 +32,12 @@ const DataDisplay = ({
                 </Link>
               </div>
             )}
+            {editable && deletable && <p className="px-2">|</p>}
             {deletable && (
-              <div className="col flex-end-general my-3">
+              <div className="flex-end-general my-3">
                 <Link
                   to=""
-                  className="link-general link-size-small"
+                  className="link-general-danger link-size-small"
                   // state={{ initialValues: editInitialValues, isEdit: true }}
                   onClick={onDelete}
                 >
@@ -52,12 +53,12 @@ const DataDisplay = ({
             return (
               key !== "id" && (
                 <div key={index}>
-                  <div className="row">
-                    <div className="col-12 col-sm-5">
+                  <div className="row g-3">
+                    <div className="col-auto">
                       <p className="fw-bold">{modifiedKey}:</p>
                     </div>
-                    <div className="col-12 col-sm-7">
-                      <p>
+                    <div className="col-auto">
+                      <p className="text-muted">
                         {key === "added_on"
                           ? new Date(data[key]).toDateString()
                           : String(data[key])}

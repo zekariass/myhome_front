@@ -312,14 +312,19 @@ export const getPropertyDetail = createAsyncThunk(
 
 export const updateProperty = createAsyncThunk(
   "property/propertyUpdate",
-  async (newPropertyData) => {
+  async ({ newPropertyData, navigate, redirectPath }) => {
     let result;
     try {
       result = await myHomeBackendAPI.patch(
         `/property/${newPropertyData.id}/update/`,
         newPropertyData
       );
-      // console.log("LABELS: ", result.data);
+      if (result.status === 200) {
+        navigate(-1, {
+          replace: true,
+          // state: { propertyId: edufaData.property },
+        });
+      }
     } catch (error) {
       result = error.response;
     } finally {
@@ -340,7 +345,7 @@ export const createEdufa = createAsyncThunk(
         `/property/${edufaData.property}/edufa/create/`,
         edufaData
       );
-      if ((result.status = 201)) {
+      if (result.status === 201) {
         navigate(redirectPath, {
           replace: true,
           state: { propertyId: edufaData.property },
@@ -365,7 +370,7 @@ export const createEdufaFromSearch = createAsyncThunk(
         `/property/${edufaData.property}/edufa/create-from-search/`,
         edufaData
       );
-      if ((result.status = 201)) {
+      if (result.status === 201) {
         navigate(redirectPath, {
           replace: true,
           state: { propertyId: edufaData.property },

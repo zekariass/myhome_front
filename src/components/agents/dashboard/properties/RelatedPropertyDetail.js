@@ -8,6 +8,8 @@ const RelatedPropertyDetail = ({
   listTitle,
   editPath,
   editInitialValues,
+  editable,
+  deletable,
 }) => {
   return (
     <div className="py-3">
@@ -18,7 +20,8 @@ const RelatedPropertyDetail = ({
             <DataDisplay
               data={relatedProperty}
               title={listTitle}
-              editable={true}
+              editable={editable}
+              deletable={deletable}
               path={editPath}
               editInitialValues={editInitialValues}
             />

@@ -13,7 +13,7 @@ const EditFormTemplate = ({ children, initialValues, onSubmit }) => {
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             {children}
-            <div className="flex-end-general">
+            <div className="flex-end-general mt-3">
               <button className="btn-general py-2 px-3" type="submit">
                 Save
               </button>

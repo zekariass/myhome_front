@@ -4,11 +4,7 @@ import PropTypes from "prop-types";
 import { Form, FormSpy } from "react-final-form";
 import arrayMutators from "final-form-arrays";
 import { connect } from "react-redux";
-import {
-  nextPage,
-  previousPage,
-  goToPage,
-} from "features/common/wizardSlice";
+import { nextPage, previousPage, goToPage } from "features/common/wizardSlice";
 
 export class Wizard extends Component {
   /**
@@ -153,7 +149,7 @@ export class Wizard extends Component {
               </div>
               <FormSpy>
                 {({ values }) => {
-                  console.log("FormSpy: ", values);
+                  // console.log("FormSpy: ", values);
                 }}
               </FormSpy>
             </form>

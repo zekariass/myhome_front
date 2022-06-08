@@ -1,3 +1,4 @@
+// @ts-nocheck
 import TextField from "components/commons/fields/TextField";
 import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React from "react";
