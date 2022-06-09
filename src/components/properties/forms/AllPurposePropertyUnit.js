@@ -30,6 +30,8 @@ const AllPurposePropertyUnit = ({ name, title, index, fields }) => {
 
   return (
     <div className="card p-3 shadow-sm">
+      <p className="my-3 fw-bold fs-5 display-title">{title}</p>
+
       {/* Display remove cut icon starting from the second unit forms */}
       {index + 1 > 1 && (
         <div className="d-flex justify-content-end align-content-end">
@@ -40,7 +42,11 @@ const AllPurposePropertyUnit = ({ name, title, index, fields }) => {
           ></i>
         </div>
       )}
-      <p className="flex-center-general fs-4 fw-bold">{`Unit #${index + 1}`}</p>
+      {!!index && (
+        <p className="flex-center-general fs-4 fw-bold">{`Unit #${
+          index + 1
+        }`}</p>
+      )}
       <div className="row row-cols-1 row-cols-md-2 g-3">
         <TextField
           name={`${name}.area`}

@@ -1,9 +1,13 @@
 import {
   PATH_AGENT_DASHBOARD,
   PATH_AGENT_DASHBOARD_AGENT_INFO_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTY_LIST_ABSOLUTE,
   PATH_AGENT_DASHBOARD_APARTMENT_LIST_ABSOLUTE,
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_LIST_ABSOLUTE,
   PATH_AGENT_DASHBOARD_CONDOMINIUM_LIST_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_HALL_LIST_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_LAND_LIST_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_OFFICE_LIST_ABSOLUTE,
   PATH_AGENT_DASHBOARD_PROPERTY_LIST_ABSOLUTE,
   PATH_AGENT_DASHBOARD_SHAREHOUSE_LIST_ABSOLUTE,
   PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_LIST_ABSOLUTE,
@@ -96,26 +100,38 @@ const AgentDashboardSidebar = () => {
           </li>
 
           <li className="nav-item">
-            <Link className="link-general link-size-xsmall nav-link" to="#">
+            <Link
+              className="link-general link-size-xsmall nav-link"
+              to={PATH_AGENT_DASHBOARD_OFFICE_LIST_ABSOLUTE}
+            >
               <span data-feather="users"></span>
               Offices
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="link-general link-size-xsmall nav-link" to="#">
+            <Link
+              className="link-general link-size-xsmall nav-link"
+              to={PATH_AGENT_DASHBOARD_LAND_LIST_ABSOLUTE}
+            >
               <span data-feather="bar-chart-2"></span>
               Lands
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="link-general link-size-xsmall nav-link" to="#">
+            <Link
+              className="link-general link-size-xsmall nav-link"
+              to={PATH_AGENT_DASHBOARD_HALL_LIST_ABSOLUTE}
+            >
               <span data-feather="shopping-cart"></span>
               Halls
             </Link>
           </li>
 
           <li className="nav-item">
-            <Link className="link-general link-size-xsmall nav-link" to="#">
+            <Link
+              className="link-general link-size-xsmall nav-link"
+              to={PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTY_LIST_ABSOLUTE}
+            >
               <span data-feather="shopping-cart"></span>
               All Purpose Properties
             </Link>
@@ -141,13 +157,13 @@ const AgentDashboardSidebar = () => {
           <li className="nav-item">
             <Link className="link-general link-size-xsmall nav-link" to="#">
               <span data-feather="file-text"></span>
-              Last quarter
+              Active Listings
             </Link>
           </li>
           <li className="nav-item">
             <Link className="link-general link-size-xsmall nav-link" to="#">
               <span data-feather="file-text"></span>
-              Social engagement
+              Expired Listings
             </Link>
           </li>
           <li className="nav-item">

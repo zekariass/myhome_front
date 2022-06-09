@@ -22,18 +22,6 @@ const initialPropertyCategoryState = {
     },
     data: [],
   },
-  land: {
-    updateLand: {
-      request: {
-        isLoading: false,
-      },
-      response: {
-        error: null,
-        status: null,
-      },
-      data: {},
-    },
-  },
 
   // ===========APARTMENT==========================================
   apartment: {
@@ -391,6 +379,230 @@ const initialPropertyCategoryState = {
       data: [],
     },
   },
+
+  //========= Office =============
+  office: {
+    officeList: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    updateOffice: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+
+    deleteOffice: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    getOfficeDetail: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+  },
+
+  //========= LAND =============
+  land: {
+    landList: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    updateLand: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+
+    deleteLand: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    getLandDetail: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+  },
+
+  //========= HALL =============
+  hall: {
+    hallList: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    updateHall: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+
+    deleteHall: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    getHallDetail: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+  },
+
+  //============ ALL PURPOSE PROPERTY ======================================
+  allPurposeProperty: {
+    allPurposePropertyList: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    updateAllPurposeProperty: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    deleteAllPurposeProperty: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    getAllPurposePropertyDetail: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+
+    //=========ALL PURPOSE PROPERTY UNIT=============
+    unit: {
+      allPurposePropertyUnitList: {
+        request: {
+          isLoading: false,
+        },
+        response: {
+          error: null,
+          status: null,
+        },
+        data: [],
+      },
+      updateAllPurposePropertyUnit: {
+        request: {
+          isLoading: false,
+        },
+        response: {
+          error: null,
+          status: null,
+        },
+        data: [],
+      },
+      createAllPurposePropertyUnit: {
+        request: {
+          isLoading: false,
+        },
+        response: {
+          error: null,
+          status: null,
+        },
+        data: [],
+      },
+
+      deleteAllPurposePropertyUnit: {
+        request: {
+          isLoading: false,
+        },
+        response: {
+          error: null,
+          status: null,
+        },
+        data: [],
+      },
+    },
+  },
 };
 
 export const getPropertyCategories = createAsyncThunk(
@@ -423,7 +635,7 @@ export const getPropertyCategory = createAsyncThunk(
   }
 );
 //=====================================================================================
-//==========UPDATE LAND==================================================================
+//========== LAND =====================================================================
 export const updateLand = createAsyncThunk(
   "propertyCategory/updateLand",
   async ({ updateData, navigate }) => {
@@ -436,7 +648,6 @@ export const updateLand = createAsyncThunk(
       if ((result.status = 201)) {
         navigate(-1, {
           replace: true,
-          // state: { propertyId: updateData.property },
         });
       }
     } catch (error) {
@@ -448,6 +659,132 @@ export const updateLand = createAsyncThunk(
   }
 );
 
+export const getLandByAgent = createAsyncThunk(
+  "propertyCategory/getLandByAgent",
+  async () => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/property/land/list-by-agent/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const deleteLand = createAsyncThunk(
+  "propertyCategory/deleteLand",
+  async (landId, thunkApi) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.delete(
+        `/property/land/${landId}/delete/`
+      );
+
+      if (result.status === 204) {
+        thunkApi.dispatch(getLandByAgent());
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getLandDetail = createAsyncThunk(
+  "propertyCategory/getLandDetail",
+  async (landId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/property/land/${landId}/detail/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+//=====================================================================================
+//========== HALL =====================================================================
+export const updateHall = createAsyncThunk(
+  "propertyCategory/updateHall",
+  async ({ updateData, navigate }) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.patch(
+        `/property/hall/${updateData.id}/update/`,
+        updateData
+      );
+      if ((result.status = 201)) {
+        navigate(-1, {
+          replace: true,
+        });
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getHallByAgent = createAsyncThunk(
+  "propertyCategory/getHallByAgent",
+  async () => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/property/hall/list-by-agent/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const deleteHall = createAsyncThunk(
+  "propertyCategory/deleteHall",
+  async (hallId, thunkApi) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.delete(
+        `/property/hall/${hallId}/delete/`
+      );
+
+      if (result.status === 204) {
+        thunkApi.dispatch(getHallByAgent());
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getHallDetail = createAsyncThunk(
+  "propertyCategory/getHallDetail",
+  async (hallId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/property/hall/${hallId}/detail/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
 //=====================================================================================
 //==========SHARE HOUSE================================================================
 
@@ -1103,6 +1440,249 @@ export const deleteCommercialPropertyUnit = createAsyncThunk(
 );
 
 //=====================================================================================
+//==========OFFICE=====================================================================
+
+export const updateOffice = createAsyncThunk(
+  "propertyCategory/updateOffice",
+  async ({ updateData, navigate }) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.patch(
+        `/property/office/${updateData.id}/update/`,
+        updateData
+      );
+      if ((result.status = 200)) {
+        navigate(-1, {
+          replace: true,
+        });
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getOfficeByAgent = createAsyncThunk(
+  "propertyCategory/getOfficeByAgent",
+  async () => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/property/office/list-by-agent/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const deleteOffice = createAsyncThunk(
+  "propertyCategory/deleteOffice",
+  async (officeId, thunkApi) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.delete(
+        `/property/office/${officeId}/delete/`
+      );
+
+      if (result.status === 204) {
+        thunkApi.dispatch(getOfficeByAgent());
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getOfficeDetail = createAsyncThunk(
+  "propertyCategory/getOfficeDetail",
+  async (officeId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/property/office/${officeId}/detail/`
+      );
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+//=====================================================================================
+//========== ALL PURPOSE PROPERTY ======================================================
+
+export const getAllPurposePropertiesByAgent = createAsyncThunk(
+  "propertyCategory/getAllPurposePropertiesByAgent",
+  async () => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/property/allpurposeproperty/list-by-agent/`
+      );
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const updateAllPurposeProperty = createAsyncThunk(
+  "propertyCategory/updateAllPurposeProperty",
+  async ({ updateData, navigate }) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.patch(
+        `/property/allpurposeproperty/${updateData.id}/update/`,
+        updateData
+      );
+
+      if (result.status === 200) {
+        navigate(-1, {
+          replace: true,
+        });
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const deleteAllPurposeProperty = createAsyncThunk(
+  "propertyCategory/deleteAllPurposeProperty",
+  async (allPurposePropertyId, thunkApi) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.delete(
+        `/property/allpurposeproperty/${allPurposePropertyId}/delete/`
+      );
+
+      if (result.status === 204) {
+        thunkApi.dispatch(getAllPurposePropertiesByAgent());
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getAllPurposePropertyDetail = createAsyncThunk(
+  "propertyCategory/getAllPurposePropertyDetail",
+  async (allPurposePropertyId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/property/allpurposeproperty/${allPurposePropertyId}/detail/`
+      );
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getAllPurposePropertyUnitsByAllPurposeProperty = createAsyncThunk(
+  "propertyCategory/getAllPurposePropertyUnitsByAllPurposeProperty",
+  async (allPurposePropertyId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/property/allpurposepropertyunit/list-by-allpurposeproperty/`,
+        { params: { all_purpose_property: allPurposePropertyId } }
+      );
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const updateAllPurposePropertyUnit = createAsyncThunk(
+  "propertyCategory/updateAllPurposePropertyUnit",
+  async ({ updateData, navigate }) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.patch(
+        `/property/allpurposepropertyunit/${updateData.id}/update/`,
+        updateData
+      );
+      if (result.status === 200) {
+        navigate(-1);
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const createAllPurposePropertyUnit = createAsyncThunk(
+  "propertyCategory/createAllPurposePropertyUnit",
+  async ({ createData, navigate }, _) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.post(
+        "/property/allpurposepropertyunit/create/",
+        createData
+      );
+      if (result.status === 201) {
+        navigate(-1);
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const deleteAllPurposePropertyUnit = createAsyncThunk(
+  "propertyCategory/deleteAllPurposePropertyUnit",
+  async ({ allPurposePropertyUnitId, allPurposePropertyId }, thunkApi) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.delete(
+        `/property/allpurposepropertyunit/${allPurposePropertyUnitId}/delete/`
+      );
+      if (result.status === 204) {
+        thunkApi.dispatch(
+          getAllPurposePropertyUnitsByAllPurposeProperty(allPurposePropertyId)
+        );
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+//=====================================================================================
 //==========???????????================================================================
 
 const propertyCategorySlice = createSlice({
@@ -1148,7 +1728,7 @@ const propertyCategorySlice = createSlice({
     //=================================================================================================
     //==============LAND===============================================================================
     /**
-     * Getting a specific property category
+     * Update land
      * @param {StateObject} state
      */
     [updateLand.pending]: (state) => {
@@ -1163,6 +1743,59 @@ const propertyCategorySlice = createSlice({
       state.land.updateLand.request.isLoading = false;
       state.land.updateLand.response.error = action.payload.data;
       state.land.updateLand.response.status = action.payload.status;
+    },
+
+    /**
+     * Getting lands for current agent
+     * @param {StateObject} state
+     */
+    [getLandByAgent.pending]: (state) => {
+      state.land.landList.request.isLoading = true;
+    },
+    [getLandByAgent.fulfilled]: (state, action) => {
+      state.land.landList.request.isLoading = false;
+      state.land.landList.data = action.payload.data;
+      state.land.landList.response.status = action.payload.status;
+    },
+    [getLandByAgent.rejected]: (state, action) => {
+      state.land.landList.request.isLoading = false;
+      state.land.landList.response.error = action.payload.data;
+      state.land.landList.response.status = action.payload.status;
+    },
+
+    /**
+     * Delete land
+     * @param {StateObject} state
+     */
+    [deleteLand.pending]: (state) => {
+      state.land.deleteLand.request.isLoading = true;
+    },
+    [deleteLand.fulfilled]: (state, action) => {
+      state.land.deleteLand.request.isLoading = false;
+      state.land.deleteLand.data = action.payload.data;
+      state.land.deleteLand.response.status = action.payload.status;
+    },
+    [deleteLand.rejected]: (state, action) => {
+      state.land.deleteLand.request.isLoading = false;
+      state.land.deleteLand.response.error = action.payload.data;
+      state.land.deleteLand.response.status = action.payload.status;
+    },
+
+    /* Get sland detail
+     * @param {StateObject} state
+     */
+    [getLandDetail.pending]: (state) => {
+      state.land.getLandDetail.request.isLoading = true;
+    },
+    [getLandDetail.fulfilled]: (state, action) => {
+      state.land.getLandDetail.request.isLoading = false;
+      state.land.getLandDetail.data = action.payload.data;
+      state.land.getLandDetail.response.status = action.payload.status;
+    },
+    [getLandDetail.rejected]: (state, action) => {
+      state.land.getLandDetail.request.isLoading = false;
+      state.land.getLandDetail.response.error = action.payload.data;
+      state.land.getLandDetail.response.status = action.payload.status;
     },
 
     //=================================================================================================
@@ -1715,7 +2348,7 @@ const propertyCategorySlice = createSlice({
       state.commercialProperty.getCommercialPropertyDetail.response.status =
         action.payload.status;
     },
-    //==============APARTMENT UNIT===============================
+    //==============COMMERCIAL PROPERTY UNIT===============================
     /**
      * Getting commercial property units for an apartment
      * @param {StateObject} state
@@ -1807,6 +2440,329 @@ const propertyCategorySlice = createSlice({
       state.commercialProperty.unit.deleteCommercialPropertyUnit.response.error =
         action.payload.data;
       state.commercialProperty.unit.deleteCommercialPropertyUnit.response.status =
+        action.payload.status;
+    },
+
+    //=================================================================================================
+    //============ OFFICE =============================================================================
+    /**
+     * Getting office for current agent
+     * @param {StateObject} state
+     */
+    [getOfficeByAgent.pending]: (state) => {
+      state.office.officeList.request.isLoading = true;
+    },
+    [getOfficeByAgent.fulfilled]: (state, action) => {
+      state.office.officeList.request.isLoading = false;
+      state.office.officeList.data = action.payload.data;
+      state.office.officeList.response.status = action.payload.status;
+    },
+    [getOfficeByAgent.rejected]: (state, action) => {
+      state.office.officeList.request.isLoading = false;
+      state.office.officeList.response.error = action.payload.data;
+      state.office.officeList.response.status = action.payload.status;
+    },
+
+    /* Update office
+     * @param {StateObject} state
+     */
+    [updateOffice.pending]: (state) => {
+      state.office.updateOffice.request.isLoading = true;
+    },
+    [updateOffice.fulfilled]: (state, action) => {
+      state.office.updateOffice.request.isLoading = false;
+      state.office.updateOffice.data = action.payload.data;
+      state.office.updateOffice.response.status = action.payload.status;
+    },
+    [updateOffice.rejected]: (state, action) => {
+      state.office.updateOffice.request.isLoading = false;
+      state.office.updateOffice.response.error = action.payload.data;
+      state.office.updateOffice.response.status = action.payload.status;
+    },
+
+    /**
+     * Delete office
+     * @param {StateObject} state
+     */
+    [deleteOffice.pending]: (state) => {
+      state.office.deleteOffice.request.isLoading = true;
+    },
+    [deleteOffice.fulfilled]: (state, action) => {
+      state.office.deleteOffice.request.isLoading = false;
+      state.office.deleteOffice.data = action.payload.data;
+      state.office.deleteOffice.response.status = action.payload.status;
+    },
+    [deleteOffice.rejected]: (state, action) => {
+      state.office.deleteOffice.request.isLoading = false;
+      state.office.deleteOffice.response.error = action.payload.data;
+      state.office.deleteOffice.response.status = action.payload.status;
+    },
+
+    /* Get office detail
+     * @param {StateObject} state
+     */
+    [getOfficeDetail.pending]: (state) => {
+      state.office.getOfficeDetail.request.isLoading = true;
+    },
+    [getOfficeDetail.fulfilled]: (state, action) => {
+      state.office.getOfficeDetail.request.isLoading = false;
+      state.office.getOfficeDetail.data = action.payload.data;
+      state.office.getOfficeDetail.response.status = action.payload.status;
+    },
+    [getOfficeDetail.rejected]: (state, action) => {
+      state.office.getOfficeDetail.request.isLoading = false;
+      state.office.getOfficeDetail.response.error = action.payload.data;
+      state.office.getOfficeDetail.response.status = action.payload.status;
+    },
+
+    //=================================================================================================
+    //============ HALL ===============================================================================
+    /**
+     * Getting hall for current agent
+     * @param {StateObject} state
+     */
+    [getHallByAgent.pending]: (state) => {
+      state.hall.hallList.request.isLoading = true;
+    },
+    [getHallByAgent.fulfilled]: (state, action) => {
+      state.hall.hallList.request.isLoading = false;
+      state.hall.hallList.data = action.payload.data;
+      state.hall.hallList.response.status = action.payload.status;
+    },
+    [getHallByAgent.rejected]: (state, action) => {
+      state.hall.hallList.request.isLoading = false;
+      state.hall.hallList.response.error = action.payload.data;
+      state.hall.hallList.response.status = action.payload.status;
+    },
+
+    /* Update hall
+     * @param {StateObject} state
+     */
+    [updateHall.pending]: (state) => {
+      state.hall.updateHall.request.isLoading = true;
+    },
+    [updateHall.fulfilled]: (state, action) => {
+      state.hall.updateHall.request.isLoading = false;
+      state.hall.updateHall.data = action.payload.data;
+      state.hall.updateHall.response.status = action.payload.status;
+    },
+    [updateHall.rejected]: (state, action) => {
+      state.hall.updateHall.request.isLoading = false;
+      state.hall.updateHall.response.error = action.payload.data;
+      state.hall.updateHall.response.status = action.payload.status;
+    },
+
+    /**
+     * Delete hall
+     * @param {StateObject} state
+     */
+    [deleteHall.pending]: (state) => {
+      state.hall.deleteHall.request.isLoading = true;
+    },
+    [deleteHall.fulfilled]: (state, action) => {
+      state.hall.deleteHall.request.isLoading = false;
+      state.hall.deleteHall.data = action.payload.data;
+      state.hall.deleteHall.response.status = action.payload.status;
+    },
+    [deleteHall.rejected]: (state, action) => {
+      state.hall.deleteHall.request.isLoading = false;
+      state.hall.deleteHall.response.error = action.payload.data;
+      state.hall.deleteHall.response.status = action.payload.status;
+    },
+
+    /* Get hall detail
+     * @param {StateObject} state
+     */
+    [getHallDetail.pending]: (state) => {
+      state.hall.getHallDetail.request.isLoading = true;
+    },
+    [getHallDetail.fulfilled]: (state, action) => {
+      state.hall.getHallDetail.request.isLoading = false;
+      state.hall.getHallDetail.data = action.payload.data;
+      state.hall.getHallDetail.response.status = action.payload.status;
+    },
+    [getHallDetail.rejected]: (state, action) => {
+      state.hall.getHallDetail.request.isLoading = false;
+      state.hall.getHallDetail.response.error = action.payload.data;
+      state.hall.getHallDetail.response.status = action.payload.status;
+    },
+
+    //=================================================================================================
+    //============ALL PURPOSE PROPERTY=================================================================
+    /**
+     * Getting all purpose property for current agent
+     * @param {StateObject} state
+     */
+    [getAllPurposePropertiesByAgent.pending]: (state) => {
+      state.allPurposeProperty.allPurposePropertyList.request.isLoading = true;
+    },
+    [getAllPurposePropertiesByAgent.fulfilled]: (state, action) => {
+      state.allPurposeProperty.allPurposePropertyList.request.isLoading = false;
+      state.allPurposeProperty.allPurposePropertyList.data =
+        action.payload.data;
+      state.allPurposeProperty.allPurposePropertyList.response.status =
+        action.payload.status;
+    },
+    [getAllPurposePropertiesByAgent.rejected]: (state, action) => {
+      state.allPurposeProperty.allPurposePropertyList.request.isLoading = false;
+      state.allPurposeProperty.allPurposePropertyList.response.error =
+        action.payload.data;
+      state.allPurposeProperty.allPurposePropertyList.response.status =
+        action.payload.status;
+    },
+
+    /* Update all purpose property
+     * @param {StateObject} state
+     */
+    [updateAllPurposeProperty.pending]: (state) => {
+      state.allPurposeProperty.updateAllPurposeProperty.request.isLoading = true;
+    },
+    [updateAllPurposeProperty.fulfilled]: (state, action) => {
+      state.allPurposeProperty.updateAllPurposeProperty.request.isLoading = false;
+      state.allPurposeProperty.updateAllPurposeProperty.data =
+        action.payload.data;
+      state.allPurposeProperty.updateAllPurposeProperty.response.status =
+        action.payload.status;
+    },
+    [updateAllPurposeProperty.rejected]: (state, action) => {
+      state.allPurposeProperty.updateAllPurposeProperty.request.isLoading = false;
+      state.allPurposeProperty.updateAllPurposeProperty.response.error =
+        action.payload.data;
+      state.allPurposeProperty.updateAllPurposeProperty.response.status =
+        action.payload.status;
+    },
+    /* Delete all purpose property
+     * @param {StateObject} state
+     */
+    [deleteAllPurposeProperty.pending]: (state) => {
+      state.allPurposeProperty.deleteAllPurposeProperty.request.isLoading = true;
+    },
+    [deleteAllPurposeProperty.fulfilled]: (state, action) => {
+      state.allPurposeProperty.deleteAllPurposeProperty.request.isLoading = false;
+      state.allPurposeProperty.deleteAllPurposeProperty.data =
+        action.payload.data;
+      state.allPurposeProperty.deleteAllPurposeProperty.response.status =
+        action.payload.status;
+    },
+    [deleteAllPurposeProperty.rejected]: (state, action) => {
+      state.allPurposeProperty.deleteAllPurposeProperty.request.isLoading = false;
+      state.allPurposeProperty.deleteAllPurposeProperty.response.error =
+        action.payload.data;
+      state.allPurposeProperty.deleteAllPurposeProperty.response.status =
+        action.payload.status;
+    },
+    /* Get all purpose property detail
+     * @param {StateObject} state
+     */
+    [getAllPurposePropertyDetail.pending]: (state) => {
+      state.allPurposeProperty.getAllPurposePropertyDetail.request.isLoading = true;
+    },
+    [getAllPurposePropertyDetail.fulfilled]: (state, action) => {
+      state.allPurposeProperty.getAllPurposePropertyDetail.request.isLoading = false;
+      state.allPurposeProperty.getAllPurposePropertyDetail.data =
+        action.payload.data;
+      state.allPurposeProperty.getAllPurposePropertyDetail.response.status =
+        action.payload.status;
+    },
+    [getAllPurposePropertyDetail.rejected]: (state, action) => {
+      state.allPurposeProperty.getAllPurposePropertyDetail.request.isLoading = false;
+      state.allPurposeProperty.getAllPurposePropertyDetail.response.error =
+        action.payload.data;
+      state.allPurposeProperty.getAllPurposePropertyDetail.response.status =
+        action.payload.status;
+    },
+    //==============ALL PURPOSE PROPERTY UNIT===============================
+    /**
+     * Getting all purpose property units for an apartment
+     * @param {StateObject} state
+     */
+    [getAllPurposePropertyUnitsByAllPurposeProperty.pending]: (state) => {
+      state.allPurposeProperty.unit.allPurposePropertyUnitList.request.isLoading = true;
+    },
+    [getAllPurposePropertyUnitsByAllPurposeProperty.fulfilled]: (
+      state,
+      action
+    ) => {
+      state.allPurposeProperty.unit.allPurposePropertyUnitList.request.isLoading = false;
+      state.allPurposeProperty.unit.allPurposePropertyUnitList.data =
+        action.payload.data;
+      state.allPurposeProperty.unit.allPurposePropertyUnitList.response.status =
+        action.payload.status;
+    },
+    [getAllPurposePropertyUnitsByAllPurposeProperty.rejected]: (
+      state,
+      action
+    ) => {
+      state.allPurposeProperty.unit.allPurposePropertyUnitList.request.isLoading = false;
+      state.allPurposeProperty.unit.allPurposePropertyUnitList.response.error =
+        action.payload.data;
+      state.allPurposeProperty.unit.allPurposePropertyUnitList.response.status =
+        action.payload.status;
+    },
+
+    /**
+     * update all purpose property unit
+     * @param {StateObject} state
+     */
+    [updateAllPurposePropertyUnit.pending]: (state) => {
+      state.allPurposeProperty.unit.updateAllPurposePropertyUnit.request.isLoading = true;
+    },
+    [updateAllPurposePropertyUnit.fulfilled]: (state, action) => {
+      state.allPurposeProperty.unit.updateAllPurposePropertyUnit.request.isLoading = false;
+      state.allPurposeProperty.unit.updateAllPurposePropertyUnit.data =
+        action.payload.data;
+      state.allPurposeProperty.unit.updateAllPurposePropertyUnit.response.status =
+        action.payload.status;
+    },
+    [updateAllPurposePropertyUnit.rejected]: (state, action) => {
+      state.allPurposeProperty.unit.updateAllPurposePropertyUnit.request.isLoading = false;
+      state.allPurposeProperty.unit.updateAllPurposePropertyUnit.response.error =
+        action.payload.data;
+      state.allPurposeProperty.unit.updateAllPurposePropertyUnit.response.status =
+        action.payload.status;
+    },
+
+    /**
+     * Create all purpose property unit
+     * @param {StateObject} state
+     */
+    [createAllPurposePropertyUnit.pending]: (state) => {
+      state.allPurposeProperty.unit.createAllPurposePropertyUnit.request.isLoading = true;
+    },
+    [createAllPurposePropertyUnit.fulfilled]: (state, action) => {
+      state.allPurposeProperty.unit.createAllPurposePropertyUnit.request.isLoading = false;
+      state.allPurposeProperty.unit.createAllPurposePropertyUnit.data =
+        action.payload.data;
+      state.allPurposeProperty.unit.createAllPurposePropertyUnit.response.status =
+        action.payload.status;
+    },
+    [createAllPurposePropertyUnit.rejected]: (state, action) => {
+      state.allPurposeProperty.unit.createAllPurposePropertyUnit.request.isLoading = false;
+      state.allPurposeProperty.unit.createAllPurposePropertyUnit.response.error =
+        action.payload.data;
+      state.allPurposeProperty.unit.createAllPurposePropertyUnit.response.status =
+        action.payload.status;
+    },
+
+    /**
+     * Create all purpose property unit
+     * @param {StateObject} state
+     */
+    [deleteAllPurposePropertyUnit.pending]: (state) => {
+      state.allPurposeProperty.unit.deleteAllPurposePropertyUnit.request.isLoading = true;
+    },
+    [deleteAllPurposePropertyUnit.fulfilled]: (state, action) => {
+      state.allPurposeProperty.unit.deleteAllPurposePropertyUnit.request.isLoading = false;
+      state.allPurposeProperty.unit.deleteAllPurposePropertyUnit.data =
+        action.payload.data;
+      state.allPurposeProperty.unit.deleteAllPurposePropertyUnit.response.status =
+        action.payload.status;
+    },
+    [deleteAllPurposePropertyUnit.rejected]: (state, action) => {
+      state.allPurposeProperty.unit.deleteAllPurposePropertyUnit.request.isLoading = false;
+      state.allPurposeProperty.unit.deleteAllPurposePropertyUnit.response.error =
+        action.payload.data;
+      state.allPurposeProperty.unit.deleteAllPurposePropertyUnit.response.status =
         action.payload.status;
     },
   },

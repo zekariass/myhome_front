@@ -14,24 +14,21 @@ const LandEdit = () => {
 
   const { initialValues } = location?.state;
 
-  // console.log("initialValues: ", initialValues);
-
   /**
    * Handle when the update/save button is clicked
    * Dispatch the action creator that sends the data to backend
    * @param {object} values
    */
   const onUpdateSubmit = (values) => {
-    dispatch(updateLand({ updateData: values.address, navigate: navigate }));
-    // navigate(-1, { replace: true });
+    dispatch(updateLand({ updateData: values.land, navigate: navigate }));
   };
   return (
     <div className="flex-center-general">
       <EditFormTemplate
-        initialValues={{ address: initialValues }}
+        initialValues={{ land: initialValues }}
         onSubmit={onUpdateSubmit}
       >
-        <Land name="address" title="Edit Land Property" />
+        <Land name="land" title="Edit Land Property" />
       </EditFormTemplate>
     </div>
   );

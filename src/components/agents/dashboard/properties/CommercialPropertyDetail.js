@@ -1,6 +1,7 @@
 // @ts-nocheck
 import DataDisplay from "components/commons/DataDisplay";
 import DataDisplayTabular from "components/commons/DataDisplayTabular";
+import { formatBuildingTypeForDisplay } from "components/commons/formatBuildingTypeForDisplay";
 import {
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_DETAIL_ABSOLUTE,
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_EDIT_ABSOLUTE,
@@ -34,6 +35,10 @@ const CommercialPropertyDetail = () => {
         .data
   );
 
+  const buildingTypes = useSelector(
+    (store) => store.buildingType.response.data
+  );
+
   useEffect(() => {
     const commercialPropertyId = location.state?.data?.id;
     dispatch(getCommercialPropertyDetail(commercialPropertyId));
@@ -56,6 +61,10 @@ const CommercialPropertyDetail = () => {
     return { columns: columns, data: commercialPropertyUnitsData };
   };
 
+  const formatCommercialPropertyForDisplay = () => {
+    return formatBuildingTypeForDisplay(commercialPropertyData, buildingTypes);
+  };
+
   const onCommercialPropertyUnitDelete = (commercialPropertyUnitId) => {
     dispatch(
       deleteApartmentUnit({
@@ -70,7 +79,7 @@ const CommercialPropertyDetail = () => {
       <div className="row row-cols-1 row-cols-lg-2">
         <div className="card col">
           <DataDisplay
-            data={commercialPropertyData}
+            data={formatCommercialPropertyForDisplay()}
             title="Your Commercial Property Detail"
             editable={true}
             editInitialValues={commercialPropertyData}

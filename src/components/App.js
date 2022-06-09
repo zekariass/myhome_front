@@ -17,6 +17,10 @@ import {
   PATH_AGENT_CREATE_INFO,
   PATH_AGENT_DASHBOARD,
   PATH_AGENT_DASHBOARD_AGENT_INFO,
+  PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTYUNIT_EDIT,
+  PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTY_DETAIL,
+  PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTY_EDIT,
+  PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTY_LIST,
   PATH_AGENT_DASHBOARD_AMENITY_ADD,
   PATH_AGENT_DASHBOARD_APARTMENTUNIT_DETAIL,
   PATH_AGENT_DASHBOARD_APARTMENTUNIT_EDIT,
@@ -32,7 +36,15 @@ import {
   PATH_AGENT_DASHBOARD_CONDOMINIUM_EDIT,
   PATH_AGENT_DASHBOARD_CONDOMINIUM_LIST,
   PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD,
+  PATH_AGENT_DASHBOARD_HALL_DETAIL,
+  PATH_AGENT_DASHBOARD_HALL_EDIT,
+  PATH_AGENT_DASHBOARD_HALL_LIST,
+  PATH_AGENT_DASHBOARD_LAND_DETAIL,
   PATH_AGENT_DASHBOARD_LAND_EDIT,
+  PATH_AGENT_DASHBOARD_LAND_LIST,
+  PATH_AGENT_DASHBOARD_OFFICE_DETAIL,
+  PATH_AGENT_DASHBOARD_OFFICE_EDIT,
+  PATH_AGENT_DASHBOARD_OFFICE_LIST,
   PATH_AGENT_DASHBOARD_POI_ADD,
   PATH_AGENT_DASHBOARD_PROPERTY,
   PATH_AGENT_DASHBOARD_PROPERTY_ADD,
@@ -114,6 +126,18 @@ import CommercialPropertyDetail from "./agents/dashboard/properties/CommercialPr
 import CommercialPropertyUnitEdit from "./agents/dashboard/properties/CommercialPropertyUnitEdit";
 import ShareHouseList from "./agents/dashboard/properties/ShareHouseList";
 import ShareHouseDetail from "./agents/dashboard/properties/ShareHouseDetail";
+import OfficeEdit from "./agents/dashboard/properties/OfficeEdit";
+import OfficeList from "./agents/dashboard/properties/OfficeList";
+import OfficeDetail from "./agents/dashboard/properties/OfficeDetail";
+import LandList from "./agents/dashboard/properties/LandList";
+import LandDetail from "./agents/dashboard/properties/LandDetail";
+import HallEdit from "./agents/dashboard/properties/HallEdit";
+import HallList from "./agents/dashboard/properties/HallList";
+import HallDetail from "./agents/dashboard/properties/HallDetail";
+import AllPurposePropertyList from "./agents/dashboard/properties/AllPurposePropertyList";
+import AllPurposePropertyEdit from "./agents/dashboard/properties/AllPurposePropertyEdit";
+import AllPurposePropertyDetail from "./agents/dashboard/properties/AllPurposePropertyDetail";
+import AllPurposePropertyUnitEdit from "./agents/dashboard/properties/AllPurposePropertyUnitEdit";
 
 const App = () => {
   const { isSignedIn } = useSelector((store) => store.user.signin);
@@ -286,7 +310,7 @@ const App = () => {
                 element={<CommercialPropertyUnitEdit />}
               />
 
-              {/* ============================================================== */}
+              {/* =========== PARENT PROPERTY==================================== */}
               <Route
                 path={PATH_AGENT_DASHBOARD_PROPERTY_DETAIL}
                 element={<PropertyDetail />}
@@ -299,11 +323,6 @@ const App = () => {
               <Route
                 path={PATH_AGENT_DASHBOARD_PROPERTY_EDIT}
                 element={<ParentPropertyEdit />}
-              />
-
-              <Route
-                path={PATH_AGENT_DASHBOARD_LAND_EDIT}
-                element={<LandEdit />}
               />
 
               {/* ================ SHAREHOUSE ======================================== */}
@@ -320,6 +339,75 @@ const App = () => {
               <Route
                 path={PATH_AGENT_DASHBOARD_SHAREHOUSE_DETAIL}
                 element={<ShareHouseDetail />}
+              />
+
+              {/* ================ OFFICE ============================================ */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_OFFICE_EDIT}
+                element={<OfficeEdit />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_OFFICE_LIST}
+                element={<OfficeList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_OFFICE_DETAIL}
+                element={<OfficeDetail />}
+              />
+
+              {/* ================ LAND ============================================ */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_LAND_EDIT}
+                element={<LandEdit />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_LAND_LIST}
+                element={<LandList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_LAND_DETAIL}
+                element={<LandDetail />}
+              />
+
+              {/* ================ HALL ============================================ */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_HALL_EDIT}
+                element={<HallEdit />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_HALL_LIST}
+                element={<HallList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_HALL_DETAIL}
+                element={<HallDetail />}
+              />
+
+              {/*============= ALL PURPOSE PROPERTY ========================================== */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTY_LIST}
+                element={<AllPurposePropertyList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTY_EDIT}
+                element={<AllPurposePropertyEdit />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTY_DETAIL}
+                element={<AllPurposePropertyDetail />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTYUNIT_EDIT}
+                element={<AllPurposePropertyUnitEdit />}
               />
 
               {/* ================ EDUCATION FACILITY ================================= */}

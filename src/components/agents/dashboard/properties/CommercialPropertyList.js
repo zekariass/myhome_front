@@ -1,5 +1,6 @@
 // @ts-nocheck
 import DataDisplayTabular from "components/commons/DataDisplayTabular";
+import { formatBuildingTypeForDisplay } from "components/commons/formatBuildingTypeForDisplay";
 import {
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_DETAIL_ABSOLUTE,
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_EDIT_ABSOLUTE,
@@ -47,22 +48,10 @@ const CommercialPropertyList = () => {
     let newCommercialPropertyData = [];
 
     commercialPropertyData.forEach((commercialPropertyRecord) => {
-      //New object to copy the read only commercialPropertyRecord and modify it
-      let commercialPropertyRecordNew = {};
-
       //Select a building type that matches with commercial property building type id
-      buildingTypes.forEach((buildingType) => {
-        if (buildingType.id === commercialPropertyRecord.building_type) {
-          commercialPropertyRecordNew = {
-            ...commercialPropertyRecord,
-            building_type: buildingType?.type,
-          };
-        }
-      });
-
       newCommercialPropertyData = [
         ...newCommercialPropertyData,
-        commercialPropertyRecordNew,
+        formatBuildingTypeForDisplay(commercialPropertyRecord, buildingTypes),
       ];
     });
 
