@@ -7,7 +7,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const ParentProperty = ({ categoryDisabled }) => {
-  let { data } = useSelector((store) => store.propertyCategory.response);
+  let { data } = useSelector(
+    (store) => store.propertyCategory.propertyCategoryList.response
+  );
 
   const dispatch = useDispatch();
 

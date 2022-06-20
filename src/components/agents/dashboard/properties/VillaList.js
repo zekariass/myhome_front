@@ -19,6 +19,8 @@ const VillaList = () => {
     (store) => store.propertyCategory.villa.villaList.data
   );
 
+  // console.log("ORIGINAL DATA: ", villaData);
+
   useEffect(() => {
     dispatch(getVillaByAgent());
   }, []);

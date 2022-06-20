@@ -42,6 +42,9 @@ import {
   PATH_AGENT_DASHBOARD_LAND_DETAIL,
   PATH_AGENT_DASHBOARD_LAND_EDIT,
   PATH_AGENT_DASHBOARD_LAND_LIST,
+  PATH_AGENT_DASHBOARD_LISTING_ADD,
+  PATH_AGENT_DASHBOARD_LISTING_DETAIL,
+  PATH_AGENT_DASHBOARD_LISTING_LIST,
   PATH_AGENT_DASHBOARD_OFFICE_DETAIL,
   PATH_AGENT_DASHBOARD_OFFICE_EDIT,
   PATH_AGENT_DASHBOARD_OFFICE_LIST,
@@ -94,7 +97,11 @@ import { getAgent } from "features/agent/agentSlice";
 import AgentLogoUpload from "./agents/new_agent/AgentLogoUpload";
 import PropertyList from "./agents/dashboard/properties/PropertyList";
 import PropertyDetail from "./agents/dashboard/properties/PropertyDetail";
-import { getSystemParams } from "features/system/paramSlice";
+import {
+  getCurrencies,
+  getListingParams,
+  getSystemParams,
+} from "features/system/paramSlice";
 import ConditionalEdit from "./agents/dashboard/properties/ParentPropertyEdit";
 import PropertyAddressEdit from "./agents/dashboard/properties/PropertyAddressEdit";
 import ParentPropertyEdit from "./agents/dashboard/properties/ParentPropertyEdit";
@@ -138,6 +145,18 @@ import AllPurposePropertyList from "./agents/dashboard/properties/AllPurposeProp
 import AllPurposePropertyEdit from "./agents/dashboard/properties/AllPurposePropertyEdit";
 import AllPurposePropertyDetail from "./agents/dashboard/properties/AllPurposePropertyDetail";
 import AllPurposePropertyUnitEdit from "./agents/dashboard/properties/AllPurposePropertyUnitEdit";
+import ListingList from "./agents/dashboard/listings/ListingList";
+import AddListing from "./agents/dashboard/listings/AddListing";
+import {
+  getListingModes,
+  getListingStates,
+  getListingTypes,
+} from "features/listing/listingSlice";
+import {
+  getPaymentApprovalModes,
+  getPaymentMethods,
+  getSupportedCardSchemes,
+} from "features/payment/paymentSlice";
 
 const App = () => {
   const { isSignedIn } = useSelector((store) => store.user.signin);
@@ -146,6 +165,14 @@ const App = () => {
   useEffect(() => {
     dispatch(checkUserSigninStatus());
     dispatch(getSystemParams());
+    dispatch(getListingParams());
+    dispatch(getListingModes());
+    dispatch(getListingTypes());
+    dispatch(getListingStates());
+    dispatch(getPaymentApprovalModes());
+    dispatch(getPaymentMethods());
+    dispatch(getSupportedCardSchemes());
+    dispatch(getCurrencies());
     if (isSignedIn) {
       dispatch(getAgent());
     }
@@ -408,6 +435,17 @@ const App = () => {
               <Route
                 path={PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTYUNIT_EDIT}
                 element={<AllPurposePropertyUnitEdit />}
+              />
+
+              {/*============= LISTING =============================================== */}
+              <Route
+                path={PATH_AGENT_DASHBOARD_LISTING_LIST}
+                element={<ListingList />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_LISTING_ADD}
+                element={<AddListing />}
               />
 
               {/* ================ EDUCATION FACILITY ================================= */}

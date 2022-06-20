@@ -6,7 +6,9 @@ import formatPropertyData from "./formatPropertyData";
 
 const PropertyDataConfirmation = ({ values, edit }) => {
   //Select property category from store
-  const { data } = useSelector((store) => store.propertyCategory.response);
+  const { data } = useSelector(
+    (store) => store.propertyCategory.propertyCategoryList.response
+  );
 
   //Format property data for display in property data confirmation page
   const newValues = formatPropertyData(values, data);
@@ -24,7 +26,7 @@ const PropertyDataConfirmation = ({ values, edit }) => {
 
   //Selector object that retrieves property categories from store for display by name
   const propertyCategories = useSelector(
-    (store) => store.propertyCategory.response.data
+    (store) => store.propertyCategory.propertyCategoryList.response.data
   );
 
   //Format Address data so that country, region and city values are changed by names

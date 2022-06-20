@@ -4,13 +4,15 @@ import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
 import { getFormatedResponse } from "features/getFormatedResponse";
 
 const initialPropertyCategoryState = {
-  request: {
-    isLoading: false,
-  },
-  response: {
-    data: [],
-    error: null,
-    status: null,
+  propertyCategoryList: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      data: [],
+      error: null,
+      status: null,
+    },
   },
   getPropertyCategory: {
     request: {
@@ -603,6 +605,28 @@ const initialPropertyCategoryState = {
       },
     },
   },
+  listing: {
+    listingPriceByCategoryList: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+    listingDiscountByCategoryList: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
+  },
 };
 
 export const getPropertyCategories = createAsyncThunk(
@@ -1099,6 +1123,7 @@ export const deleteVilla = createAsyncThunk(
 export const getVillaDetail = createAsyncThunk(
   "propertyCategory/getVillaDetail",
   async (villaId) => {
+    // console.log("villaId: ", villaId);
     let result;
     try {
       result = await myHomeBackendAPI.get(`/property/villa/${villaId}/detail/`);
@@ -1683,7 +1708,50 @@ export const deleteAllPurposePropertyUnit = createAsyncThunk(
 );
 
 //=====================================================================================
-//==========???????????================================================================
+//========== CATEGORY PRICE ===========================================================
+export const getListingPriceByCategory = createAsyncThunk(
+  "property/getListingPriceByCategory",
+  async (categoryKey) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/property/listing-price-by-category/list/`,
+        {
+          params: { property_category: categoryKey },
+        }
+      );
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+//=====================================================================================
+//========== CATEGORY DISCOUNT ========================================================
+export const getListingDiscountByCategory = createAsyncThunk(
+  "property/getListingDiscountByCategory",
+  async (categoryKey) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/property/listing-discount-by-category/list/`,
+        {
+          params: { property_category: categoryKey },
+        }
+      );
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+//=====================================================================================
+//========== ?????????????? ===========================================================
 
 const propertyCategorySlice = createSlice({
   name: "propertyCategory",
@@ -1695,17 +1763,17 @@ const propertyCategorySlice = createSlice({
      * @param {StateObject} state
      */
     [getPropertyCategories.pending]: (state) => {
-      state.request.isLoading = true;
+      state.propertyCategoryList.request.isLoading = true;
     },
     [getPropertyCategories.fulfilled]: (state, action) => {
-      state.request.isLoading = false;
-      state.response.data = action.payload.data;
-      state.response.status = action.payload.status;
+      state.propertyCategoryList.request.isLoading = false;
+      state.propertyCategoryList.response.data = action.payload.data;
+      state.propertyCategoryList.response.status = action.payload.status;
     },
     [getPropertyCategories.rejected]: (state, action) => {
-      state.request.isLoading = false;
-      state.response.data = action.payload.data;
-      state.response.status = action.payload.status;
+      state.propertyCategoryList.request.isLoading = false;
+      state.propertyCategoryList.response.error = action.payload.data;
+      state.propertyCategoryList.response.status = action.payload.status;
     },
 
     /**
@@ -1713,7 +1781,7 @@ const propertyCategorySlice = createSlice({
      * @param {StateObject} state
      */
     [getPropertyCategory.pending]: (state) => {
-      state.request.isLoading = true;
+      state.getPropertyCategory.request.isLoading = true;
     },
     [getPropertyCategory.fulfilled]: (state, action) => {
       state.getPropertyCategory.request.isLoading = false;
@@ -2763,6 +2831,48 @@ const propertyCategorySlice = createSlice({
       state.allPurposeProperty.unit.deleteAllPurposePropertyUnit.response.error =
         action.payload.data;
       state.allPurposeProperty.unit.deleteAllPurposePropertyUnit.response.status =
+        action.payload.status;
+    },
+
+    /**
+     * Get property category prices
+     * @param {StateObject} state
+     */
+    [getListingPriceByCategory.pending]: (state) => {
+      state.listing.listingPriceByCategoryList.request.isLoading = true;
+    },
+    [getListingPriceByCategory.fulfilled]: (state, action) => {
+      state.listing.listingPriceByCategoryList.request.isLoading = false;
+      state.listing.listingPriceByCategoryList.data = action.payload.data;
+      state.listing.listingPriceByCategoryList.response.status =
+        action.payload.status;
+    },
+    [getListingPriceByCategory.rejected]: (state, action) => {
+      state.listing.listingPriceByCategoryList.request.isLoading = false;
+      state.listing.listingPriceByCategoryList.response.error =
+        action.payload.data;
+      state.listing.listingPriceByCategoryList.response.status =
+        action.payload.status;
+    },
+
+    /**
+     * Get property category discounts
+     * @param {StateObject} state
+     */
+    [getListingDiscountByCategory.pending]: (state) => {
+      state.listing.listingDiscountByCategoryList.request.isLoading = true;
+    },
+    [getListingDiscountByCategory.fulfilled]: (state, action) => {
+      state.listing.listingDiscountByCategoryList.request.isLoading = false;
+      state.listing.listingDiscountByCategoryList.data = action.payload.data;
+      state.listing.listingDiscountByCategoryList.response.status =
+        action.payload.status;
+    },
+    [getListingDiscountByCategory.rejected]: (state, action) => {
+      state.listing.listingDiscountByCategoryList.request.isLoading = false;
+      state.listing.listingDiscountByCategoryList.response.error =
+        action.payload.data;
+      state.listing.listingDiscountByCategoryList.response.status =
         action.payload.status;
     },
   },

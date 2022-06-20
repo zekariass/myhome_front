@@ -1,10 +1,5 @@
 // @ts-nocheck
-import {
-  PATH_AGENT_DASHBOARD,
-  PATH_AGENT_DASHBOARD_PROPERTY_DETAIL_ABSOLUTE,
-  PATH_AGENT_DASHBOARD_PROPERTY_LIST,
-  PATH_AGENT_DASHBOARD_PROPERTY_LIST_ABSOLUTE,
-} from "components/commons/Strings";
+import { PATH_AGENT_DASHBOARD_PROPERTY_DETAIL_ABSOLUTE } from "components/commons/Strings";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -23,16 +18,16 @@ const PropertyFileUpload = () => {
 
   useEffect(() => {
     systemParams.forEach((param) => {
-      if (param.param_name === "PROPERTY_IMAGES") {
-        setTotalImages(parseInt(param.param_value));
-      } else if (param.param_name === "PROPERTY_VIDEOS") {
-        setTotalVideos(parseInt(param.param_value));
+      if (param.name === "PROPERTY_IMAGES") {
+        setTotalImages(parseInt(param.value));
+      } else if (param.name === "PROPERTY_VIDEOS") {
+        setTotalVideos(parseInt(param.value));
       }
     });
   }, [systemParams]);
 
   const { state } = useLocation();
-  // console.log("PARAMS: ", totalImages, totalVideos);
+  console.log("PARAMS: ", totalImages, totalVideos);
 
   // console.log("STATE: ", state);
 

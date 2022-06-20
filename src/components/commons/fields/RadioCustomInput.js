@@ -1,14 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CheckCustomInput = ({
+const RadioCustomInput = ({
   input,
   meta,
   className,
   label,
   labelLink,
   disabled,
-  onCheckboxChange,
 }) => {
   /**
    * A function that returns regular HTML checkbox by setting field properties
@@ -16,21 +15,9 @@ const CheckCustomInput = ({
    */
   // console.log("META: ", meta, input);
 
-  const { onChange } = input;
   return (
     <div>
-      <input
-        {...input}
-        className={className}
-        disabled={disabled}
-        onChange={(event) => {
-          onChange(event);
-
-          if (onCheckboxChange) {
-            onCheckboxChange(event);
-          }
-        }}
-      />
+      <input {...input} className={className} disabled={disabled} />
       <span>
         {label}
         <Link to="" className="link-general link-size-normal link-hover">
@@ -45,4 +32,4 @@ const CheckCustomInput = ({
   );
 };
 
-export default CheckCustomInput;
+export default RadioCustomInput;

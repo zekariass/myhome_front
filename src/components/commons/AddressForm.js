@@ -8,9 +8,7 @@ import React, { useEffect } from "react";
 import { Field, FormSpy } from "react-final-form";
 import { OnChange } from "react-final-form-listeners";
 import { useDispatch, useSelector } from "react-redux";
-import DropdownCustomInput from "./fields/DropdownCustomInput";
 import DropdownField from "./fields/DropdownField";
-import TextCustomInput from "./fields/TextCustomInput";
 import TextField from "./fields/TextField";
 
 const AddressForm = ({ label, title }) => {

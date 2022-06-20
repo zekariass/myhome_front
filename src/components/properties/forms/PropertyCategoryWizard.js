@@ -30,7 +30,7 @@ const PropertyCategoryWizard = ({ values }) => {
   const selectedPropertyCategoryId = values.property_category;
   // console.log("selectedPropertyCategoryId: ", selectedPropertyCategoryId);
   const propertyCategories = useSelector(
-    (store) => store.propertyCategory.response.data
+    (store) => store.propertyCategory.propertyCategoryList.response.data
   );
 
   useEffect(() => {

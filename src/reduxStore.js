@@ -10,6 +10,8 @@ import wizardSlice from "features/common/wizardSlice";
 import userSlice from "features/user/userSlice";
 import propertyFileSlice from "features/agent_dashboard/property/propertyFileSlice";
 import paramSlice from "features/system/paramSlice";
+import listingSlice from "features/listing/listingSlice";
+import paymentSlice from "features/payment/paymentSlice";
 
 export const reduxStore = configureStore({
   reducer: {
@@ -24,5 +26,7 @@ export const reduxStore = configureStore({
     propertyWizard: wizardSlice,
     propertyFile: propertyFileSlice,
     system: paramSlice,
+    listing: listingSlice,
+    payment: paymentSlice,
   },
 });

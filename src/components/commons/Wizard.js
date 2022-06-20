@@ -130,6 +130,7 @@ export class Wizard extends Component {
                     {!isLastPage && (
                       <button
                         type="submit"
+                        id="next-wizard"
                         className="btn-general btn-general-hover px-3 py-2"
                       >
                         Next »

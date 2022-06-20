@@ -30,7 +30,9 @@ const PropertyFormWizard = () => {
   /**
    * Get property categories from backend
    */
-  const { data } = useSelector((store) => store.propertyCategory.response);
+  const { data } = useSelector(
+    (store) => store.propertyCategory.propertyCategoryList.response
+  );
 
   const dispatch = useDispatch();
 

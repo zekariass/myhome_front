@@ -21,6 +21,8 @@ const FileUploadInput = ({ fileType, maxFiles, title, propertyId }) => {
 
   const { state } = useLocation();
 
+  // console.log("propertyId: ", propertyId);
+
   /**
    * State variables that control the modal display for preview of files uploaded
    */
@@ -200,54 +202,6 @@ const FileUploadInput = ({ fileType, maxFiles, title, propertyId }) => {
                     setFileSrcToDisplay={setFileSrcToDisplay}
                   />
                 </div>
-                // <div className="col" key={index}>
-                //   <div className="picture-list-container shadow">
-                //     <div className="p-1">
-                //       <div className="card">
-                //         <video width="100%" height="100%" className="p-2" controls>
-                //           <source
-                //             src={URL.createObjectURL(vid[0])}
-                //             type={vid[0].type}
-                //           />
-                //         </video>
-                //       </div>
-                //     </div>
-                //     <div className="row row-cols-3 g-3 pb-2 pt-1">
-                //       <div className="col flex-center-general">
-                //         <i
-                //           className="trash icon delete-general"
-                //           role="button"
-                //           onClick={(event) => {
-                //             event.stopPropagation();
-                //             removeFile(index);
-                //           }}
-                //         ></i>
-                //       </div>
-                //       <div className="col flex-center-general">
-                //         <i
-                //           className="large play circle outline icon view-general"
-                //           role="button"
-                //           onClick={(event) => {
-                //             // event.stopPropagation();
-                //             setFileIndexToDisplay(index);
-                //             setFileTypeToDisplay("video");
-                //             setIsModalOpen(true);
-                //           }}
-                //         ></i>
-                //       </div>
-                //       <div className="col flex-center-general">
-                //         <i
-                //           className="upload icon upload-general"
-                //           role="button"
-                //           onClick={(event) => {
-                //             event.stopPropagation();
-                //             removeFile(index);
-                //           }}
-                //         ></i>
-                //       </div>
-                //     </div>
-                //   </div>
-                // </div>
               ))}
 
             {/* Show the input widget */}

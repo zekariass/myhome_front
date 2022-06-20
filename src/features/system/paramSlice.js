@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
-import { goToPage } from "features/common/wizardSlice";
 import { getFormatedResponse } from "features/getFormatedResponse";
 
 const initialParamState = {
@@ -14,6 +13,29 @@ const initialParamState = {
       status: null,
     },
     data: [],
+  },
+  listingParams: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: [],
+  },
+
+  currency: {
+    currencyList: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
   },
 };
 
@@ -36,13 +58,51 @@ export const getSystemParams = createAsyncThunk(
   }
 );
 
+export const getListingParams = createAsyncThunk(
+  "system/getListingParams",
+  async () => {
+    /**
+     * Get listing parameters
+     */
+
+    let result;
+    try {
+      result = await myHomeBackendAPI.get("/system/listingparameters/");
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getCurrencies = createAsyncThunk(
+  "system/getCurrencies",
+  async () => {
+    /**
+     * Get listing parameters
+     */
+
+    let result;
+    try {
+      result = await myHomeBackendAPI.get("/system/currency/list/");
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
 const paramSlice = createSlice({
   name: "system",
   initialState: initialParamState,
   reducers: {},
   extraReducers: {
     /**
-     * Create property
+     * Get system parameters
      * @param {StateObject} state
      */
     [getSystemParams.pending]: (state) => {
@@ -57,6 +117,42 @@ const paramSlice = createSlice({
       state.systemParams.request.isLoading = false;
       state.systemParams.response.error = action.payload.data;
       state.systemParams.response.status = action.payload.status;
+    },
+
+    /**
+     * Get listing parameters
+     * @param {StateObject} state
+     */
+    [getListingParams.pending]: (state) => {
+      state.listingParams.request.isLoading = true;
+    },
+    [getListingParams.fulfilled]: (state, action) => {
+      state.listingParams.request.isLoading = false;
+      state.listingParams.data = action.payload.data;
+      state.listingParams.response.status = action.payload.status;
+    },
+    [getListingParams.rejected]: (state, action) => {
+      state.listingParams.request.isLoading = false;
+      state.listingParams.response.error = action.payload.data;
+      state.listingParams.response.status = action.payload.status;
+    },
+
+    /**
+     * Get currencies
+     * @param {StateObject} state
+     */
+    [getCurrencies.pending]: (state) => {
+      state.currency.currencyList.request.isLoading = true;
+    },
+    [getCurrencies.fulfilled]: (state, action) => {
+      state.currency.currencyList.request.isLoading = false;
+      state.currency.currencyList.data = action.payload.data;
+      state.currency.currencyList.response.status = action.payload.status;
+    },
+    [getCurrencies.rejected]: (state, action) => {
+      state.currency.currencyList.request.isLoading = false;
+      state.currency.currencyList.response.error = action.payload.data;
+      state.currency.currencyList.response.status = action.payload.status;
     },
   },
 });

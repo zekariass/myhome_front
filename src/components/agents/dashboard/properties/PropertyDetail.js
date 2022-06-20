@@ -23,6 +23,7 @@ import {
   PATH_AGENT_DASHBOARD_PROPERTY_RULE_ADD,
   PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT_ABSOLUTE,
   PATH_AGENT_DASHBOARD_TRANSPORT_FACILITY_ADD,
+  PATH_AGENT_DASHBOARD_VILLA_EDIT_ABSOLUTE,
   SHARE_HOUSE_KEY,
   TRADITIONAL_HOUSE_KEY,
   VILLA_KEY,
@@ -40,6 +41,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import DataDisplayTabular from "components/commons/DataDisplayTabular";
 import RelatedPropertyDetail from "./RelatedPropertyDetail";
+import VillaDetail from "./VillaDetail";
 
 const PropertyDetail = ({ propPropertyId }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -72,6 +74,8 @@ const PropertyDetail = ({ propPropertyId }) => {
     const propertyId = propPropertyId
       ? propPropertyId
       : location.state?.propertyId;
+
+    console.log("PROPERTY IDDD: ", propPropertyId);
 
     //Get detail of specific propert identified by propertyId for display
     dispatch(getPropertyDetail(propertyId));
@@ -492,15 +496,21 @@ const PropertyDetail = ({ propPropertyId }) => {
             )}
 
             {propertyCategory?.cat_key === VILLA_KEY && (
-              <RelatedPropertyDetail
-                message="This is Villa. You can view and manage your property below"
-                listTitle="Villa detail"
-                editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
-                editInitialValues={preparePropertyInitialValues()}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              //  <RelatedPropertyDetail
+              //     message="This is Villa. You can view and manage your property below"
+              //     listTitle="Villa detail"
+              //     editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              //     editInitialValues={preparePropertyInitialValues()}
+              //     relatedProperty={relatedProperty}
+              //     editable={true}
+              //     deletable={true}
+              //   />
+              <div>
+                <VillaDetail
+                  propVillaId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
 
             {propertyCategory?.cat_key === OFFICE_KEY && (

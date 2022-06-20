@@ -11,6 +11,7 @@ const CheckField = ({
   initialValue,
   disabled,
   fieldSubscription,
+  onCheckboxChange,
 }) => {
   return (
     <Field
@@ -22,8 +23,17 @@ const CheckField = ({
       initialValue={initialValue}
       disabled={disabled}
       subscription={fieldSubscription}
+      onCheckboxChange={onCheckboxChange}
     >
-      {({ input, meta, className, label, labelLink, disabled }) => (
+      {({
+        input,
+        meta,
+        className,
+        label,
+        labelLink,
+        disabled,
+        onCheckboxChange,
+      }) => (
         <CheckCustomInput
           input={input}
           meta={meta}
@@ -31,6 +41,7 @@ const CheckField = ({
           label={label}
           labelLink={labelLink}
           disabled={disabled}
+          onCheckboxChange={onCheckboxChange}
         />
       )}
     </Field>
