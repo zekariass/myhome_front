@@ -1,13 +1,20 @@
 import {
   COMPANY_NAME,
+  PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
   PATH_AGENT_DASHBOARD_PROPERTY_ADD_ABSOLUTE,
-  PATH_AGENT_DASHBOARD_PROPERTY_FILE_UPLOAD_ABSOLUTE,
   PATH_LANDING,
 } from "components/commons/Strings";
+import { setListingKey } from "features/listing/listingSlice";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 const AgentDashboardHeader = () => {
+  const dispatch = useDispatch();
+
+  const setListingKeyValue = () => {
+    dispatch(setListingKey("byAgent"));
+  };
   return (
     <div className="sticky-top">
       <header className="navbar navbar-dark bg-light flex-md-nowrap p-2 shadow-sm">
@@ -47,7 +54,12 @@ const AgentDashboardHeader = () => {
         </div>
         <div className="navbar-nav">
           <div className="nav-item text-nowrap">
-            <Link className="link-general link-size-small nav-link px-3" to="#">
+            <Link
+              className="link-general link-size-small nav-link px-3"
+              onClick={setListingKeyValue}
+              to={PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE}
+              state={{ data: null }}
+            >
               Listings
             </Link>
           </div>

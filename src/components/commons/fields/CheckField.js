@@ -8,6 +8,7 @@ const CheckField = ({
   type,
   className,
   labelLink,
+  labelClass,
   initialValue,
   disabled,
   fieldSubscription,
@@ -19,6 +20,7 @@ const CheckField = ({
       type={type}
       className={className}
       label={label}
+      labelClass={labelClass}
       labelLink={labelLink}
       initialValue={initialValue}
       disabled={disabled}
@@ -40,6 +42,7 @@ const CheckField = ({
           className={className}
           label={label}
           labelLink={labelLink}
+          labelClass={labelClass}
           disabled={disabled}
           onCheckboxChange={onCheckboxChange}
         />

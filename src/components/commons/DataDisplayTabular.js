@@ -11,6 +11,8 @@ const DataDisplayTabular = ({
   onDelete,
   manageable,
   onManage,
+  showListing,
+  onShowListing,
 }) => {
   const [dataArray, setDataArray] = useState([]);
   const [columns, setColumns] = useState([]);
@@ -65,7 +67,7 @@ const DataDisplayTabular = ({
                         Edit
                       </Link>
                     )}
-                    {editable && deletable && <span className="px-2">|</span>}
+                    {deletable && <span className="px-2">|</span>}
                     {deletable && (
                       <Link
                         to=""
@@ -75,10 +77,8 @@ const DataDisplayTabular = ({
                         Delete
                       </Link>
                     )}
-                    {((editable && manageable) ||
-                      (deletable && manageable)) && (
-                      <span className="px-2">|</span>
-                    )}
+
+                    {manageable && <span className="px-2">|</span>}
                     {manageable && (
                       <Link
                         to={onManage?.path ? onManage?.path : ""}
@@ -86,6 +86,18 @@ const DataDisplayTabular = ({
                         state={{ data: originalData[index] }}
                       >
                         Manage
+                      </Link>
+                    )}
+
+                    {showListing && <span className="px-2">|</span>}
+                    {showListing && (
+                      <Link
+                        to={onShowListing?.path ? onShowListing?.path : ""}
+                        state={{ data: originalData[index] }}
+                        className="link-general link-size-small"
+                        onClick={onShowListing?.onClick}
+                      >
+                        Listings
                       </Link>
                     )}
                   </td>

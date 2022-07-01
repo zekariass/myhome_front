@@ -2,6 +2,7 @@
 import DataDisplay from "components/commons/DataDisplay";
 import { formatBuildingTypeForDisplay } from "components/commons/formatBuildingTypeForDisplay";
 import {
+  PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
   PATH_AGENT_DASHBOARD_OFFICE_EDIT_ABSOLUTE,
   PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT_ABSOLUTE,
 } from "components/commons/Strings";
@@ -11,7 +12,8 @@ import {
 } from "features/agent_dashboard/property/propertyCategorySlice";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { setListingKeyValueByProperty } from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
 const LandDetail = () => {
@@ -47,6 +49,16 @@ const LandDetail = () => {
             editInitialValues={officeData}
             path={PATH_AGENT_DASHBOARD_OFFICE_EDIT_ABSOLUTE}
           />
+        </div>
+        <div className="col">
+          <Link
+            to={PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE}
+            onClick={() => setListingKeyValueByProperty(dispatch)}
+            state={{ data: officeData }}
+            className="link-general link-size-small"
+          >
+            Property Listings
+          </Link>
         </div>
       </div>
       <div className="my-4">

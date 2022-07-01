@@ -6,6 +6,7 @@ import {
 } from "components/commons/Strings";
 import { getVillaDetail } from "features/agent_dashboard/property/propertyCategorySlice";
 import { setCurrentPage } from "features/global/globalSlice";
+import { setListingKey } from "features/listing/listingSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
@@ -26,6 +27,10 @@ const VillaDetail = ({ propVillaId, noParentDetail }) => {
     dispatch(getVillaDetail(villaId));
   }, []);
 
+  const setListingKeyValue = () => {
+    dispatch(setListingKey("byProperty"));
+  };
+
   return (
     <div className=" m-2">
       <div className="row row-cols-1 row-cols-lg-2">
@@ -38,9 +43,10 @@ const VillaDetail = ({ propVillaId, noParentDetail }) => {
             path={PATH_AGENT_DASHBOARD_VILLA_EDIT_ABSOLUTE}
           />
         </div>
-        <div>
+        <div className="col">
           <Link
             to={PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE}
+            onClick={setListingKeyValue}
             state={{ data: villaData }}
             className="link-general link-size-small"
           >

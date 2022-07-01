@@ -7,6 +7,7 @@ const CheckCustomInput = ({
   className,
   label,
   labelLink,
+  labelClass,
   disabled,
   onCheckboxChange,
 }) => {
@@ -32,7 +33,7 @@ const CheckCustomInput = ({
         }}
       />
       <span>
-        {label}
+        <label className={labelClass}> {label}</label>
         <Link to="" className="link-general link-size-normal link-hover">
           {labelLink}
         </Link>

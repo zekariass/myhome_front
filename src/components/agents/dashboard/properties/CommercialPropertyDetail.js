@@ -6,15 +6,21 @@ import {
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_DETAIL_ABSOLUTE,
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_EDIT_ABSOLUTE,
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_EDIT_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
 } from "components/commons/Strings";
 import {
   deleteApartmentUnit,
   getCommercialPropertyDetail,
   getCommercialPropertyUnitsByCommercialProperty,
 } from "features/agent_dashboard/property/propertyCategorySlice";
+import { setListingKey } from "features/listing/listingSlice";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  setListingKeyValueByProperty,
+  setListingKeyValueByUnit,
+} from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
 const CommercialPropertyDetail = () => {
@@ -86,6 +92,16 @@ const CommercialPropertyDetail = () => {
             path={PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_EDIT_ABSOLUTE}
           />
         </div>
+        <div className="col">
+          <Link
+            to={PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE}
+            onClick={() => setListingKeyValueByProperty(dispatch)}
+            state={{ data: commercialPropertyData }}
+            className="link-general link-size-small"
+          >
+            Property Listings
+          </Link>
+        </div>
       </div>
       <p className="display-title fw-bold my-4">
         Your Commercial Property Units
@@ -103,6 +119,11 @@ const CommercialPropertyDetail = () => {
           manageable={false}
           onManage={{
             path: PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_DETAIL_ABSOLUTE,
+          }}
+          showListing={true}
+          onShowListing={{
+            path: PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
+            onClick: () => setListingKeyValueByUnit(dispatch),
           }}
         />
       </div>

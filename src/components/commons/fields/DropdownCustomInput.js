@@ -32,7 +32,7 @@ const DropdownCustomInput = ({
       <label className={labelClass}>{label}</label>
       <select
         {...inputRest}
-        className={className}
+        className={`form-select ${className}`}
         disabled={disabled}
         onChange={(event) => {
           /**
@@ -56,15 +56,15 @@ const DropdownCustomInput = ({
             : {}
         }
       >
-        {options.map((option, index) => (
-          <option value={option.id} key={index}>
-            {/* render option based on its attribute name, name, type, etc.
+          {options.map((option, index) => (
+            <option value={option.id} key={index} >
+              {/* render option based on its attribute name, name, type, etc.
             e.g. property categories has "name", while house types and building types has "type" */}
-            {option.name}
-            {option.type}
-            {option.level}
-          </option>
-        ))}
+              {option.name}
+              {option.type}
+              {option.level}
+            </option>
+          ))}
       </select>
       {/* Show error message */}
       {((meta.touched && meta.error && !disabled) ||

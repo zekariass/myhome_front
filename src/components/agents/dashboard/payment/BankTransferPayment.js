@@ -11,7 +11,10 @@ const BankTransferPayment = ({ name, attachedFiles, setAttachedFiles }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fileToDisplay, setFileToDisplay] = useState(null);
 
-  // console.log("attachedFiles: ", attachedFiles);
+  /**
+   * Remove file from attachedFiles state array
+   * @param {*} fileIndex
+   */
   const removeFile = (fileIndex) => {
     const newAttachedFiles = attachedFiles.filter(
       (file, index) => index != fileIndex
@@ -19,6 +22,7 @@ const BankTransferPayment = ({ name, attachedFiles, setAttachedFiles }) => {
     setAttachedFiles(newAttachedFiles);
   };
 
+  //Modal body, display the reciept image
   const showModalBodyMessage = () => {
     return (
       <div>

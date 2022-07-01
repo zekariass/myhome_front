@@ -5,6 +5,7 @@ import {
   PATH_AGENT_DASHBOARD_APARTMENTUNIT_DETAIL_ABSOLUTE,
   PATH_AGENT_DASHBOARD_APARTMENTUNIT_EDIT_ABSOLUTE,
   PATH_AGENT_DASHBOARD_APARTMENT_EDIT_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
 } from "components/commons/Strings";
 import {
   deleteApartmentUnit,
@@ -14,6 +15,10 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  setListingKeyValueByProperty,
+  setListingKeyValueByUnit,
+} from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
 const ApartmentDetail = () => {
@@ -75,6 +80,16 @@ const ApartmentDetail = () => {
             path={PATH_AGENT_DASHBOARD_APARTMENT_EDIT_ABSOLUTE}
           />
         </div>
+        <div className="col">
+          <Link
+            to={PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE}
+            onClick={() => setListingKeyValueByProperty(dispatch)}
+            state={{ data: apartmentData }}
+            className="link-general link-size-small"
+          >
+            Property Listings
+          </Link>
+        </div>
       </div>
       <p className="display-title fw-bold my-4">Your Apartment Units</p>
       <div className="card p-3">
@@ -88,6 +103,11 @@ const ApartmentDetail = () => {
           manageable={false}
           onManage={{
             path: PATH_AGENT_DASHBOARD_APARTMENTUNIT_DETAIL_ABSOLUTE,
+          }}
+          showListing={true}
+          onShowListing={{
+            path: PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
+            onClick: () => setListingKeyValueByUnit(dispatch),
           }}
         />
       </div>

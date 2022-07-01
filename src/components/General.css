@@ -3,6 +3,10 @@
   background-color: rgb(205, 226, 205) !important;
 }
 
+.bg-grin {
+  background-color: rgb(128, 209, 96) !important;
+}
+
 .link-general {
   font-size: 1.1rem !important;
   font-weight: bold !important;
@@ -267,4 +271,9 @@ body {
 }
 .gallery-slider-icon:hover {
   color: rgb(32, 88, 9);
+}
+
+.dropdown-scrollable {
+  max-height: 300px;
+  overflow-y: scroll;
 }

@@ -12,6 +12,11 @@ import calculateListingPrice from "./calculateListingPrice";
 import CreditCardPayment from "./CreditCardPayment";
 import MobilePayment from "./MobilePayment";
 
+/**
+ * Payment component
+ * @param {*} param0
+ * @returns
+ */
 const Payment = ({
   name,
   attachedFiles,
@@ -23,45 +28,56 @@ const Payment = ({
   const [listingPriceAfterDiscount, setListingPriceAfterDiscount] = useState(0);
   const [listingPriceCurrency, setListingPriceCurrency] = useState(null);
 
+  //Get coupon data from redux store
   const couponDetail = useSelector(
     (store) => store.payment.coupon.getCouponDetail.data
   );
 
+  //Get payment methods from redux store
   const paymentMethods = useSelector(
     (store) => store.payment.getPaymentMethods.data
   );
 
+  //Get property categories from redux store
   const propertyCategories = useSelector(
     (store) => store.propertyCategory.propertyCategoryList.response.data
   );
 
+  //Get property data from redux store
   const propertyData = useSelector(
     (store) => store.payment.paymentPropertyData
   );
 
+  //Get listing prices from redux store
   const listingPrices = useSelector(
     (store) => store.propertyCategory.listing.listingPriceByCategoryList.data
   );
 
+  //Get listing discounts from redux store
   const listingdiscounts = useSelector(
     (store) => store.propertyCategory.listing.listingDiscountByCategoryList.data
   );
 
+  //Get listing params from redux store
   const listingParams = useSelector((store) => store.system.listingParams.data);
 
+  //Get agent listimg count from redux store
   const agentListingCount = useSelector(
     (store) => store.listing.agentListingCount.data
   );
 
+  //Get the selected listing type from redux store
   const selectedListingTypeId = useSelector(
     (store) => store.listing.selectedListingType
   );
 
+  //Get agent data from redux store
   const agentData = useSelector((store) => store.agent.getAgent.response.data);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    //Calculate the listing price after discount
     const listingPriceAndCurrency = calculateListingPrice(
       listingPrices,
       listingdiscounts,
@@ -71,10 +87,13 @@ const Payment = ({
       agentData
     );
 
+    //Destructure the listing price and currency returned from calculateListingPrice function
     const { listingPrice, currency } = listingPriceAndCurrency;
 
-    // console.log("listingPrice: ", listingPrice);
+    //Set the last or final listing price after discount
     lastListingPrice(listingPrice);
+
+    //Set the last or final listing price after discount - state of this component
     setListingPriceAfterDiscount(listingPrice);
     setListingPriceCurrency(currency);
 
@@ -82,9 +101,11 @@ const Payment = ({
   }, []);
 
   useEffect(() => {
+    //Get the main property category key
     const mainPropCatKey = propertyData?.cat_key;
     let propertyCategory = {};
 
+    //Get the property category data based on the main property caegory key
     propertyCategories?.forEach((pCategory) => {
       if (pCategory?.cat_key === mainPropCatKey) {
         propertyCategory = pCategory;
@@ -94,6 +115,11 @@ const Payment = ({
     setPropertyCategoryDetail(propertyCategory);
   });
 
+  /**
+   * Format payment methods
+   * Display in the dropdown only Credit card, Mobile and Bank transfer
+   * @returns
+   */
   const getFormatPaymentMethodNames = () => {
     let newPaymentMethods = [];
 
@@ -122,6 +148,7 @@ const Payment = ({
     return newPaymentMethods;
   };
 
+  //Get coupon detail from backend
   const onRedeemCouponCode = () => {
     dispatch(getCouponDetail(couponCode));
   };
@@ -130,6 +157,8 @@ const Payment = ({
     setCouponCode(event.target.value);
   };
 
+  //If the agent check the "use my coupon" checkbox and the coupon current value is
+  //greater than listing price, then automatically go to a confirmation page
   const onCouponCheckBoxChange = (event) => {
     if (event.target.checked) {
       if (couponDetail?.current_value >= listingPriceAfterDiscount) {
@@ -167,6 +196,9 @@ const Payment = ({
               fieldSubscription={FIELD_SUBSCRIPTION}
             />
           </div>
+
+          {/* Display the specific payment method form based on what the agent selects in 
+          payment method dropdown */}
           <FormSpy>
             {({ values }) => {
               let methodName = null;
@@ -229,6 +261,8 @@ const Payment = ({
               Find Coupon
             </button>
           </div>
+
+          {/* Display the coupon detail */}
           <div className="my-3">
             {!!couponDetail?.code && (
               <div>
@@ -266,6 +300,8 @@ const Payment = ({
                     />
                   </div>
                 </div>
+
+                {/* Display a heads up if the coupon has no enough balance */}
                 {couponDetail?.current_value < listingPriceAfterDiscount && (
                   <div>
                     <p>

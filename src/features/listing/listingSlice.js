@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
+import { goToPage } from "features/common/wizardSlice";
 import { getFormatedResponse } from "features/getFormatedResponse";
 
 const initialListingState = {
@@ -44,6 +45,16 @@ const initialListingState = {
     },
     data: 0,
   },
+  listingList: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: [],
+  },
   createListing: {
     request: {
       isLoading: false,
@@ -54,7 +65,28 @@ const initialListingState = {
     },
     data: 0,
   },
+  updateListing: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: 0,
+  },
+  deleteListing: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: 0,
+  },
   selectedListingType: null,
+  listingKey: null,
 };
 
 export const getListingModes = createAsyncThunk(
@@ -104,7 +136,7 @@ export const getListingStates = createAsyncThunk(
 
 export const createListing = createAsyncThunk(
   "listing/createListing",
-  async (listingData) => {
+  async ({ listingData, navigate }, thunkApi) => {
     let result;
     try {
       result = await myHomeBackendAPI.post(`/listing/create/`, listingData, {
@@ -112,6 +144,58 @@ export const createListing = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
+      if (result.status === 201) {
+        navigate(-1, { replace: true });
+        thunkApi.dispatch(goToPage(0));
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getListingsByProperty = createAsyncThunk(
+  "listing/getListingsByProperty",
+  async (propertyId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/listing/list-by-property/`, {
+        params: { property: propertyId },
+      });
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+export const getListingsByPropertyUnit = createAsyncThunk(
+  "listing/getListingsByPropertyUnit",
+  async (unitListingQueryParams) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/listing/list-by-unit/`, {
+        params: unitListingQueryParams,
+      });
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getListingsByAgent = createAsyncThunk(
+  "listing/getListingsByAgent",
+  async () => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/listing/list-by-agent/`);
     } catch (error) {
       result = error.response;
     } finally {
@@ -136,6 +220,59 @@ export const getAgentListingCount = createAsyncThunk(
   }
 );
 
+export const updateListing = createAsyncThunk(
+  "listing/updateListing",
+  async ({ updateData, navigate }) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.patch(
+        `/listing/${updateData?.id}/update/`,
+        updateData
+      );
+      if (result.status === 200) {
+        navigate(-1);
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const deleteListing = createAsyncThunk(
+  "listing/deleteListing",
+  async ({ listingId, listingKey, propertyId, catKey, unitId }, thunkApi) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.delete(`/listing/${listingId}/delete/`);
+      // if (result.status === 204) {
+      //   navigate(PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE, {
+      //     state: { data: propertyData, key: "byProperty" },
+      //   });
+      // }
+      if (result.status === 204) {
+        if (listingKey === "byAgent") {
+          thunkApi.dispatch(getListingsByAgent());
+        } else if (listingKey === "byUnit") {
+          thunkApi.dispatch(
+            getListingsByPropertyUnit({ unit: unitId, cat_key: catKey })
+          );
+        } else {
+          thunkApi.dispatch(getListingsByProperty(propertyId));
+        }
+        thunkApi.dispatch(setListingKey(listingKey));
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
 //=========LISTING SLICE===========================================================
 
 const listingSlice = createSlice({
@@ -144,6 +281,12 @@ const listingSlice = createSlice({
   reducers: {
     setSelectedLitingType: (state, action) => {
       state.selectedListingType = action.payload;
+    },
+    setListingKey: (state, action) => {
+      state.listingKey = action.payload;
+    },
+    resetListingList: (state) => {
+      state.listingList.data = [];
     },
   },
   extraReducers: {
@@ -236,9 +379,100 @@ const listingSlice = createSlice({
       state.agentListingCount.response.error = action.payload.data;
       state.agentListingCount.response.status = action.payload.status;
     },
+
+    /**
+     * get listings by property
+     * @param {StateObject} state
+     */
+    [getListingsByProperty.pending]: (state) => {
+      state.listingList.request.isLoading = true;
+    },
+    [getListingsByProperty.fulfilled]: (state, action) => {
+      state.listingList.request.isLoading = false;
+      state.listingList.data = action.payload.data;
+      state.listingList.response.status = action.payload.status;
+    },
+    [getListingsByProperty.rejected]: (state, action) => {
+      state.listingList.request.isLoading = false;
+      state.listingList.response.error = action.payload.data;
+      state.listingList.response.status = action.payload.status;
+    },
+
+    /**
+     * get listings by property unit
+     * @param {StateObject} state
+     */
+    [getListingsByPropertyUnit.pending]: (state) => {
+      state.listingList.request.isLoading = true;
+    },
+    [getListingsByPropertyUnit.fulfilled]: (state, action) => {
+      state.listingList.request.isLoading = false;
+      state.listingList.data = action.payload.data;
+      state.listingList.response.status = action.payload.status;
+    },
+    [getListingsByPropertyUnit.rejected]: (state, action) => {
+      state.listingList.request.isLoading = false;
+      state.listingList.response.error = action.payload.data;
+      state.listingList.response.status = action.payload.status;
+    },
+
+    /**
+     * get listings by Agent
+     * @param {StateObject} state
+     */
+    [getListingsByAgent.pending]: (state) => {
+      state.listingList.request.isLoading = true;
+    },
+    [getListingsByAgent.fulfilled]: (state, action) => {
+      state.listingList.request.isLoading = false;
+      state.listingList.data = action.payload.data;
+      state.listingList.response.status = action.payload.status;
+    },
+    [getListingsByAgent.rejected]: (state, action) => {
+      state.listingList.request.isLoading = false;
+      state.listingList.response.error = action.payload.data;
+      state.listingList.response.status = action.payload.status;
+    },
+
+    /**
+     * Edit listings data
+     * @param {StateObject} state
+     */
+    [updateListing.pending]: (state) => {
+      state.updateListing.request.isLoading = true;
+    },
+    [updateListing.fulfilled]: (state, action) => {
+      state.updateListing.request.isLoading = false;
+      state.updateListing.data = action.payload.data;
+      state.updateListing.response.status = action.payload.status;
+    },
+    [updateListing.rejected]: (state, action) => {
+      state.updateListing.request.isLoading = false;
+      state.updateListing.response.error = action.payload.data;
+      state.updateListing.response.status = action.payload.status;
+    },
+
+    /**
+     * Delete listings data
+     * @param {StateObject} state
+     */
+    [deleteListing.pending]: (state) => {
+      state.deleteListing.request.isLoading = true;
+    },
+    [deleteListing.fulfilled]: (state, action) => {
+      state.deleteListing.request.isLoading = false;
+      state.deleteListing.data = action.payload.data;
+      state.deleteListing.response.status = action.payload.status;
+    },
+    [deleteListing.rejected]: (state, action) => {
+      state.deleteListing.request.isLoading = false;
+      state.deleteListing.response.error = action.payload.data;
+      state.deleteListing.response.status = action.payload.status;
+    },
   },
 });
 
-export const { setSelectedLitingType } = listingSlice.actions;
+export const { setSelectedLitingType, setListingKey, resetListingList } =
+  listingSlice.actions;
 
 export default listingSlice.reducer;

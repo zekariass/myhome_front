@@ -1,10 +1,14 @@
 // @ts-nocheck
 import DataDisplay from "components/commons/DataDisplay";
-import { PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_EDIT_ABSOLUTE } from "components/commons/Strings";
+import {
+  PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_EDIT_ABSOLUTE,
+} from "components/commons/Strings";
 import { getTraditionalHouseDetail } from "features/agent_dashboard/property/propertyCategorySlice";
+import { setListingKey } from "features/listing/listingSlice";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PropertyDetail from "./PropertyDetail";
 
 const TraditionalHouseDetail = () => {
@@ -21,6 +25,10 @@ const TraditionalHouseDetail = () => {
     dispatch(getTraditionalHouseDetail(traditionalHouseId));
   }, []);
 
+  const setListingKeyValue = () => {
+    dispatch(setListingKey("byProperty"));
+  };
+
   //   console.log(traditionalHouseData);
   return (
     <div className=" m-2">
@@ -33,6 +41,16 @@ const TraditionalHouseDetail = () => {
             editInitialValues={traditionalHouseData}
             path={PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_EDIT_ABSOLUTE}
           />
+        </div>
+        <div className="col">
+          <Link
+            to={PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE}
+            onClick={setListingKeyValue}
+            state={{ data: traditionalHouseData }}
+            className="link-general link-size-small"
+          >
+            Property Listings
+          </Link>
         </div>
       </div>
       <div className="my-4">

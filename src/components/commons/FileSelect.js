@@ -2,10 +2,13 @@ import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
 const FileSelect = ({ attachedFiles, setAttachedFiles, accept }) => {
-  const onDrop = useCallback((acceptedFile) => {
-    attachedFiles = [...attachedFiles, acceptedFile[0]];
-    setAttachedFiles(attachedFiles);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFile) => {
+      attachedFiles = [...attachedFiles, acceptedFile[0]];
+      setAttachedFiles(attachedFiles);
+    },
+    [attachedFiles]
+  );
 
   const { getInputProps, getRootProps } = useDropzone({
     accept: accept,

@@ -1,11 +1,15 @@
 // @ts-nocheck
 import DataDisplay from "components/commons/DataDisplay";
 import { formatHouseTypeForDisplay } from "components/commons/formatHouseTypeForDisplay";
-import { PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT_ABSOLUTE } from "components/commons/Strings";
+import {
+  PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT_ABSOLUTE,
+} from "components/commons/Strings";
 import { getShareHouseDetail } from "features/agent_dashboard/property/propertyCategorySlice";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { setListingKeyValueByProperty } from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
 const ShareHouseDetail = () => {
@@ -39,6 +43,16 @@ const ShareHouseDetail = () => {
             editInitialValues={shareHouseData}
             path={PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT_ABSOLUTE}
           />
+        </div>
+        <div className="col">
+          <Link
+            to={PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE}
+            onClick={() => setListingKeyValueByProperty(dispatch)}
+            state={{ data: shareHouseData }}
+            className="link-general link-size-small"
+          >
+            Property Listings
+          </Link>
         </div>
       </div>
       <div className="my-4">

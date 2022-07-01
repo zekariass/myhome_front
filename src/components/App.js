@@ -32,7 +32,6 @@ import {
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_EDIT,
   PATH_AGENT_DASHBOARD_COMMERCIALPROPERTY_LIST,
   PATH_AGENT_DASHBOARD_CONDOMINIUM_DETAIL,
-  PATH_AGENT_DASHBOARD_CONDOMINIUM_DETAIL_ABSOLUTE,
   PATH_AGENT_DASHBOARD_CONDOMINIUM_EDIT,
   PATH_AGENT_DASHBOARD_CONDOMINIUM_LIST,
   PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD,
@@ -44,6 +43,7 @@ import {
   PATH_AGENT_DASHBOARD_LAND_LIST,
   PATH_AGENT_DASHBOARD_LISTING_ADD,
   PATH_AGENT_DASHBOARD_LISTING_DETAIL,
+  PATH_AGENT_DASHBOARD_LISTING_EDIT,
   PATH_AGENT_DASHBOARD_LISTING_LIST,
   PATH_AGENT_DASHBOARD_OFFICE_DETAIL,
   PATH_AGENT_DASHBOARD_OFFICE_EDIT,
@@ -53,7 +53,6 @@ import {
   PATH_AGENT_DASHBOARD_PROPERTY_ADD,
   PATH_AGENT_DASHBOARD_PROPERTY_ADDRESS_EDIT,
   PATH_AGENT_DASHBOARD_PROPERTY_DETAIL,
-  PATH_AGENT_DASHBOARD_PROPERTY_DETAIL_ABSOLUTE,
   PATH_AGENT_DASHBOARD_PROPERTY_EDIT,
   PATH_AGENT_DASHBOARD_PROPERTY_FILE_UPLOAD,
   PATH_AGENT_DASHBOARD_PROPERTY_LIST,
@@ -61,7 +60,6 @@ import {
   PATH_AGENT_DASHBOARD_SHAREHOUSE_DETAIL,
   PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT,
   PATH_AGENT_DASHBOARD_SHAREHOUSE_LIST,
-  PATH_AGENT_DASHBOARD_STAT,
   PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_DETAIL,
   PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_EDIT,
   PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_LIST,
@@ -76,6 +74,7 @@ import {
   PATH_PROPERTY_ADD,
   PATH_PROPERTY_FILE_UPLOAD,
   PATH_PROPERTY_HOME,
+  PATH_PUBLIC_LISTING,
   PATH_SAVED_PROPETRTIES,
   PATH_SIGNIN,
   PATH_SIGNUP,
@@ -85,10 +84,8 @@ import AgentsPage from "./agents/AgentsPage";
 import AgentFormWizard from "./agents/new_agent/AgentFormWizard";
 import AgentSearch from "./agents/AgentSearch";
 import AgentCreateInfo from "./agents/new_agent/AgentCreateInfo";
-import AgentLogo from "./agents/new_agent/AgentLogoOld";
 import PropertyPage from "./properties/PropertyPage";
 import PropertyFormWizard from "./properties/PropertyFormWizard";
-import PropertyPictureUpload from "./properties/forms/FileUploadInput";
 import PropertyFileUpload from "./properties/forms/PropertyFileUpload";
 import AgentDashboard from "./agents/dashboard/AgentDashboard";
 import AgentDashboardStat from "./agents/dashboard/AgentDashboardStat";
@@ -102,7 +99,6 @@ import {
   getListingParams,
   getSystemParams,
 } from "features/system/paramSlice";
-import ConditionalEdit from "./agents/dashboard/properties/ParentPropertyEdit";
 import PropertyAddressEdit from "./agents/dashboard/properties/PropertyAddressEdit";
 import ParentPropertyEdit from "./agents/dashboard/properties/ParentPropertyEdit";
 import EducationFacility from "./agents/dashboard/properties/EducationFacility";
@@ -115,7 +111,6 @@ import ShareHouseEdit from "./agents/dashboard/properties/ShareHouseEdit";
 import ApartmentList from "./agents/dashboard/properties/ApartmentList";
 import ApartmentEdit from "./agents/dashboard/properties/ApartmentEdit";
 import ApartmentDetail from "./agents/dashboard/properties/ApartmentDetail";
-import ApartmentUnit from "./properties/forms/ApartmentUnit";
 import ApartmentUnitDetail from "./agents/dashboard/properties/ApartmentUnitDetail";
 import ApartmentUnitEdit from "./agents/dashboard/properties/ApartmentUnitEdit";
 import VillaList from "./agents/dashboard/properties/VillaList";
@@ -157,6 +152,11 @@ import {
   getPaymentMethods,
   getSupportedCardSchemes,
 } from "features/payment/paymentSlice";
+import { random } from "lodash";
+import BasicListingEdit from "./agents/dashboard/listings/BasicListingEdit";
+import ListingDetail from "./agents/dashboard/listings/ListingDetail";
+import { getPropertyCategories } from "features/agent_dashboard/property/propertyCategorySlice";
+import PublicListingPage from "./listing_page/PublicListingPage";
 
 const App = () => {
   const { isSignedIn } = useSelector((store) => store.user.signin);
@@ -173,6 +173,7 @@ const App = () => {
     dispatch(getPaymentMethods());
     dispatch(getSupportedCardSchemes());
     dispatch(getCurrencies());
+    dispatch(getPropertyCategories());
     if (isSignedIn) {
       dispatch(getAgent());
     }
@@ -448,6 +449,16 @@ const App = () => {
                 element={<AddListing />}
               />
 
+              <Route
+                path={PATH_AGENT_DASHBOARD_LISTING_EDIT}
+                element={<BasicListingEdit />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_LISTING_DETAIL}
+                element={<ListingDetail />}
+              />
+
               {/* ================ EDUCATION FACILITY ================================= */}
               <Route
                 path={`${PATH_DYNAMIC_PROPERTY}/${PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD}`}
@@ -473,9 +484,14 @@ const App = () => {
                 path={`${PATH_DYNAMIC_PROPERTY}/${PATH_AGENT_DASHBOARD_PROPERTY_RULE_ADD}`}
                 element={<PropertyRule />}
               />
+
+              {/* PUBLIC LISTING */}
             </Route>
           </Route>
         </Route>
+
+        <Route path={PATH_PUBLIC_LISTING} element={<PublicListingPage />} />
+
         <Route path={PATH_PROPERTY_HOME} element={<PropertyPage />}>
           <Route path={PATH_PROPERTY_ADD} element={<PropertyFormWizard />} />
           <Route

@@ -5,7 +5,13 @@ import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React from "react";
 import { useSelector } from "react-redux";
 
+/**
+ * Credit card payment form
+ * @param {*} param0
+ * @returns
+ */
 const CreditCardPayment = ({ name }) => {
+  //Get supported cards scheme from store
   const supportedCardSchemes = useSelector(
     (store) => store.payment.getSupportedCardSchemes.data
   );

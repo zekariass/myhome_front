@@ -1,10 +1,14 @@
 // @ts-nocheck
 import DataDisplay from "components/commons/DataDisplay";
-import { PATH_AGENT_DASHBOARD_LAND_EDIT_ABSOLUTE } from "components/commons/Strings";
+import {
+  PATH_AGENT_DASHBOARD_LAND_EDIT_ABSOLUTE,
+  PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
+} from "components/commons/Strings";
 import { getLandDetail } from "features/agent_dashboard/property/propertyCategorySlice";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { setListingKeyValueByProperty } from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
 const LandDetail = () => {
@@ -31,6 +35,16 @@ const LandDetail = () => {
             editInitialValues={landData}
             path={PATH_AGENT_DASHBOARD_LAND_EDIT_ABSOLUTE}
           />
+        </div>
+        <div className="col">
+          <Link
+            to={PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE}
+            onClick={() => setListingKeyValueByProperty(dispatch)}
+            state={{ data: landData }}
+            className="link-general link-size-small"
+          >
+            Property Listings
+          </Link>
         </div>
       </div>
       <div className="my-4">

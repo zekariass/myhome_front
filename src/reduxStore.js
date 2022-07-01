@@ -12,6 +12,7 @@ import propertyFileSlice from "features/agent_dashboard/property/propertyFileSli
 import paramSlice from "features/system/paramSlice";
 import listingSlice from "features/listing/listingSlice";
 import paymentSlice from "features/payment/paymentSlice";
+import publicListingSlice from "features/listing/publicListingSlice";
 
 export const reduxStore = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ export const reduxStore = configureStore({
     propertyFile: propertyFileSlice,
     system: paramSlice,
     listing: listingSlice,
+    publicListing: publicListingSlice,
     payment: paymentSlice,
   },
 });

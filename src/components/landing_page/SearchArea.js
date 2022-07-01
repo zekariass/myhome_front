@@ -1,45 +1,126 @@
-import React, { Component } from "react";
+// @ts-nocheck
+import CheckField from "components/commons/fields/CheckField";
+import DropdownField from "components/commons/fields/DropdownField";
+import TextField from "components/commons/fields/TextField";
+import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
+import { PATH_PUBLIC_LISTING } from "components/commons/Strings";
+import {
+  clearPublicListing,
+  getPublicListingsBySearchFromLandingPage,
+} from "features/listing/publicListingSlice";
+import React from "react";
+import { Form } from "react-final-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-class SearchArea extends Component {
-  render() {
-    return (
-      <div>
-        <form>
-          <div className="mb-2">
-            <button className="btn-general me-2 py-1 px-2">For Rent</button>
-            <button className="btn-general py-1 px-2">For Sale</button>
-          </div>
-          <div className="row search-area">
-            <div className="col-xl-5">
-              <input
-                type="text"
-                className="form-control form-control-lg flex-center-general mb-2"
-                placeholder="Enter Region, City, Sub-City, etc"
-              />
+const SearchArea = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const propertyCategories = useSelector(
+    (store) => store.propertyCategory.propertyCategoryList.response.data
+  );
+
+  const listingTypes = useSelector(
+    (store) => store.listing.getListingTypes.data
+  );
+
+  const onSubmit = (values) => {
+    const searchParams = {
+      location: -1,
+      property_category: -1,
+      for_sale: false,
+      for_rent: false,
+    };
+
+    Object.keys(values).forEach((paramKey) => {
+      searchParams[paramKey] = values[paramKey];
+    });
+    dispatch(clearPublicListing());
+    dispatch(getPublicListingsBySearchFromLandingPage(searchParams));
+    // console.log("SEARCH LISTING: ", values);
+    navigate(PATH_PUBLIC_LISTING);
+  };
+  return (
+    <div>
+      <p className="fs-5 fw-bold display-title ps-1">Search Properties</p>
+      <Form onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <div className="search-area my-4">
+              <div className="row row-cols-auto p-3">
+                <div className="col form-outline mb-2">
+                  <CheckField
+                    name="for_rent"
+                    type="checkbox"
+                    className="form-check-input me-2"
+                    label="For Rent"
+                    labelClass="text-light"
+                    labelLink=""
+                    initialValue={false}
+                    disabled={false}
+                    fieldSubscription={FIELD_SUBSCRIPTION}
+                    // onCheckboxChange={onCouponCheckBoxChange}
+                  />
+                </div>
+                <div className="col form-outline mb-2">
+                  <CheckField
+                    name="for_sale"
+                    type="checkbox"
+                    className="form-check-input me-2"
+                    label="For Sale"
+                    labelClass="text-light"
+                    labelLink=""
+                    initialValue={false}
+                    disabled={false}
+                    fieldSubscription={FIELD_SUBSCRIPTION}
+                    // onCheckboxChange={onCouponCheckBoxChange}
+                  />
+                </div>
+              </div>
+              <div className="row row-cols-1 row-cols-lg-2 g-3 px-3">
+                <div className="col form-outline mb-2">
+                  <TextField
+                    name="location"
+                    className="form-control form-control-lg input-border-color"
+                    type="text"
+                    placeholder="Enter Region, City, Sub-City, etc"
+                    label="Keyword"
+                    labelClass="form-label fs-5 mt-2 text-light"
+                    validate={() => {}}
+                    subscription={FIELD_SUBSCRIPTION}
+                  />
+                  {/* </div> */}
+                </div>
+                <div className="col">
+                  <DropdownField
+                    name="property_category"
+                    className="form-control form-control-lg input-border-color"
+                    label="Property Category"
+                    labelClass="form-label fs-5 mt-2 text-light"
+                    options={[
+                      { id: "-1", name: "--Select Category--" },
+                      ...propertyCategories,
+                    ]}
+                    customOnChange={() => {}}
+                    dispatchObj={null}
+                    // validate={countryRequired}
+                    subscription={FIELD_SUBSCRIPTION}
+                  />
+                </div>
+              </div>
+
+              <div className="flex-end-general p-3">
+                <button type="submit" className="btn-general px-3 py-2">
+                  Search
+                </button>
+              </div>
             </div>
-            <div className="col-xl-4 flex-center-general">
-              <select
-                className="form-select form-select-lg mb-2"
-                aria-label="property select"
-              >
-                <option>Apartment</option>
-                <option value="1">Villa</option>
-                <option value="2">Traditional Home</option>
-                <option value="3">Condominium</option>
-                <option value="5">Hall</option>
-                <option value="1">Office</option>
-                <option value="2">Commercial Property</option>
-                <option value="3">Land</option>
-              </select>
-            </div>
-            <div className="col-xl-3 d-flex flex-center-general mb-2">
-              <button className="btn-general px-3 py-2">Search</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    );
-  }
-}
+          </form>
+        )}
+      </Form>
+    </div>
+  );
+};
 
 export default SearchArea;

@@ -2,9 +2,15 @@ import ConfirmationList from "components/commons/ConfirmationList";
 import React from "react";
 import { FormSpy } from "react-final-form";
 
+/**
+ * Confirmation of listing data before submit
+ * @param {object} param0
+ * @returns
+ */
 const ListingConfirmation = ({ edit }) => {
   return (
     <div>
+      {/* Format the data by getting the values using FOrmSpy for display */}
       <FormSpy>
         {({ values }) => {
           let { payment, ...listingRest } = values;
