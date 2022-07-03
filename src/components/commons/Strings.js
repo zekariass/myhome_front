@@ -3,6 +3,8 @@ export const API_CALL_TIME_OUT = 15000;
 
 export const MAX_RECIEPT_ATTACHEMENTS = 5;
 
+export const NUMBER_OF_PAGINATION_ITEMS = 5;
+
 //LISTING PARAMETERS
 export const NEW_AGENT_PROMOTION = "NEW_AGENT_PROMOTION";
 export const HOLIDAY_PROMOTION = "HOLIDAY_PROMOTION";
@@ -186,7 +188,9 @@ export const PATH_AGENT_DASHBOARD_LISTING_EDIT = "listing/edit";
 export const PATH_AGENT_DASHBOARD_LISTING_EDIT_ABSOLUTE = `${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${PATH_AGENT_DASHBOARD_LISTING_EDIT}`;
 
 //PUBLIC LISTING PAGE
-export const PATH_PUBLIC_LISTING = "public/listing/";
+export const PATH_PUBLIC_LISTING = "public/listing";
+export const PATH_PUBLIC_LISTING_DETAIL = ":listingId/detail";
+// export const PATH_PUBLIC_LISTING_DETAIL_ABSOLUTE = `${PATH_PUBLIC_LISTING}/${PATH_PUBLIC_LISTING_DETAIL}`;
 
 //==============================================================================================
 

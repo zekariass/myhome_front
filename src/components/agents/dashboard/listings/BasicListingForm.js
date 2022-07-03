@@ -1,5 +1,6 @@
 // @ts-nocheck
 import DropdownField from "components/commons/fields/DropdownField";
+import TextareaField from "components/commons/fields/TextareaField";
 import TextField from "components/commons/fields/TextField";
 import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import { setSelectedLitingType } from "features/listing/listingSlice";
@@ -18,6 +19,11 @@ const BasicListingForm = ({ title, isEdit }) => {
   //Get currencies from redux store
   const currencies = useSelector(
     (store) => store.system.currency.currencyList.data
+  );
+
+  //Get periodicity from redux store
+  const periodicities = useSelector(
+    (store) => store.common.periodicityList.data
   );
 
   return (
@@ -72,6 +78,18 @@ const BasicListingForm = ({ title, isEdit }) => {
             fieldSubscription={FIELD_SUBSCRIPTION}
           />
         </div>
+        <div className="col form-outline mb-2">
+          <DropdownField
+            name="listing_term"
+            className="form-control form-control-lg input-border-color"
+            label="Listing Term"
+            labelClass="form-label fs-5 mt-2"
+            options={[{ id: "-1", level: "--Select Term--" }, ...periodicities]}
+            disabled={false}
+            validate={() => {}}
+            fieldSubscription={FIELD_SUBSCRIPTION}
+          />
+        </div>
 
         <div className="col form-outline mb-2">
           <DropdownField
@@ -100,6 +118,16 @@ const BasicListingForm = ({ title, isEdit }) => {
             disabled={false}
             validate={() => {}}
             fieldSubscription={FIELD_SUBSCRIPTION}
+          />
+        </div>
+        <div className="col form-outline mb-2">
+          <TextareaField
+            name={`description`}
+            className="form-control form-control-lg input-border-color"
+            label="Listing Description"
+            labelClass="form-label fs-5 mt-2"
+            subscription={FIELD_SUBSCRIPTION}
+            validate={() => {}}
           />
         </div>
 

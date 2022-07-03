@@ -253,7 +253,7 @@ body {
 
 .gallery-slider {
   width: 100%;
-  height: 100px;
+  height: 150px;
 }
 .gallery-slider-div {
   width: 65%;
@@ -276,4 +276,20 @@ body {
 .dropdown-scrollable {
   max-height: 300px;
   overflow-y: scroll;
+}
+
+/* PAGINATION */
+.page-item.active .page-link {
+  color: #fff !important;
+  background-color: rgb(128, 209, 96) !important;
+  border-color: rgb(71, 144, 47) !important;
+  cursor: pointer;
+}
+
+.page-item.active .page-link:hover {
+  background-color: rgb(83, 162, 51) !important;
+}
+
+.image-display {
+  border-radius: 10px !important;
 }

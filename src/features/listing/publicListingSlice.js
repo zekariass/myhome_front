@@ -14,6 +14,19 @@ const initialPublicListingState = {
     },
     data: [],
   },
+  publicListingDetail: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: [],
+  },
+  searchParams: {
+    params: [],
+  },
 };
 
 export const getPublicListingsBySearchFromLandingPage = createAsyncThunk(
@@ -21,9 +34,29 @@ export const getPublicListingsBySearchFromLandingPage = createAsyncThunk(
   async (searchParams) => {
     let result;
     try {
-      result = await myHomeBackendAPI.get(`/listing/public/search/`, {
-        params: searchParams,
-      });
+      result = await myHomeBackendAPI.get(
+        `/listing/public/search/${searchParams}`
+      );
+      // , {
+      //   params: searchParams,
+      // });
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getPublicListingsById = createAsyncThunk(
+  "publicListing/getPublicListingsById",
+  async (listingId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/listing/public/${listingId}/detail/`
+      );
     } catch (error) {
       result = error.response;
     } finally {
@@ -41,6 +74,9 @@ const publicListing = createSlice({
   reducers: {
     clearPublicListing: (state) => {
       state.publicListingList.data = [];
+    },
+    setSearchParams: (state, actions) => {
+      state.searchParams.params = actions.payload;
     },
   },
   extraReducers: {
@@ -61,9 +97,27 @@ const publicListing = createSlice({
       state.publicListingList.response.error = action.payload.data;
       state.publicListingList.response.status = action.payload.status;
     },
+
+    /**
+     * get public listing
+     * @param {StateObject} state
+     */
+    [getPublicListingsById.pending]: (state) => {
+      state.publicListingDetail.request.isLoading = true;
+    },
+    [getPublicListingsById.fulfilled]: (state, action) => {
+      state.publicListingDetail.request.isLoading = false;
+      state.publicListingDetail.data = action.payload.data;
+      state.publicListingDetail.response.status = action.payload.status;
+    },
+    [getPublicListingsById.rejected]: (state, action) => {
+      state.publicListingDetail.request.isLoading = false;
+      state.publicListingDetail.response.error = action.payload.data;
+      state.publicListingDetail.response.status = action.payload.status;
+    },
   },
 });
 
-export const { clearPublicListing } = publicListing.actions;
+export const { clearPublicListing, setSearchParams } = publicListing.actions;
 
 export default publicListing.reducer;

@@ -49,6 +49,16 @@ const agentInitialState = {
     },
     data: [],
   },
+  publicAgentDetail: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: {},
+  },
 };
 
 //============================================================================
@@ -164,6 +174,26 @@ export const deleteAgentLogo = createAsyncThunk(
 
 //============================================================================
 /**
+ * Get a specific agent by ID
+ */
+//============================================================================
+export const getAgentById = createAsyncThunk(
+  "agent/getAgentById",
+  async (agentId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/agent/${agentId}/detail/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+//============================================================================
+/**
  * Agent slice
  */
 //============================================================================
@@ -254,6 +284,25 @@ const agentSlice = createSlice({
       state.logo.deleteLogo.request.isLoading = false;
       state.logo.deleteLogo.response.status = action.payload.status;
       state.logo.deleteLogo.response.error = action.payload.data;
+    },
+
+    //============================================================================
+    /**
+     * Get Agent by ID
+     */
+    //============================================================================
+    [getAgentById.pending]: (state) => {
+      state.publicAgentDetail.request.isLoading = true;
+    },
+    [getAgentById.fulfilled]: (state, action) => {
+      state.publicAgentDetail.request.isLoading = false;
+      state.publicAgentDetail.response.status = action.payload.status;
+      state.publicAgentDetail.data = action.payload.data;
+    },
+    [getAgentById.rejected]: (state, action) => {
+      state.publicAgentDetail.request.isLoading = false;
+      state.publicAgentDetail.response.status = action.payload.status;
+      state.publicAgentDetail.response.error = action.payload.data;
     },
   },
 });

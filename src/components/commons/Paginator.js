@@ -1,63 +1,155 @@
 // @ts-nocheck
-import { getPublicListingsBySearchFromLandingPage } from "features/listing/publicListingSlice";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { NUMBER_OF_PAGINATION_ITEMS } from "./Strings";
 
-const Paginator = ({ pageCount, nextPage, previousPage, pageSize }) => {
-  const dispatch = useDispatch();
-  const renderPaginationItems = () => {
-    const numberOfPages = Math.ceil(pageCount / pageSize);
-    const pagesArray = Array.from({ length: numberOfPages }, (_, i) => i + 1);
+const Paginator = ({
+  itemCount,
+  pageSize,
+  onNextPageClick,
+  onPrevPageClick,
+  onPageClick,
+}) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(1);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const curPageFromUrl = searchParams.get("page");
+    if (curPageFromUrl) {
+      setCurrentPage(parseInt(curPageFromUrl));
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const numberOfItemsFetched = itemCount ? parseInt(itemCount) : 0;
+    const numberOfItemsInOnePage = pageSize ? parseInt(pageSize) : 1;
+    const numOfPages = Math.ceil(numberOfItemsFetched / numberOfItemsInOnePage);
+    setNumberOfPages(numOfPages);
+  }, [itemCount, pageSize]);
+
+  const renderPaginationItem = (page, index) => {
     return (
-      <>
-        {pagesArray.map((page, index) => (
-          <Pagination.Item key={index}>{page}</Pagination.Item>
-        ))}
-      </>
+      <Pagination.Item
+        onClick={() => {
+          setCurrentPage(page);
+          onPageClick(page);
+        }}
+        key={index}
+        active={page === currentPage}
+        className="fw-bold"
+      >
+        {page}
+      </Pagination.Item>
     );
   };
 
-  const onNextPageClick = () => {
-    const urlSearchParams = new URLSearchParams(nextPage);
-    const params = Object.fromEntries(urlSearchParams.entries());
+  const renderPaginationItems = () => {
+    console.log("numberOfPages: ", numberOfPages);
+    const pagesArray = Array.from({ length: numberOfPages }, (_, i) => i + 1);
 
-    Object.keys(params).forEach((param) => {
-      if (param.includes("for_rent")) {
-        params.for_rent = params[param];
-      }
-    });
+    const paginationStartOfset = currentPage - NUMBER_OF_PAGINATION_ITEMS / 2;
+    const paginationEndOffset = currentPage + NUMBER_OF_PAGINATION_ITEMS / 2;
 
-    dispatch(
-      getPublicListingsBySearchFromLandingPage({
-        for_rent: params.for_rent,
-        for_sale: params.for_sale,
-        location: params.location,
-        page: params.page,
-        property_category: params.property_category,
-      })
+    return (
+      <>
+        {renderPaginationItem(1, -1)}
+        {currentPage - NUMBER_OF_PAGINATION_ITEMS >= 1 && (
+          <Pagination.Ellipsis />
+        )}
+
+        <>
+          {numberOfPages > NUMBER_OF_PAGINATION_ITEMS && (
+            <>
+              {pagesArray.map(
+                (page, index) =>
+                  currentPage >= 1 + NUMBER_OF_PAGINATION_ITEMS &&
+                  currentPage <= numberOfPages - NUMBER_OF_PAGINATION_ITEMS &&
+                  page >= paginationStartOfset &&
+                  page <= paginationEndOffset &&
+                  renderPaginationItem(page, index)
+              )}
+
+              {pagesArray.map(
+                (page, index) =>
+                  currentPage < 1 + NUMBER_OF_PAGINATION_ITEMS &&
+                  page <= 1 + NUMBER_OF_PAGINATION_ITEMS &&
+                  page !== 1 &&
+                  page !== numberOfPages &&
+                  renderPaginationItem(page, index)
+              )}
+
+              {pagesArray.map(
+                (page, index) =>
+                  currentPage > numberOfPages - NUMBER_OF_PAGINATION_ITEMS &&
+                  page >= numberOfPages - NUMBER_OF_PAGINATION_ITEMS &&
+                  page !== 1 &&
+                  page !== numberOfPages &&
+                  renderPaginationItem(page, index)
+              )}
+            </>
+          )}
+        </>
+
+        {pagesArray.map(
+          (page, index) =>
+            numberOfPages <= NUMBER_OF_PAGINATION_ITEMS &&
+            page !== 1 &&
+            page !== numberOfPages &&
+            renderPaginationItem(page, index)
+        )}
+
+        {currentPage + NUMBER_OF_PAGINATION_ITEMS <= numberOfPages && (
+          <Pagination.Ellipsis />
+        )}
+        {numberOfPages > 1 &&
+          renderPaginationItem(numberOfPages, numberOfPages)}
+      </>
     );
   };
 
   return (
     <Pagination>
-      <Pagination.First />
-      <Pagination.Prev />
-      {/* <Pagination.Item>{1}</Pagination.Item>
-      <Pagination.Ellipsis />
-
-      <Pagination.Item>{10}</Pagination.Item>
-      <Pagination.Item>{11}</Pagination.Item>
-      <Pagination.Item active>{12}</Pagination.Item>
-      <Pagination.Item>{13}</Pagination.Item>
-      <Pagination.Item disabled>{14}</Pagination.Item>
-
-      <Pagination.Ellipsis />
-      <Pagination.Item>{20}</Pagination.Item> */}
+      {/* <Pagination.First
+        onClick={() => {
+          if (currentPage > 1) {
+            setCurrentPage(1);
+            onFirstPageClick();
+          }
+        }}
+        disabled={currentPage === 1}
+      /> */}
+      <Pagination.Prev
+        onClick={() => {
+          if (currentPage > 1) {
+            setCurrentPage(Math.max(1, currentPage - 1));
+            onPrevPageClick();
+          }
+        }}
+        disabled={currentPage === 1}
+      />
       {renderPaginationItems()}
-      <Pagination.Next onClick={onNextPageClick} />
-      <Pagination.Last />
+      <Pagination.Next
+        onClick={() => {
+          if (currentPage < numberOfPages) {
+            setCurrentPage(Math.min(currentPage + 1, numberOfPages));
+            onNextPageClick();
+          }
+        }}
+        disabled={currentPage === numberOfPages}
+      />
+      {/* <Pagination.Last
+        onClick={() => {
+          if (currentPage < numberOfPages) {
+            setCurrentPage(numberOfPages);
+            onLastPageClick(numberOfPages);
+          }
+        }}
+        disabled={currentPage === numberOfPages}
+      /> */}
     </Pagination>
   );
 };

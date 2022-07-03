@@ -15,7 +15,11 @@ const MinimisedImageGallery = ({ data }) => {
                 <img
                   src={data[selectedImageIndex].image}
                   alt="Selected pic"
-                  style={{ width: "100%", height: "400px" }}
+                  style={{
+                    width: "100%",
+                    height: "550px",
+                  }}
+                  className="image-display"
                 />
               </div>
               <div className="col-4">
@@ -47,7 +51,7 @@ const MinimisedImageGallery = ({ data }) => {
                           <img
                             src={img.image}
                             alt="pic 1"
-                            className={activaImageClass}
+                            className={`${activaImageClass} image-display`}
                             //   style={{ width: "200px", height: "100px" }}
                           />
                         </div>
@@ -58,7 +62,7 @@ const MinimisedImageGallery = ({ data }) => {
                             src={img.image}
                             alt="pic 2"
                             //   style={{ width: "200px", height: "100px" }}
-                            className={activaImageClass}
+                            className={`${activaImageClass} image-display`}
                           />
                         </div>
                       )}
@@ -68,7 +72,7 @@ const MinimisedImageGallery = ({ data }) => {
                             src={img.image}
                             alt="pic 3"
                             //   style={{ width: "200px", height: "100px" }}
-                            className={activaImageClass}
+                            className={`${activaImageClass} image-display`}
                           />
                         </div>
                       )}
@@ -106,6 +110,7 @@ const MinimisedImageGallery = ({ data }) => {
                         src={img.image}
                         alt="Selected pic"
                         style={{ width: "95%", height: "300px" }}
+                        className="image-display"
                       />
                     </div>
                   )}

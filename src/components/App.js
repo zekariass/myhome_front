@@ -75,6 +75,7 @@ import {
   PATH_PROPERTY_FILE_UPLOAD,
   PATH_PROPERTY_HOME,
   PATH_PUBLIC_LISTING,
+  PATH_PUBLIC_LISTING_DETAIL,
   PATH_SAVED_PROPETRTIES,
   PATH_SIGNIN,
   PATH_SIGNUP,
@@ -156,14 +157,16 @@ import { random } from "lodash";
 import BasicListingEdit from "./agents/dashboard/listings/BasicListingEdit";
 import ListingDetail from "./agents/dashboard/listings/ListingDetail";
 import { getPropertyCategories } from "features/agent_dashboard/property/propertyCategorySlice";
-import PublicListingPage from "./listing_page/PublicListingPage";
+import { getPeriodicities } from "features/common/commonSlice";
+import PublicListingHome from "./listing_page/PublicListingHome";
+import PublicListingList from "./listing_page/PublicListingList";
+import PublicListingDetail from "./listing_page/PublicListingDetail";
 
 const App = () => {
   const { isSignedIn } = useSelector((store) => store.user.signin);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(checkUserSigninStatus());
     dispatch(getSystemParams());
     dispatch(getListingParams());
     dispatch(getListingModes());
@@ -174,6 +177,11 @@ const App = () => {
     dispatch(getSupportedCardSchemes());
     dispatch(getCurrencies());
     dispatch(getPropertyCategories());
+    dispatch(getPeriodicities());
+  }, []);
+
+  useEffect(() => {
+    dispatch(checkUserSigninStatus());
     if (isSignedIn) {
       dispatch(getAgent());
     }
@@ -490,7 +498,13 @@ const App = () => {
           </Route>
         </Route>
 
-        <Route path={PATH_PUBLIC_LISTING} element={<PublicListingPage />} />
+        <Route path={PATH_PUBLIC_LISTING} element={<PublicListingHome />}>
+          <Route index element={<PublicListingList />} />
+          <Route
+            path={PATH_PUBLIC_LISTING_DETAIL}
+            element={<PublicListingDetail />}
+          />
+        </Route>
 
         <Route path={PATH_PROPERTY_HOME} element={<PropertyPage />}>
           <Route path={PATH_PROPERTY_ADD} element={<PropertyFormWizard />} />

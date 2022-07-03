@@ -162,9 +162,10 @@ const ListingList = ({ code }) => {
       "is_approved",
       "is_expired",
       "property_price",
+      "listing_currency",
+      "listing_term",
       "deposit_in_months",
       "listed_on",
-      "listing_currency",
     ];
 
     return { data: formatListingData(listingDataByType), columns: columns };

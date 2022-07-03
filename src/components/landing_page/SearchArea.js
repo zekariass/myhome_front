@@ -7,11 +7,12 @@ import { PATH_PUBLIC_LISTING } from "components/commons/Strings";
 import {
   clearPublicListing,
   getPublicListingsBySearchFromLandingPage,
+  setSearchParams,
 } from "features/listing/publicListingSlice";
 import React from "react";
 import { Form } from "react-final-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const SearchArea = () => {
   const dispatch = useDispatch();
@@ -25,21 +26,34 @@ const SearchArea = () => {
     (store) => store.listing.getListingTypes.data
   );
 
+  // const [searchP, setSearchP] = useSearchParams();
+
   const onSubmit = (values) => {
     const searchParams = {
+      for_rent: false,
+      for_sale: false,
       location: -1,
       property_category: -1,
-      for_sale: false,
-      for_rent: false,
+      page: 1,
     };
+
+    let urlParm = "";
 
     Object.keys(values).forEach((paramKey) => {
       searchParams[paramKey] = values[paramKey];
     });
+    // setSearchP({ ...searchParams });
     dispatch(clearPublicListing());
-    dispatch(getPublicListingsBySearchFromLandingPage(searchParams));
-    // console.log("SEARCH LISTING: ", values);
-    navigate(PATH_PUBLIC_LISTING);
+    dispatch(setSearchParams(searchParams));
+    // dispatch(getPublicListingsBySearchFromLandingPage(searchParams));
+
+    Object.keys(searchParams).forEach((paramKey) => {
+      urlParm += `${paramKey}=${searchParams[paramKey]}&`;
+    });
+
+    urlParm = urlParm.substring(0, urlParm.length - 1);
+
+    navigate(`${PATH_PUBLIC_LISTING}?${urlParm}`);
   };
   return (
     <div>
