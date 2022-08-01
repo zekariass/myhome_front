@@ -7,6 +7,10 @@
   background-color: rgb(128, 209, 96) !important;
 }
 
+.grin-color {
+  color: rgb(128, 209, 96) !important;
+}
+
 .link-general {
   font-size: 1.1rem !important;
   font-weight: bold !important;

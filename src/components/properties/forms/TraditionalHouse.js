@@ -1,4 +1,5 @@
 // @ts-nocheck
+import CheckField from "components/commons/fields/CheckField";
 import TextField from "components/commons/fields/TextField";
 import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import React from "react";
@@ -27,6 +28,18 @@ const TraditionalHouse = ({ name, title }) => {
           />
         </div>
         <CommonResidentialFields name={name} />
+        <div className="col form-outline my-2 order-last">
+          <CheckField
+            name={`${name}.is_new`}
+            type="checkbox"
+            className="form-check-input me-2"
+            label="Is New?"
+            labelLink=""
+            initialValue={false}
+            fieldSubscription={FIELD_SUBSCRIPTION}
+            disabled={false}
+          />
+        </div>
       </div>
     </>
   );

@@ -1,97 +1,104 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// @ts-nocheck
+import { PATH_PUBLIC_LISTING } from "components/commons/Strings";
+import {
+  clearCityList,
+  getCitiesByRegion,
+  getRegionsByCountryName,
+} from "features/common/addressSlice";
+import {
+  clearPublicListing,
+  setSearchParams,
+} from "features/listing/publicListingSlice";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
-export class SearchByCity extends Component {
-  getCitiesForRegion = () => {
+const SearchByCity = () => {
+  const regions = useSelector(
+    (store) => store.address.getRegionsByCountryName.data
+  );
+
+  const cities = useSelector((store) => store.address.city.cityList);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const searchParam = { country: "Ethiopia" };
+    dispatch(getRegionsByCountryName(searchParam));
+  }, []);
+
+  const getCitiesOfRegion = (region) => {
+    dispatch(clearCityList());
+    dispatch(getCitiesByRegion(region?.id));
+  };
+
+  const onCityClick = (location) => {
+    const searchParams = {
+      for_rent: false,
+      for_sale: false,
+      location: location ? location : -1,
+      property_category: -1,
+      page: 1,
+    };
+
+    let urlParm = "";
+
+    dispatch(clearPublicListing());
+    dispatch(setSearchParams(searchParams));
+
+    Object.keys(searchParams).forEach((paramKey) => {
+      urlParm += `${paramKey}=${searchParams[paramKey]}&`;
+    });
+
+    urlParm = urlParm.substring(0, urlParm.length - 1);
+
+    navigate(`${PATH_PUBLIC_LISTING}?${urlParm}`);
+  };
+
+  const renderCitiesOfRegion = () => {
     return (
-      <div className="row row-cols-auto g-4">
-        <div className="col">
-          <Link to="/" className="link-general">
-            Adama
-          </Link>
-        </div>
-        <div className="col">
-          <Link to="/" className="link-general">
-            Bishoftu
-          </Link>
-        </div>
-        <div className="col">
-          <Link to="/" className="link-general">
-            Shashemene
-          </Link>
-        </div>
-        <div className="col">
-          <Link to="/" className="link-general">
-            Asela
-          </Link>
-        </div>
-        <div className="col">
-          <Link to="/" className="link-general">
-            Jima
-          </Link>
-        </div>
+      <div className="row row-cols-auto g-4 flex-center-general">
+        {cities.map((city) => (
+          <div className="col">
+            <div
+              className="link-general link-size-normal rounded-2 p-2 other-bg"
+              onClick={() => onCityClick(city?.name)}
+              role="button"
+            >
+              {city?.name}
+            </div>
+          </div>
+        ))}
       </div>
     );
   };
 
-  render() {
-    return (
-      <div className="container mt-5">
-        <h4>Search property by city and region</h4>
-        <div className=" search-by-city my-3 shadow-sm">
-          <div className="row row-cols-auto flex-center-general g-3">
+  return (
+    <div className="container mt-5">
+      <h4>Search property by city and region</h4>
+      <div className=" search-by-city my-3 shadow-sm">
+        <div className="row row-cols-auto g-3 flex-center-general mb-4">
+          {regions.map((region) => (
             <div className="col">
-              <button className="btn-general-outline">Addis Ababa</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">Oromia</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">Amhara</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">Tigray</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">SNNP</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">Sidama</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">
-                South West Ethiopia
+              <button
+                className="btn-general-outline"
+                onClick={() => getCitiesOfRegion(region)}
+              >
+                {region.name}
               </button>
             </div>
-            <div className="col">
-              <button className="btn-general-outline">Afar</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">Diredawa</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">Harar</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">Benishangul</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">Somali</button>
-            </div>
-            <div className="col">
-              <button className="btn-general-outline">Gambela</button>
-            </div>
-          </div>
-          <div>
-            <hr className="region-city-separator" />
-          </div>
-          <div>
-            <div>{this.getCitiesForRegion()}</div>
-          </div>
+          ))}
+        </div>
+        <div>
+          <hr className="region-city-separator" />
+        </div>
+        <div className="mt-4">
+          <div>{renderCitiesOfRegion()}</div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default SearchByCity;

@@ -21,7 +21,7 @@ import {
 } from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
-const ApartmentDetail = () => {
+const ApartmentDetail = ({ propApartmentId, noParentDetail }) => {
   //   const [apartmentData, setApartmentData] = useState({});
 
   const location = useLocation();
@@ -37,7 +37,10 @@ const ApartmentDetail = () => {
   );
 
   useEffect(() => {
-    const apartmentId = location.state?.data?.id;
+    const apartmentId =
+      propApartmentId !== undefined
+        ? propApartmentId
+        : location.state?.data?.id;
     dispatch(getApartmentDetail(apartmentId));
 
     dispatch(getApartmentUnitsByApartment(apartmentId));
@@ -91,38 +94,48 @@ const ApartmentDetail = () => {
           </Link>
         </div>
       </div>
-      <p className="display-title fw-bold my-4">Your Apartment Units</p>
-      <div className="card p-3">
-        <DataDisplayTabular
-          data={formatApartmentUnitData()}
-          originalData={apartmentUnitsData}
-          editable={true}
-          onEdit={{ path: PATH_AGENT_DASHBOARD_APARTMENTUNIT_EDIT_ABSOLUTE }}
-          deletable={true}
-          onDelete={onApartmentUnitDelete}
-          manageable={false}
-          onManage={{
-            path: PATH_AGENT_DASHBOARD_APARTMENTUNIT_DETAIL_ABSOLUTE,
-          }}
-          showListing={true}
-          onShowListing={{
-            path: PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
-            onClick: () => setListingKeyValueByUnit(dispatch),
-          }}
-        />
-      </div>
-      <div className="flex-end-general my-3">
-        <Link
-          to={PATH_AGENT_DASHBOARD_APARTMENTUNIT_EDIT_ABSOLUTE}
-          state={{ apartmentId: apartmentData.id }}
-          className="link-general link-size-small"
-        >
-          Add Apartment Unit
-        </Link>
-      </div>
-      <div className="my-4">
-        <p className="fw-bold fs-5 display-title mb-4">Your property Detail</p>
-        <PropertyDetail propPropertyId={location.state?.data?.property} />
+      <div>
+        {!noParentDetail && (
+          <div>
+            <p className="display-title fw-bold my-4">Your Apartment Units</p>
+            <div className="card p-3">
+              <DataDisplayTabular
+                data={formatApartmentUnitData()}
+                originalData={apartmentUnitsData}
+                editable={true}
+                onEdit={{
+                  path: PATH_AGENT_DASHBOARD_APARTMENTUNIT_EDIT_ABSOLUTE,
+                }}
+                deletable={true}
+                onDelete={onApartmentUnitDelete}
+                manageable={false}
+                onManage={{
+                  path: PATH_AGENT_DASHBOARD_APARTMENTUNIT_DETAIL_ABSOLUTE,
+                }}
+                showListing={true}
+                onShowListing={{
+                  path: PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
+                  onClick: () => setListingKeyValueByUnit(dispatch),
+                }}
+              />
+            </div>
+            <div className="flex-end-general my-3">
+              <Link
+                to={PATH_AGENT_DASHBOARD_APARTMENTUNIT_EDIT_ABSOLUTE}
+                state={{ apartmentId: apartmentData.id }}
+                className="link-general link-size-small"
+              >
+                Add Apartment Unit
+              </Link>
+            </div>
+            <div className="my-4">
+              <p className="fw-bold fs-5 display-title mb-4">
+                Your property Detail
+              </p>
+              <PropertyDetail propPropertyId={location.state?.data?.property} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

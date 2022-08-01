@@ -35,7 +35,6 @@ export const PATH_DYNAMIC_PROPERTY = ":propertyId";
 //AUTH
 export const PATH_SIGNIN = "/signin";
 export const PATH_SIGNUP = "/signup";
-export const PATH_SAVED_PROPETRTIES = "/your-saved-properties";
 export const PATH_ADD_PROPERTY = "/list-your-property";
 export const PATH_LANDING = "/";
 export const PATH_PAGE_NOT_FOUND = "*";
@@ -188,8 +187,11 @@ export const PATH_AGENT_DASHBOARD_LISTING_EDIT = "listing/edit";
 export const PATH_AGENT_DASHBOARD_LISTING_EDIT_ABSOLUTE = `${PATH_AGENT_DASHBOARD}/${PATH_AGENT_DASHBOARD_PROPERTY}/${PATH_AGENT_DASHBOARD_LISTING_EDIT}`;
 
 //PUBLIC LISTING PAGE
-export const PATH_PUBLIC_LISTING = "public/listing";
+export const PATH_PUBLIC_LISTING = "/public/listing";
 export const PATH_PUBLIC_LISTING_DETAIL = ":listingId/detail";
+export const PATH_SAVED_LISTINGS = "saved";
+export const PATH_SAVED_LISTINGS_ABSOLUTE = `${PATH_PUBLIC_LISTING}/${PATH_SAVED_LISTINGS}`;
+
 // export const PATH_PUBLIC_LISTING_DETAIL_ABSOLUTE = `${PATH_PUBLIC_LISTING}/${PATH_PUBLIC_LISTING_DETAIL}`;
 
 //==============================================================================================
@@ -252,3 +254,18 @@ export const SALE_LISTING_TYPE = "SALE";
 export const LISTING_KEY_BY_AGENT = "byAgent";
 export const LISTING_KEY_BY_PROPERTY = "byProperty";
 export const LISTING_KEY_BY_UNIT = "byUnit";
+
+//SYSTEM ASSET OWNER NAMES
+
+export const ASSET_APARTMENT_PICTURE = "APARTMENT_PICTURE";
+export const ASSET_VILLA_PICTURE = "VILLA_PICTURE";
+export const ASSET_CONDOMINIUM_PICTURE = "CONDOMINIUM_PICTURE";
+export const ASSET_TRADITIONAL_HOUSE_PICTURE = "TRADITIONAL_HOUSE_PICTURE";
+export const ASSET_SHARE_HOUSE_PICTURE = "SHARE_HOUSE_PICTURE";
+export const ASSET_COMMERCIAL_PROPERTY_PICTURE = "COMMERCIAL_PROPERTY_PICTURE";
+export const ASSET_OFFICE_PICTURE = "OFFICE_PICTURE";
+export const ASSET_HALL_PICTURE = "HALL_PICTURE";
+export const ASSET_LAND_PICTURE = "LAND_PICTURE";
+export const ASSET_ALL_PURPOSE_PROPERTY_PICTURE =
+  "ALL_PURPOSE_PROPERTY_PICTURE";
+export const ASSET_LANDING_PAGE_SLIDER = "LANDING_PAGE_SLIDER";

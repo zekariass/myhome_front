@@ -40,7 +40,7 @@ const initialParamState = {
 };
 
 export const getSystemParams = createAsyncThunk(
-  "system/getSystemParams",
+  "systemParams/getSystemParams",
   async () => {
     /**
      * Get system parameters
@@ -59,7 +59,7 @@ export const getSystemParams = createAsyncThunk(
 );
 
 export const getListingParams = createAsyncThunk(
-  "system/getListingParams",
+  "systemParams/getListingParams",
   async () => {
     /**
      * Get listing parameters
@@ -78,7 +78,7 @@ export const getListingParams = createAsyncThunk(
 );
 
 export const getCurrencies = createAsyncThunk(
-  "system/getCurrencies",
+  "systemParams/getCurrencies",
   async () => {
     /**
      * Get listing parameters
@@ -97,7 +97,7 @@ export const getCurrencies = createAsyncThunk(
 );
 
 const paramSlice = createSlice({
-  name: "system",
+  name: "systemParams",
   initialState: initialParamState,
   reducers: {},
   extraReducers: {

@@ -13,6 +13,8 @@ import {
   OFFICE_KEY,
   PATH_AGENT_DASHBOARD,
   PATH_AGENT_DASHBOARD_AMENITY_ADD,
+  PATH_AGENT_DASHBOARD_APARTMENT_EDIT,
+  PATH_AGENT_DASHBOARD_APARTMENT_EDIT_ABSOLUTE,
   PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD,
   PATH_AGENT_DASHBOARD_LAND_EDIT_ABSOLUTE,
   PATH_AGENT_DASHBOARD_POI_ADD,
@@ -42,6 +44,15 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import DataDisplayTabular from "components/commons/DataDisplayTabular";
 import RelatedPropertyDetail from "./RelatedPropertyDetail";
 import VillaDetail from "./VillaDetail";
+import ApartmentDetail from "./ApartmentDetail";
+import CondominiumDetail from "./CondominiumDetail";
+import AllPurposePropertyDetail from "./AllPurposePropertyDetail";
+import CommercialPropertyDetail from "./CommercialPropertyDetail";
+import HallDetail from "./HallDetail";
+import LandDetail from "./LandDetail";
+import OfficeDetail from "./OfficeDetail";
+import ShareHouseDetail from "./ShareHouseDetail";
+import TraditionalHouseDetail from "./TraditionalHouseDetail";
 
 const PropertyDetail = ({ propPropertyId }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -424,75 +435,117 @@ const PropertyDetail = ({ propPropertyId }) => {
         Object.keys(relatedProperty).length > 0 && (
           <div className="py-3">
             {propertyCategory?.cat_key === APARTMENT_KEY && (
-              <RelatedPropertyDetail
-                message="This is Apartment. You can view and manage your property below"
-                listTitle="Apartment detail"
-                editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
-                editInitialValues={preparePropertyInitialValues()}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              // <RelatedPropertyDetail
+              //   message="This is Apartment. You can view and manage your property below"
+              //   listTitle="Apartment detail"
+              //   editPath={PATH_AGENT_DASHBOARD_APARTMENT_EDIT_ABSOLUTE}
+              //   editInitialValues={preparePropertyInitialValues()}
+              //   relatedProperty={relatedProperty}
+              //   editable={true}
+              //   deletable={true}
+              // />
+
+              <div>
+                <ApartmentDetail
+                  propApartmentId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
 
             {propertyCategory?.cat_key === COMMERCIAL_PROPERTY_KEY && (
-              <RelatedPropertyDetail
-                message="This is Commercial Property. You can view and manage your property below"
-                listTitle="Commercial Property detail"
-                editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
-                editInitialValues={preparePropertyInitialValues()}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              // <RelatedPropertyDetail
+              //   message="This is Commercial Property. You can view and manage your property below"
+              //   listTitle="Commercial Property detail"
+              //   editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              //   editInitialValues={preparePropertyInitialValues()}
+              //   relatedProperty={relatedProperty}
+              //   editable={true}
+              //   deletable={true}
+              // />
+
+              <div>
+                <CommercialPropertyDetail
+                  propComPropId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
 
             {propertyCategory?.cat_key === SHARE_HOUSE_KEY && (
-              <RelatedPropertyDetail
-                message="This is share house. You can view and manage your property below"
-                listTitle="Share house detail"
-                editPath={PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT_ABSOLUTE}
-                editInitialValues={relatedProperty}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              // <RelatedPropertyDetail
+              //   message="This is share house. You can view and manage your property below"
+              //   listTitle="Share house detail"
+              //   editPath={PATH_AGENT_DASHBOARD_SHAREHOUSE_EDIT_ABSOLUTE}
+              //   editInitialValues={relatedProperty}
+              //   relatedProperty={relatedProperty}
+              //   editable={true}
+              //   deletable={true}
+              // />
+
+              <div>
+                <ShareHouseDetail
+                  propShareHouseId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
 
             {propertyCategory?.cat_key === TRADITIONAL_HOUSE_KEY && (
-              <RelatedPropertyDetail
-                message="This is traditional house. You can view and manage your property below"
-                listTitle="Traditional house detail"
-                editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
-                editInitialValues={preparePropertyInitialValues()}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              // <RelatedPropertyDetail
+              //   message="This is traditional house. You can view and manage your property below"
+              //   listTitle="Traditional house detail"
+              //   editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              //   editInitialValues={preparePropertyInitialValues()}
+              //   relatedProperty={relatedProperty}
+              //   editable={true}
+              //   deletable={true}
+              // />
+
+              <div>
+                <TraditionalHouseDetail
+                  propTradHouseId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
 
             {propertyCategory?.cat_key === CONDOMINIUM_KEY && (
-              <RelatedPropertyDetail
-                message="This is Condominium house. You can view and manage your property below"
-                listTitle="Condominium house detail"
-                editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
-                editInitialValues={preparePropertyInitialValues()}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              // <RelatedPropertyDetail
+              //   message="This is Condominium house. You can view and manage your property below"
+              //   listTitle="Condominium house detail"
+              //   editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              //   editInitialValues={preparePropertyInitialValues()}
+              //   relatedProperty={relatedProperty}
+              //   editable={true}
+              //   deletable={true}
+              // />
+
+              <div>
+                <CondominiumDetail
+                  propCondominiumId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
 
             {propertyCategory?.cat_key === HALL_KEY && (
-              <RelatedPropertyDetail
-                message="This is Hall. You can view and manage your property below"
-                listTitle="Hall detail"
-                editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
-                editInitialValues={preparePropertyInitialValues()}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              // <RelatedPropertyDetail
+              //   message="This is Hall. You can view and manage your property below"
+              //   listTitle="Hall detail"
+              //   editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              //   editInitialValues={preparePropertyInitialValues()}
+              //   relatedProperty={relatedProperty}
+              //   editable={true}
+              //   deletable={true}
+              // />
+
+              <div>
+                <HallDetail
+                  propHallId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
 
             {propertyCategory?.cat_key === VILLA_KEY && (
@@ -514,39 +567,60 @@ const PropertyDetail = ({ propPropertyId }) => {
             )}
 
             {propertyCategory?.cat_key === OFFICE_KEY && (
-              <RelatedPropertyDetail
-                message="This is Office. You can view and manage your property below"
-                listTitle="Office detail"
-                editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
-                editInitialValues={preparePropertyInitialValues()}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              // <RelatedPropertyDetail
+              //   message="This is Office. You can view and manage your property below"
+              //   listTitle="Office detail"
+              //   editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              //   editInitialValues={preparePropertyInitialValues()}
+              //   relatedProperty={relatedProperty}
+              //   editable={true}
+              //   deletable={true}
+              // />
+
+              <div>
+                <OfficeDetail
+                  propOfficeId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
 
             {propertyCategory?.cat_key === ALL_PURPOSE_PROPERTY_KEY && (
-              <RelatedPropertyDetail
-                message="This is All Purpose Property. You can view and manage your property below"
-                listTitle="All Purpose Property detail"
-                editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
-                editInitialValues={preparePropertyInitialValues()}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              // <RelatedPropertyDetail
+              //   message="This is All Purpose Property. You can view and manage your property below"
+              //   listTitle="All Purpose Property detail"
+              //   editPath={PATH_AGENT_DASHBOARD_PROPERTY_EDIT_ABSOLUTE}
+              //   editInitialValues={preparePropertyInitialValues()}
+              //   relatedProperty={relatedProperty}
+              //   editable={true}
+              //   deletable={true}
+              // />
+
+              <div>
+                <AllPurposePropertyDetail
+                  propAPPId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
 
             {propertyCategory?.cat_key === LAND_KEY && (
-              <RelatedPropertyDetail
-                message="This is Land. You can view and manage your property below"
-                listTitle="Land detail"
-                editPath={PATH_AGENT_DASHBOARD_LAND_EDIT_ABSOLUTE}
-                editInitialValues={relatedProperty}
-                relatedProperty={relatedProperty}
-                editable={true}
-                deletable={true}
-              />
+              // <RelatedPropertyDetail
+              //   message="This is Land. You can view and manage your property below"
+              //   listTitle="Land detail"
+              //   editPath={PATH_AGENT_DASHBOARD_LAND_EDIT_ABSOLUTE}
+              //   editInitialValues={relatedProperty}
+              //   relatedProperty={relatedProperty}
+              //   editable={true}
+              //   deletable={true}
+              // />
+
+              <div>
+                <LandDetail
+                  propLandId={relatedProperty?.id}
+                  noParentDetail={true}
+                />
+              </div>
             )}
           </div>
         )}

@@ -25,14 +25,13 @@ const Signin = () => {
    */
   const fromPage = location.state?.from?.pathname || "/";
 
-  console.log("fromPage: ", fromPage);
+  // console.log("fromPage: ", fromPage, location.state);
 
   const onSubmit = (values) => {
     /**
      * Handles the event when the user clicks "Signin" button
      * After inserting the credentials
      */
-    // console.log("VALUES: ", values);
 
     /**
      * When there is a new signin, we need to clear signin data store
@@ -57,18 +56,6 @@ const Signin = () => {
         <div className="row d-flex justify-content-center align-items-center">
           <div className="col col-xl-8">
             <div className="card" style={{ borderRadius: "1rem" }}>
-              {/* <div className="row g-0"> */}
-              {/* <div className="col-md-6 col-lg-5 d-none d-md-block">
-                  <img
-                    src={ShowImage}
-                    alt="login form"
-                    className=""
-                    width="100%"
-                    height="100%"
-                    style={{ borderRadius: "1rem 0 0 1rem" }}
-                  />
-                </div> */}
-              {/* <div > */}
               <div className="card-body p-4 p-lg-5 text-black">
                 <div className="p-5 flex-center-general">
                   <Form
@@ -83,40 +70,11 @@ const Signin = () => {
                     }
                   </Form>
                 </div>
-                {/* <Link
-                  to="/"
-                  className="link-general link-size-small link-hover"
-                >
-                  Forgot password?
-                </Link>
-                <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
-                  Don't have an account?
-                  <Link
-                    to="/signup"
-                    className="link-general link-size-normal link-hover ms-1"
-                  >
-                    Signup here
-                  </Link>
-                </p>
-                <Link
-                  to="/"
-                  className="link-general link-size-xsmall link-hover link-underline mx-5"
-                >
-                  Terms of use
-                </Link>
-                <Link
-                  to="/"
-                  className="link-general link-size-xsmall link-underline link-hover"
-                >
-                  Privacy policy
-                </Link> */}
               </div>
             </div>
-            {/* </div> */}
           </div>
         </div>
       </div>
-      {/* </div> */}
     </section>
   );
 };
@@ -157,14 +115,6 @@ const signinForm = (handleSubmit, signinStatus) => {
           labelClass="form-label fs-5"
         >
           {({ input, meta, className, placeholder, label, labelClass }) => (
-            // textInputField(
-            //   input,
-            //   meta,
-            //   className,
-            //   placeholder,
-            //   label,
-            //   labelClass
-            // )
             <TextCustomInput
               input={input}
               meta={meta}
@@ -187,14 +137,6 @@ const signinForm = (handleSubmit, signinStatus) => {
           labelClass="form-label fs-5"
         >
           {({ input, meta, className, placeholder, label, labelClass }) => (
-            // textInputField(
-            //   input,
-            //   meta,
-            //   className,
-            //   placeholder,
-            //   label,
-            //   labelClass
-            // )
             <TextCustomInput
               input={input}
               meta={meta}
@@ -239,11 +181,6 @@ const signinForm = (handleSubmit, signinStatus) => {
           </Link>
         </div>
       </div>
-      {/* <FormSpy>
-        {({ values }) => {
-          console.log("FORM_VALUES: ", values);
-        }}
-      </FormSpy> */}
     </form>
   );
 };

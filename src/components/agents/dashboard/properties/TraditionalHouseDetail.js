@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import PropertyDetail from "./PropertyDetail";
 
-const TraditionalHouseDetail = () => {
+const TraditionalHouseDetail = ({ propTradHouseId, noParentDetail }) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -21,7 +21,10 @@ const TraditionalHouseDetail = () => {
   );
 
   useEffect(() => {
-    const traditionalHouseId = location.state?.data?.id;
+    const traditionalHouseId =
+      propTradHouseId !== undefined
+        ? propTradHouseId
+        : location.state?.data?.id;
     dispatch(getTraditionalHouseDetail(traditionalHouseId));
   }, []);
 
@@ -36,7 +39,7 @@ const TraditionalHouseDetail = () => {
         <div className="card col">
           <DataDisplay
             data={traditionalHouseData}
-            title="Your Villa Detail"
+            title="Your Traditional House Detail"
             editable={true}
             editInitialValues={traditionalHouseData}
             path={PATH_AGENT_DASHBOARD_TRADITIONAL_HOUSE_EDIT_ABSOLUTE}
@@ -53,10 +56,14 @@ const TraditionalHouseDetail = () => {
           </Link>
         </div>
       </div>
-      <div className="my-4">
-        <p className="fw-bold fs-5 display-title mb-4">Your property Detail</p>
-        <PropertyDetail propPropertyId={location.state?.data?.property} />
-      </div>
+      {!noParentDetail && (
+        <div className="my-4">
+          <p className="fw-bold fs-5 display-title mb-4">
+            Your property Detail
+          </p>
+          <PropertyDetail propPropertyId={location.state?.data?.property} />
+        </div>
+      )}
     </div>
   );
 };

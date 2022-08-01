@@ -4,12 +4,12 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const AgentPreview = () => {
+const AgentPreview = ({agentData}) => {
   const dispatch = useDispatch();
   /**
    * Get agent data from store
    */
-  const agentData = useSelector((store) => store.agent.getAgent.response.data);
+  // const agentData = useSelector((store) => store.agent.getAgent.response.data);
 
   useEffect(() => {
     /**

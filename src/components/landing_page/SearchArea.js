@@ -6,13 +6,12 @@ import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
 import { PATH_PUBLIC_LISTING } from "components/commons/Strings";
 import {
   clearPublicListing,
-  getPublicListingsBySearchFromLandingPage,
   setSearchParams,
 } from "features/listing/publicListingSlice";
 import React from "react";
 import { Form } from "react-final-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SearchArea = () => {
   const dispatch = useDispatch();
@@ -25,8 +24,6 @@ const SearchArea = () => {
   const listingTypes = useSelector(
     (store) => store.listing.getListingTypes.data
   );
-
-  // const [searchP, setSearchP] = useSearchParams();
 
   const onSubmit = (values) => {
     const searchParams = {
@@ -42,10 +39,8 @@ const SearchArea = () => {
     Object.keys(values).forEach((paramKey) => {
       searchParams[paramKey] = values[paramKey];
     });
-    // setSearchP({ ...searchParams });
     dispatch(clearPublicListing());
     dispatch(setSearchParams(searchParams));
-    // dispatch(getPublicListingsBySearchFromLandingPage(searchParams));
 
     Object.keys(searchParams).forEach((paramKey) => {
       urlParm += `${paramKey}=${searchParams[paramKey]}&`;
@@ -55,6 +50,7 @@ const SearchArea = () => {
 
     navigate(`${PATH_PUBLIC_LISTING}?${urlParm}`);
   };
+
   return (
     <div>
       <p className="fs-5 fw-bold display-title ps-1">Search Properties</p>

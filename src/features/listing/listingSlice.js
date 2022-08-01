@@ -3,6 +3,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
 import { goToPage } from "features/common/wizardSlice";
 import { getFormatedResponse } from "features/getFormatedResponse";
+import {
+  getPublicListingsById,
+  getPublicListingsBySearchFromLandingPage,
+} from "./publicListingSlice";
 
 const initialListingState = {
   getListingModes: {
@@ -85,6 +89,7 @@ const initialListingState = {
     },
     data: 0,
   },
+
   selectedListingType: null,
   listingKey: null,
 };

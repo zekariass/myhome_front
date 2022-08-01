@@ -5,7 +5,6 @@ import LandingPage from "./landing_page/LandingPage";
 import "./General.css";
 import Signup from "./auth/Signup";
 import Signin from "./auth/Signin";
-import SavedProperties from "./properties/SavedProperties";
 import { checkUserSigninStatus } from "../features/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "./commons/ProtectedRoute";
@@ -76,7 +75,7 @@ import {
   PATH_PROPERTY_HOME,
   PATH_PUBLIC_LISTING,
   PATH_PUBLIC_LISTING_DETAIL,
-  PATH_SAVED_PROPETRTIES,
+  PATH_SAVED_LISTINGS,
   PATH_SIGNIN,
   PATH_SIGNUP,
 } from "./commons/Strings";
@@ -153,14 +152,15 @@ import {
   getPaymentMethods,
   getSupportedCardSchemes,
 } from "features/payment/paymentSlice";
-import { random } from "lodash";
 import BasicListingEdit from "./agents/dashboard/listings/BasicListingEdit";
 import ListingDetail from "./agents/dashboard/listings/ListingDetail";
 import { getPropertyCategories } from "features/agent_dashboard/property/propertyCategorySlice";
 import { getPeriodicities } from "features/common/commonSlice";
 import PublicListingHome from "./listing_page/PublicListingHome";
 import PublicListingList from "./listing_page/PublicListingList";
-import PublicListingDetail from "./listing_page/PublicListingDetail";
+import PublicListingDetailPage from "./listing_page/public_listing_detail/PublicListingDetailPage";
+import SavedListingPage from "./listing_page/saved_listing/SavedListingPage";
+import { getSystemAssets } from "features/system/assetSlice";
 
 const App = () => {
   const { isSignedIn } = useSelector((store) => store.user.signin);
@@ -169,6 +169,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getSystemParams());
     dispatch(getListingParams());
+    dispatch(getSystemAssets());
     dispatch(getListingModes());
     dispatch(getListingTypes());
     dispatch(getListingStates());
@@ -196,7 +197,6 @@ const App = () => {
           element={!isSignedIn ? <Signin /> : <Navigate to={PATH_LANDING} />}
         />
         <Route path={PATH_LANDING} element={<LandingPage />} />
-        <Route path={PATH_SAVED_PROPETRTIES} element={<SavedProperties />} />
         <Route
           path={PATH_PAGE_NOT_FOUND}
           element={<h4>Page not found, 404!</h4>}
@@ -502,8 +502,9 @@ const App = () => {
           <Route index element={<PublicListingList />} />
           <Route
             path={PATH_PUBLIC_LISTING_DETAIL}
-            element={<PublicListingDetail />}
+            element={<PublicListingDetailPage />}
           />
+          <Route path={PATH_SAVED_LISTINGS} element={<SavedListingPage />} />
         </Route>
 
         <Route path={PATH_PROPERTY_HOME} element={<PropertyPage />}>

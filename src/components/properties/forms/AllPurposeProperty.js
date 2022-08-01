@@ -15,7 +15,7 @@ import AllPurposePropertyUnit from "./AllPurposePropertyUnit";
  * @param {*} param0
  * @returns
  */
-const AllPurposeProperty = ({ name, title }) => {
+const AllPurposeProperty = ({ name, title, isEdit }) => {
   let { data } = useSelector((store) => store.buildingType.response);
 
   const [numberOfUnitsShown, setNumberOfUnitsShown] = useState(1);
@@ -127,73 +127,77 @@ const AllPurposeProperty = ({ name, title }) => {
           />
         </div>
       </div>
-      <div className="my-3">
-        <p className="flex-center-general fs-4 fw-bold">
-          Add All Purpose Property Unit
-        </p>
-        {/* FormSpy allows us to access form states without re-rendering the form */}
-        <FormSpy>
-          {({
-            form: {
-              mutators: { push, pop },
-            },
-          }) => (
-            <div>
-              {/* Field array allows us to dynamically group of fields  */}
-              <FieldArray name={ALL_PURPOSE_PROPERTY_UNIT_FIELD_NAME}>
-                {({ fields }) =>
-                  fields.map((name, index) => {
-                    setNumberOfUnitsShown(index + 1);
-                    return (
-                      <div className="py-3" key={index}>
-                        <AllPurposePropertyUnit
-                          name={name}
-                          index={index}
-                          fields={fields}
-                          title="Add All Purpose Property unit"
-                        />
-                      </div>
-                    );
-                  })
-                }
-              </FieldArray>
-              <div className="row row-cols-1 row-cols-sm-2 my -5">
-                <div className="col d-flex align-items-sm-end justify-content-sm-end justify-content-center justify-content-center order-sm-0 order-1">
-                  {/* Do not show Remove Unit button if we have only one Unit form */}
-                  {numberOfUnitsShown > 1 && (
+      {!isEdit && (
+        <div className="my-3">
+          <p className="flex-center-general fs-4 fw-bold">
+            Add All Purpose Property Unit
+          </p>
+          {/* FormSpy allows us to access form states without re-rendering the form */}
+          <FormSpy>
+            {({
+              form: {
+                mutators: { push, pop },
+              },
+            }) => (
+              <div>
+                {/* Field array allows us to dynamically group of fields  */}
+                <FieldArray name={ALL_PURPOSE_PROPERTY_UNIT_FIELD_NAME}>
+                  {({ fields }) =>
+                    fields.map((name, index) => {
+                      setNumberOfUnitsShown(index + 1);
+                      return (
+                        <div className="py-3" key={index}>
+                          <AllPurposePropertyUnit
+                            name={name}
+                            index={index}
+                            fields={fields}
+                            title="Add All Purpose Property unit"
+                          />
+                        </div>
+                      );
+                    })
+                  }
+                </FieldArray>
+                <div className="row row-cols-1 row-cols-sm-2 my -5">
+                  <div className="col d-flex align-items-sm-end justify-content-sm-end justify-content-center justify-content-center order-sm-0 order-1">
+                    {/* Do not show Remove Unit button if we have only one Unit form */}
+                    {numberOfUnitsShown > 1 && (
+                      <button
+                        type="button"
+                        className="btn-general-danger btn-general-hover px-3 py-2"
+                        /**
+                         * Remove the last field item
+                         */
+                        onClick={() =>
+                          pop(ALL_PURPOSE_PROPERTY_UNIT_FIELD_NAME)
+                        }
+                      >
+                        <i className="cut icon"></i>
+                        Remove Unit
+                      </button>
+                    )}
+                  </div>
+                  <div className="col d-flex align-items-sm-start justify-content-sm-start justify-content-center">
                     <button
                       type="button"
-                      className="btn-general-danger btn-general-hover px-3 py-2"
+                      className="btn-general-info btn-general-hover px-3 py-2"
                       /**
-                       * Remove the last field item
+                       * Add a field group
                        */
-                      onClick={() => pop(ALL_PURPOSE_PROPERTY_UNIT_FIELD_NAME)}
+                      onClick={() =>
+                        push(ALL_PURPOSE_PROPERTY_UNIT_FIELD_NAME, undefined)
+                      }
                     >
-                      <i className="cut icon"></i>
-                      Remove Unit
+                      <i className="plus icon"></i>
+                      Add Unit
                     </button>
-                  )}
-                </div>
-                <div className="col d-flex align-items-sm-start justify-content-sm-start justify-content-center">
-                  <button
-                    type="button"
-                    className="btn-general-info btn-general-hover px-3 py-2"
-                    /**
-                     * Add a field group
-                     */
-                    onClick={() =>
-                      push(ALL_PURPOSE_PROPERTY_UNIT_FIELD_NAME, undefined)
-                    }
-                  >
-                    <i className="plus icon"></i>
-                    Add Unit
-                  </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </FormSpy>
-      </div>
+            )}
+          </FormSpy>
+        </div>
+      )}
     </div>
   );
 };

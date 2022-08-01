@@ -23,7 +23,7 @@ import {
 } from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
-const CommercialPropertyDetail = () => {
+const CommercialPropertyDetail = ({ propComPropId, noParentDetail }) => {
   //   const [commercialPropertyData, setCommercialPropertyData] = useState({});
 
   const location = useLocation();
@@ -46,7 +46,8 @@ const CommercialPropertyDetail = () => {
   );
 
   useEffect(() => {
-    const commercialPropertyId = location.state?.data?.id;
+    const commercialPropertyId =
+      propComPropId !== undefined ? propComPropId : location.state?.data?.id;
     dispatch(getCommercialPropertyDetail(commercialPropertyId));
 
     dispatch(
@@ -103,42 +104,50 @@ const CommercialPropertyDetail = () => {
           </Link>
         </div>
       </div>
-      <p className="display-title fw-bold my-4">
-        Your Commercial Property Units
-      </p>
-      <div className="card p-3">
-        <DataDisplayTabular
-          data={formatCommercialPropertyUnitData()}
-          originalData={commercialPropertyUnitsData}
-          editable={true}
-          onEdit={{
-            path: PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_EDIT_ABSOLUTE,
-          }}
-          deletable={true}
-          onDelete={onCommercialPropertyUnitDelete}
-          manageable={false}
-          onManage={{
-            path: PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_DETAIL_ABSOLUTE,
-          }}
-          showListing={true}
-          onShowListing={{
-            path: PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
-            onClick: () => setListingKeyValueByUnit(dispatch),
-          }}
-        />
-      </div>
-      <div className="flex-end-general my-3">
-        <Link
-          to={PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_EDIT_ABSOLUTE}
-          state={{ commercialPropertyId: commercialPropertyData?.id }}
-          className="link-general link-size-small"
-        >
-          Add Commercial Property Unit
-        </Link>
-      </div>
-      <div className="my-4">
-        <p className="fw-bold fs-5 display-title mb-4">Your property Detail</p>
-        <PropertyDetail propPropertyId={location.state?.data?.property} />
+      <div>
+        {!noParentDetail && (
+          <div>
+            <p className="display-title fw-bold my-4">
+              Your Commercial Property Units
+            </p>
+            <div className="card p-3">
+              <DataDisplayTabular
+                data={formatCommercialPropertyUnitData()}
+                originalData={commercialPropertyUnitsData}
+                editable={true}
+                onEdit={{
+                  path: PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_EDIT_ABSOLUTE,
+                }}
+                deletable={true}
+                onDelete={onCommercialPropertyUnitDelete}
+                manageable={false}
+                onManage={{
+                  path: PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_DETAIL_ABSOLUTE,
+                }}
+                showListing={true}
+                onShowListing={{
+                  path: PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
+                  onClick: () => setListingKeyValueByUnit(dispatch),
+                }}
+              />
+            </div>
+            <div className="flex-end-general my-3">
+              <Link
+                to={PATH_AGENT_DASHBOARD_COMMERCIALPROPERTYUNIT_EDIT_ABSOLUTE}
+                state={{ commercialPropertyId: commercialPropertyData?.id }}
+                className="link-general link-size-small"
+              >
+                Add Commercial Property Unit
+              </Link>
+            </div>
+            <div className="my-4">
+              <p className="fw-bold fs-5 display-title mb-4">
+                Your property Detail
+              </p>
+              <PropertyDetail propPropertyId={location.state?.data?.property} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

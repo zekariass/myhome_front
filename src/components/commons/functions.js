@@ -38,3 +38,14 @@ export const getPropertyCategoryData = (propertyCategories, propCatId) => {
   return propCatObj;
 };
 
+export const getListingTypeName = (listingTypeId, listingTyps) => {
+  let listingType;
+
+  listingTyps.forEach((listingTypeObj) => {
+    if (listingTypeObj?.id === listingTypeId) {
+      listingType = listingTypeObj?.type;
+    }
+  });
+
+  return listingType;
+};

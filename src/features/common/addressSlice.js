@@ -21,6 +21,16 @@ const initialAddressState = {
     request: { isLoading: false },
     response: { error: null, status: null, data: {} },
   },
+  getRegionsByCountryName: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: [],
+  },
 };
 
 export const getCountries = createAsyncThunk(
@@ -68,11 +78,11 @@ export const getRegionsByCountry = createAsyncThunk(
  */
 export const getCitiesByRegion = createAsyncThunk(
   "address/getCitiesByRegion",
-  async (cityId) => {
+  async (regionId) => {
     const result = {};
     try {
       const resp = await myHomeBackendAPI.get("/common/city/list/", {
-        params: { cityId: cityId },
+        params: { regionId: regionId },
       });
       result.data = resp.data;
       result.status = resp.status;
@@ -113,11 +123,31 @@ export const updateAddress = createAsyncThunk(
   }
 );
 
+export const getRegionsByCountryName = createAsyncThunk(
+  "address/getRegionsByCountryName",
+  async (searchParam) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/common/country/region/list/`, {
+        params: searchParam,
+      });
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
 const addressSlice = createSlice({
   name: "address",
   initialState: initialAddressState,
   reducers: {
     createCountry: (state) => {},
+    clearCityList: (state) => {
+      state.city.cityList = [];
+    },
   },
   extraReducers: {
     /**
@@ -185,9 +215,27 @@ const addressSlice = createSlice({
       state.updateAddress.response.error = action.payload.data;
       state.updateAddress.response.status = action.payload.status;
     },
+
+    /**
+     * Regions list by country name
+     * @param {StateObject} state
+     */
+    [getRegionsByCountryName.pending]: (state) => {
+      state.getRegionsByCountryName.request.isLoading = true;
+    },
+    [getRegionsByCountryName.fulfilled]: (state, action) => {
+      state.getRegionsByCountryName.request.isLoading = false;
+      state.getRegionsByCountryName.data = action.payload.data;
+      state.getRegionsByCountryName.response.status = action.payload.status;
+    },
+    [getRegionsByCountryName.rejected]: (state, action) => {
+      state.getRegionsByCountryName.request.isLoading = false;
+      state.getRegionsByCountryName.response.error = action.payload.data;
+      state.getRegionsByCountryName.response.status = action.payload.status;
+    },
   },
 });
 
-export const { createCountry } = addressSlice.actions;
+export const { createCountry, clearCityList } = addressSlice.actions;
 
 export default addressSlice.reducer;

@@ -11,7 +11,7 @@ import { Link, useLocation } from "react-router-dom";
 import { setListingKeyValueByProperty } from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
-const LandDetail = () => {
+const LandDetail = ({ propLandId, noParentDetail }) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -20,7 +20,8 @@ const LandDetail = () => {
   );
 
   useEffect(() => {
-    const landId = location.state?.data?.id;
+    const landId =
+      propLandId !== undefined ? propLandId : location.state?.data?.id;
     dispatch(getLandDetail(landId));
   }, []);
 
@@ -47,10 +48,14 @@ const LandDetail = () => {
           </Link>
         </div>
       </div>
-      <div className="my-4">
-        <p className="fw-bold fs-5 display-title mb-4">Your property Detail</p>
-        <PropertyDetail propPropertyId={location.state?.data?.property} />
-      </div>
+      {!noParentDetail && (
+        <div className="my-4">
+          <p className="fw-bold fs-5 display-title mb-4">
+            Your property Detail
+          </p>
+          <PropertyDetail propPropertyId={location.state?.data?.property} />
+        </div>
+      )}
     </div>
   );
 };

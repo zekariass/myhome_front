@@ -3,13 +3,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import ListingCard from "./ListingCard";
 
-const ListingGrid = ({ publicListings }) => {
+const ListingGrid = ({ publicListings, gridClassName, page }) => {
   return (
     <div>
-      <div className="row row-cols-1 row-cols-lg-2 g-3">
+      <div className={gridClassName}>
         {publicListings?.map((listing) => (
           <div className="col" key={listing.id}>
-            <ListingCard listing={listing} />
+            <ListingCard listing={listing} page={page}/>
           </div>
         ))}
       </div>

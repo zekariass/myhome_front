@@ -12,7 +12,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setListingKeyValueByProperty } from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
-const ShareHouseDetail = () => {
+const ShareHouseDetail = ({ propShareHouseId, noParentDetail }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,7 +24,10 @@ const ShareHouseDetail = () => {
   const houseTypes = useSelector((store) => store.houseType.response.data);
 
   useEffect(() => {
-    const shareHouseId = location.state?.data?.id;
+    const shareHouseId =
+      propShareHouseId !== undefined
+        ? propShareHouseId
+        : location.state?.data?.id;
     dispatch(getShareHouseDetail(shareHouseId));
   }, []);
 
@@ -55,10 +58,14 @@ const ShareHouseDetail = () => {
           </Link>
         </div>
       </div>
-      <div className="my-4">
-        <p className="fw-bold fs-5 display-title mb-4">Your property Detail</p>
-        <PropertyDetail propPropertyId={location.state?.data?.property} />
-      </div>
+      {!noParentDetail && (
+        <div className="my-4">
+          <p className="fw-bold fs-5 display-title mb-4">
+            Your property Detail
+          </p>
+          <PropertyDetail propPropertyId={location.state?.data?.property} />
+        </div>
+      )}
     </div>
   );
 };

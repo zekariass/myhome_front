@@ -14,6 +14,7 @@ import listingSlice from "features/listing/listingSlice";
 import paymentSlice from "features/payment/paymentSlice";
 import publicListingSlice from "features/listing/publicListingSlice";
 import commonSlice from "features/common/commonSlice";
+import assetSlice from "features/system/assetSlice";
 
 export const reduxStore = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const reduxStore = configureStore({
     propertyWizard: wizardSlice,
     propertyFile: propertyFileSlice,
     system: paramSlice,
+    systemAsset: assetSlice,
     listing: listingSlice,
     publicListing: publicListingSlice,
     payment: paymentSlice,

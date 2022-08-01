@@ -15,7 +15,7 @@ import { Link, useLocation } from "react-router-dom";
 import { setListingKeyValueByProperty } from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
-const CondominiumDetail = () => {
+const CondominiumDetail = ({ propCondominiumId, noParentDetail }) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -24,7 +24,10 @@ const CondominiumDetail = () => {
   );
 
   useEffect(() => {
-    const condominiumId = location.state?.data?.id;
+    const condominiumId =
+      propCondominiumId !== undefined
+        ? propCondominiumId
+        : location.state?.data?.id;
     dispatch(getCondominiumDetail(condominiumId));
   }, []);
 
@@ -39,7 +42,7 @@ const CondominiumDetail = () => {
         <div className="card col">
           <DataDisplay
             data={condominiumData}
-            title="Your Villa Detail"
+            title="Your Condominium Detail"
             editable={true}
             editInitialValues={condominiumData}
             path={PATH_AGENT_DASHBOARD_CONDOMINIUM_EDIT_ABSOLUTE}
@@ -56,10 +59,14 @@ const CondominiumDetail = () => {
           </Link>
         </div>
       </div>
-      <div className="my-4">
-        <p className="fw-bold fs-5 display-title mb-4">Your property Detail</p>
-        <PropertyDetail propPropertyId={location.state?.data?.property} />
-      </div>
+      {!noParentDetail && (
+        <div className="my-4">
+          <p className="fw-bold fs-5 display-title mb-4">
+            Your property Detail
+          </p>
+          <PropertyDetail propPropertyId={location.state?.data?.property} />
+        </div>
+      )}
     </div>
   );
 };

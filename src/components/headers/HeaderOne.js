@@ -10,12 +10,8 @@ import {
   PATH_AGENTS_SEARCH_ABSOLUTE,
   PATH_AGENT_CREATE_INFO_ABSOLUTE,
   PATH_AGENT_DASHBOARD,
-  PATH_AGENT_DASHBOARD_STAT_ABSOLUTE,
-  PATH_AGENT_LOGO_UPLOAD_ABSOLUTE,
   PATH_LANDING,
-  PATH_PROPERTY_ADD_ABSOLUTE,
-  PATH_PROPERTY_FILE_UPLOAD_ABSOLUTE,
-  PATH_SAVED_PROPETRTIES,
+  PATH_SAVED_LISTINGS_ABSOLUTE,
   PATH_SIGNIN,
   PATH_SIGNUP,
 } from "components/commons/Strings";
@@ -81,10 +77,10 @@ const HeaderOne = () => {
     return (
       <Nav>
         <NavLink
-          to={PATH_SAVED_PROPETRTIES}
+          to={PATH_SAVED_LISTINGS_ABSOLUTE}
           className="link-general link-size-small mx-lg-5"
         >
-          Saved Properties
+          Saved Listings
         </NavLink>
         {/* <NavLink to="#" className="link-general link-size-small"> */}
         <MenuDropdown />

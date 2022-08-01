@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const MinimisedImageGallery = ({ data }) => {
   const [startIndex, setStartIndex] = useState(0);
@@ -6,10 +7,10 @@ const MinimisedImageGallery = ({ data }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   return (
-    <div>
+    <div className="card">
       {data?.length > 0 && (
         <div>
-          <div className="d-none d-md-block">
+          <div className="d-none d-md-block p-2">
             <div className="row">
               <div className="col-8">
                 <img
@@ -21,6 +22,11 @@ const MinimisedImageGallery = ({ data }) => {
                   }}
                   className="image-display"
                 />
+                <div className="my-3 flex-end-general">
+                  <Link to="#" className="link-general link-size-small">
+                    Show all {data?.length} pictures
+                  </Link>
+                </div>
               </div>
               <div className="col-4">
                 <div className="flex-center-general gallery-slider-div">
@@ -45,13 +51,13 @@ const MinimisedImageGallery = ({ data }) => {
                       ? "gallery-slider gallery-slider-active-img"
                       : "gallery-slider";
                   return (
-                    <div key={index}>
+                    <div key={index} className="">
                       {index === startIndex && (
                         <div className="gallery-slider-div">
                           <img
                             src={img.image}
                             alt="pic 1"
-                            className={`${activaImageClass} image-display`}
+                            className={`${activaImageClass} image-display `}
                             //   style={{ width: "200px", height: "100px" }}
                           />
                         </div>
@@ -79,6 +85,15 @@ const MinimisedImageGallery = ({ data }) => {
                     </div>
                   );
                 })}
+                <div className="flex-center-general mt-2">
+                  <p
+                    className="fs-6 fw-bold px-2 py-1 shadow "
+                    style={{ backgroundColor: "#fff", borderRadius: "5%" }}
+                  >
+                    {selectedImageIndex + 1}/{data?.length}
+                  </p>
+                </div>
+
                 <div className="flex-center-general gallery-slider-div">
                   <i
                     className={`angle down icon big gallery-slider-icon ${

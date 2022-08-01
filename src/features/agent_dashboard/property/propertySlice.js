@@ -1,6 +1,11 @@
 // @ts-nocheck
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
+import {
+  ALL_PURPOSE_PROPERTY_KEY,
+  APARTMENT_KEY,
+  COMMERCIAL_PROPERTY_KEY,
+} from "components/commons/Strings";
 import { goToPage } from "features/common/wizardSlice";
 import { getFormatedResponse } from "features/getFormatedResponse";
 
@@ -26,6 +31,16 @@ const initialPropertyState = {
   },
   singlePropertyAction: {
     //Delete, Retrieve, Update
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: {},
+  },
+  getPropertyUnitDetail: {
     request: {
       isLoading: false,
     },
@@ -325,6 +340,35 @@ export const updateProperty = createAsyncThunk(
           // state: { propertyId: edufaData.property },
         });
       }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getPropertyUnitDetail = createAsyncThunk(
+  "property/getPropertyUnitDetail",
+  async ({ unitId, catKey }) => {
+    let unitName;
+    switch (catKey) {
+      case APARTMENT_KEY:
+        unitName = "apartmentunit";
+        break;
+      case COMMERCIAL_PROPERTY_KEY:
+        unitName = "commercialpropertyunit";
+        break;
+      case ALL_PURPOSE_PROPERTY_KEY:
+        unitName = "allpurposepropertyunit";
+        break;
+    }
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/property/${unitName}/${unitId}/detail/public/`
+      );
     } catch (error) {
       result = error.response;
     } finally {
@@ -841,6 +885,25 @@ const propertySlice = createSlice({
       state.singlePropertyAction.response.error = action.payload.data;
       state.singlePropertyAction.response.status = action.payload.status;
       state.singlePropertyAction.data = [];
+    },
+
+    /**
+     * Get property unit detail from backend
+     * @param {StateObject} state
+     */
+    [getPropertyUnitDetail.pending]: (state) => {
+      state.getPropertyUnitDetail.request.isLoading = true;
+    },
+    [getPropertyUnitDetail.fulfilled]: (state, action) => {
+      state.getPropertyUnitDetail.request.isLoading = false;
+      state.getPropertyUnitDetail.data = action.payload.data;
+      state.getPropertyUnitDetail.response.status = action.payload.status;
+    },
+    [getPropertyUnitDetail.rejected]: (state, action) => {
+      state.getPropertyUnitDetail.request.isLoading = false;
+      state.getPropertyUnitDetail.response.error = action.payload.data;
+      state.getPropertyUnitDetail.response.status = action.payload.status;
+      state.getPropertyUnitDetail.data = [];
     },
     /**
      * Update property

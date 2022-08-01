@@ -22,7 +22,7 @@ import {
 } from "./listingKey";
 import PropertyDetail from "./PropertyDetail";
 
-const AllPurposePropertyDetail = () => {
+const AllPurposePropertyDetail = ({ propAPPId, noParentDetail }) => {
   //   const [allPurposePropertyData, setallPurposePropertyData] = useState({});
 
   const location = useLocation();
@@ -45,7 +45,8 @@ const AllPurposePropertyDetail = () => {
   );
 
   useEffect(() => {
-    const allPurposePropertyId = location.state?.data?.id;
+    const allPurposePropertyId =
+      propAPPId !== undefined ? propAPPId : location.state?.data?.id;
     dispatch(getAllPurposePropertyDetail(allPurposePropertyId));
 
     dispatch(
@@ -101,42 +102,50 @@ const AllPurposePropertyDetail = () => {
           </Link>
         </div>
       </div>
-      <p className="display-title fw-bold my-4">
-        Your All Purpose Property Units
-      </p>
-      <div className="card p-3">
-        <DataDisplayTabular
-          data={formatAllPurposePropertyUnitData()}
-          originalData={allPurposePropertyUnitsData}
-          editable={true}
-          onEdit={{
-            path: PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTYUNIT_EDIT_ABSOLUTE,
-          }}
-          deletable={true}
-          onDelete={onAllPurposePropertyUnitDelete}
-          manageable={false}
-          onManage={{
-            path: PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTYUNIT_DETAIL_ABSOLUTE,
-          }}
-          showListing={true}
-          onShowListing={{
-            path: PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
-            onClick: () => setListingKeyValueByUnit(dispatch),
-          }}
-        />
-      </div>
-      <div className="flex-end-general my-3">
-        <Link
-          to={PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTYUNIT_EDIT_ABSOLUTE}
-          state={{ allPurposePropertyId: allPurposePropertyData?.id }}
-          className="link-general link-size-small"
-        >
-          Add All Purpose Property Unit
-        </Link>
-      </div>
-      <div className="my-4">
-        <p className="fw-bold fs-5 display-title mb-4">Your property Detail</p>
-        <PropertyDetail propPropertyId={location.state?.data?.property} />
+      <div>
+        {!noParentDetail && (
+          <div>
+            <p className="display-title fw-bold my-4">
+              Your All Purpose Property Units
+            </p>
+            <div className="card p-3">
+              <DataDisplayTabular
+                data={formatAllPurposePropertyUnitData()}
+                originalData={allPurposePropertyUnitsData}
+                editable={true}
+                onEdit={{
+                  path: PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTYUNIT_EDIT_ABSOLUTE,
+                }}
+                deletable={true}
+                onDelete={onAllPurposePropertyUnitDelete}
+                manageable={false}
+                onManage={{
+                  path: PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTYUNIT_DETAIL_ABSOLUTE,
+                }}
+                showListing={true}
+                onShowListing={{
+                  path: PATH_AGENT_DASHBOARD_LISTING_LIST_ABSOLUTE,
+                  onClick: () => setListingKeyValueByUnit(dispatch),
+                }}
+              />
+            </div>
+            <div className="flex-end-general my-3">
+              <Link
+                to={PATH_AGENT_DASHBOARD_ALLPURPOSEPROPERTYUNIT_EDIT_ABSOLUTE}
+                state={{ allPurposePropertyId: allPurposePropertyData?.id }}
+                className="link-general link-size-small"
+              >
+                Add All Purpose Property Unit
+              </Link>
+            </div>
+            <div className="my-4">
+              <p className="fw-bold fs-5 display-title mb-4">
+                Your property Detail
+              </p>
+              <PropertyDetail propPropertyId={location.state?.data?.property} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

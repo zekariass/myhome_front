@@ -1,13 +1,8 @@
 // @ts-nocheck
 import Paginator from "components/commons/Paginator";
 import { SYSTEM_PARAMS_PUBLIC_LISTING_PAGE_SIZE } from "components/commons/Strings";
-import FooterOne from "components/footers/FooterOne";
-import HeaderOne from "components/headers/HeaderOne";
-import {
-  getPublicListingsBySearchFromLandingPage,
-  setSearchParams,
-} from "features/listing/publicListingSlice";
-import React, { useEffect, useState } from "react";
+import { getPublicListingsBySearchFromLandingPage } from "features/listing/publicListingSlice";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FilterListing from "./FilterListing";
 import ListingGrid from "./ListingGrid";
@@ -135,7 +130,11 @@ const PublicListingList = () => {
               </div>
             </div>
             <div className="mb-3">
-              <ListingGrid publicListings={publicListings} />
+              <ListingGrid
+                publicListings={publicListings}
+                gridClassName="row row-cols-1 row-cols-lg-2 g-3"
+                page="publicListingList"
+              />
             </div>
             <div className="flex-center-general my-5">
               <Paginator
