@@ -6,6 +6,7 @@ import {
   COMMERCIAL_PROPERTY_KEY,
   LISTING_KEY_BY_AGENT,
   LISTING_KEY_BY_UNIT,
+  PATH_AGENT_DASHBOARD_FEATURE_LISTING_ABSOLUTE,
   PATH_AGENT_DASHBOARD_LISTING_ADD_ABSOLUTE,
   PATH_AGENT_DASHBOARD_LISTING_DETAIL_ABSOLUTE,
   PATH_AGENT_DASHBOARD_LISTING_EDIT_ABSOLUTE,
@@ -228,6 +229,8 @@ const ListingList = ({ code }) => {
           onManage={{
             path: PATH_AGENT_DASHBOARD_LISTING_DETAIL_ABSOLUTE,
           }}
+          featureable={true}
+          onFeature={{ path: PATH_AGENT_DASHBOARD_FEATURE_LISTING_ABSOLUTE }}
         />
       </div>
       <div className="card p-4 my-5">
@@ -248,6 +251,8 @@ const ListingList = ({ code }) => {
           onManage={{
             path: PATH_AGENT_DASHBOARD_LISTING_DETAIL_ABSOLUTE,
           }}
+          featureable={true}
+          onFeature={{ path: PATH_AGENT_DASHBOARD_FEATURE_LISTING_ABSOLUTE }}
         />
       </div>
       {!(

@@ -5,7 +5,6 @@ import SearchArea from "./SearchArea";
 import "./LandingPage.css";
 import { Link } from "react-router-dom";
 import PropertyAlbum from "./PropertyAlbum";
-import FeaturedLists from "./FeaturedLists";
 import SearchByCity from "./SearchByCity";
 import WhoAreYouArea from "./WhoAreYouArea";
 import FooterOne from "components/footers/FooterOne";
@@ -15,6 +14,8 @@ import {
   PATH_AGENT_CREATE_INFO_ABSOLUTE,
   PATH_AGENT_DASHBOARD,
 } from "components/commons/Strings";
+import FeaturedListing from "./FeaturedListing";
+import { getFeaturedListings } from "features/listing/publicListingSlice";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -66,7 +67,7 @@ const LandingPage = () => {
         <SearchByCity />
       </div>
       <div>
-        <FeaturedLists />
+        <FeaturedListing />
       </div>
       <div className="who-are-you-area">
         <WhoAreYouArea />

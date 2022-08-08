@@ -37,6 +37,10 @@ const PropertyAlbum = () => {
     (store) => store.propertyCategory.propertyCategoryList.response.data
   );
 
+  const storedSearchParams = useSelector(
+    (store) => store.publicListing.searchParams.params
+  );
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -130,12 +134,17 @@ const PropertyAlbum = () => {
     propertyCategoryId = propertyCategory ? propertyCategory?.id : -1;
 
     const searchParams = {
-      for_rent: false,
-      for_sale: false,
-      location: -1,
+      ...storedSearchParams,
       property_category: propertyCategoryId,
-      page: 1,
     };
+
+    // {
+    //   for_rent: false,
+    //   for_sale: false,
+    //   location: -1,
+    //   property_category: propertyCategoryId,
+    //   page: 1,
+    // };
 
     let urlParm = "";
 
@@ -157,15 +166,15 @@ const PropertyAlbum = () => {
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-3">
         <div className="col">
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getApartmentAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getApartmentAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
             <Card.Body>
               <p className="flex-center-general fs-5">Apartments</p>
               <p className="card-text flex-center-general">
@@ -187,15 +196,15 @@ const PropertyAlbum = () => {
         </div>
         <div className="col">
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getVillaAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getVillaAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
 
             <Card.Body>
               <p className="flex-center-general fs-5">Villas</p>
@@ -218,15 +227,15 @@ const PropertyAlbum = () => {
         </div>
         <div className="col card-table">
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getCondominiumAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getCondominiumAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
 
             <Card.Body>
               <p className="flex-center-general fs-5">Condominiums</p>
@@ -249,15 +258,15 @@ const PropertyAlbum = () => {
         </div>
         <div>
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getTraditionalHouseAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getTraditionalHouseAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
 
             <Card.Body>
               <p className="flex-center-general fs-5">Traditional Properties</p>
@@ -280,15 +289,15 @@ const PropertyAlbum = () => {
         </div>
         <div className="col">
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getShareHouseAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getShareHouseAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
 
             <Card.Body>
               <p className="flex-center-general fs-5">Share Houses</p>
@@ -311,15 +320,15 @@ const PropertyAlbum = () => {
         </div>
         <div className="col">
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getOfficeAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getOfficeAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
 
             <Card.Body>
               <p className="flex-center-general fs-5">Offices</p>
@@ -342,15 +351,15 @@ const PropertyAlbum = () => {
         </div>
         <div className="col">
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getCommercialPropertyAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getCommercialPropertyAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
 
             <Card.Body>
               <p className="flex-center-general fs-5">Commercial Properties</p>
@@ -373,15 +382,15 @@ const PropertyAlbum = () => {
         </div>
         <div className="col">
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getHallAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getHallAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
 
             <Card.Body>
               <p className="flex-center-general fs-5">Halls</p>
@@ -404,15 +413,15 @@ const PropertyAlbum = () => {
         </div>
         <div className="col">
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getAllPurposePropertyAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getAllPurposePropertyAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
 
             <Card.Body>
               <p className="flex-center-general fs-5">All Purpose Properties</p>
@@ -435,15 +444,15 @@ const PropertyAlbum = () => {
         </div>
         <div className="col">
           <Card>
-            <Card.Header>
-              <Card.Img
-                src={getLandAsset()}
-                alt="Apartment"
-                width="100%"
-                height="225"
-                className="rounded-top"
-              />
-            </Card.Header>
+            {/* <Card.Header> */}
+            <Card.Img
+              src={getLandAsset()}
+              alt="Apartment"
+              width="100%"
+              height="225"
+              className="rounded-top"
+            />
+            {/* </Card.Header> */}
 
             <Card.Body>
               <p className="flex-center-general fs-5">Lands</p>

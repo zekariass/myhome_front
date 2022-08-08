@@ -1,18 +1,11 @@
 // @ts-nocheck
 import AgentPreview from "components/agents/AgentPreview";
-import { APARTMENT_KEY } from "components/commons/Strings";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Card, Tab, Tabs } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Villa from "../../commons/icons/villa-icon.png";
-import {
-  getCurrencyName,
-  getPeriodicityName,
-  getFullAddress,
-  getListingTypeName,
-} from "../../commons/functions";
 import { getAmenitiesByAmenityCategory } from "components/commons/getAmenitiesByAmenityCategory";
 import TransportFacilityDetail from "./TransportFacilityDetail";
 import DescriptionDetail from "./DescriptionDetail";
@@ -150,7 +143,12 @@ const HallListingDetail = ({ publicListingDetail }) => {
           </div>
         </div>
         <div className="col-lg-5">
-          <AgentPreview agentData={publicListingDetail?.property?.agent} />
+          <div style={{ position: "sticky", top: "10px" }}>
+            <AgentPreview
+              agentData={publicListingDetail?.property?.agent}
+              listingData={publicListingDetail}
+            />
+          </div>
         </div>
       </div>
     </div>

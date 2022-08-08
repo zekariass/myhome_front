@@ -40,7 +40,6 @@ const ListingCard = ({ listing, page }) => {
     (store) => store.propertyCategory.propertyCategoryList.response.data
   );
 
-
   useEffect(() => {
     setPropertyCategoryData(
       getPropertyCategoryData(propertyCategories, listing?.property_category)
@@ -98,7 +97,11 @@ const ListingCard = ({ listing, page }) => {
 
           <div className="row">
             <div className="col-md-6">
-              <Card.Text className="">{propertyCategoryData?.name}</Card.Text>
+              <Card.Text
+                className="display-title fw-bold "
+              >
+                {propertyCategoryData?.name}
+              </Card.Text>
               <Card.Text className="fw-bold">
                 <>
                   {listing?.property_price}{" "}
@@ -110,8 +113,8 @@ const ListingCard = ({ listing, page }) => {
             <div className="col-md-6 input-border-color">
               <Card.Text className="">{listing?.agent?.name} </Card.Text>
 
-              <Card.Text>
-                <i className="large envelope icon grin-color"></i>
+              <Card.Text className="mb-1">
+                <i className="large envelope outline icon grin-color"></i>
                 <span className="mx-2">Contact</span>
                 <i className="large phone square icon grin-color"></i>
               </Card.Text>

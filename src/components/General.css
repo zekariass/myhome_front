@@ -246,6 +246,10 @@ body {
   color: brown;
 }
 
+.display-bg {
+  background-color: brown;
+}
+
 /* IMAGE GALLERY */
 .gallery-slider-active-div {
   margin-top: 10px;

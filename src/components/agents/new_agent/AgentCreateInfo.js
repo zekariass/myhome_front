@@ -1,9 +1,20 @@
-import { PATH_AGENTS_ADD_ABSOLUTE } from "components/commons/Strings";
+// @ts-nocheck
+import {
+  PATH_AGENTS_ADD_ABSOLUTE,
+  PATH_AGENTS_SEARCH,
+  PATH_AGENTS_SEARCH_ABSOLUTE,
+  PATH_AGENT_DASHBOARD,
+} from "components/commons/Strings";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Logo2 from "../grinmove-logo2.png";
 
-function AgentCreateInfo() {
+const AgentCreateInfo = () => {
+  const userDetail = useSelector((store) => store.user.userDetail.data);
+  const agentDetail = useSelector(
+    (store) => store.agent.getAgent.response.data
+  );
   return (
     <div className="container px-5 my-3">
       <section>
@@ -13,44 +24,84 @@ function AgentCreateInfo() {
               <div className="flex-center-general">
                 <img src={Logo2} alt="logo placeholder" />
               </div>
-              <p className="fs-5 fw-bold flex-center-general">
-                Oops! It seems that you have no Agent
-              </p>
-              <p className="fs-5 flex-center-general">
-                Would you like to work with us as an agent?
-              </p>
-              <p className="fs-5 px-4 flex-center-general align-items-center">
-                Create an agent for free and list your properties to reach
-                millions across the world. We are here to ease simplify your
-                work!
-              </p>
+              {!userDetail?.has_agent && (
+                <>
+                  <p className="fs-5 fw-bold flex-center-general">
+                    Oops! It seems that you have no Agent
+                  </p>
+                  <p className="fs-5 flex-center-general">
+                    Would you like to work with us as an agent?
+                  </p>
+                  <p className="fs-5 px-4 flex-center-general align-items-center">
+                    Create an agent for free and list your properties to reach
+                    millions across the world. We are here to ease simplify your
+                    work!
+                  </p>
+                </>
+              )}
+              {userDetail?.has_agent && (
+                <>
+                  <p className="fs-5 fw-bold flex-center-general">
+                    Create, list, and manage your properties
+                  </p>
+
+                  <p className="fs-5 px-4 flex-center-general align-items-center">
+                    List your properties to reach millions across the world. We
+                    are here to ease simplify your work!
+                  </p>
+                </>
+              )}
             </div>
           </div>
+
           <div className="col-md-4 mt-5">
-            <div>
-              <div className="p-3 border rounded-3">
-                <p className="fs-4 flex-center-general fw-bold">
-                  Agent not found!
-                </p>
-                <div className="flex-center-general">
-                  <Link
-                    to={PATH_AGENTS_ADD_ABSOLUTE}
-                    className="btn btn-general btn-general-hover p-3 mt-3"
-                  >
-                    Create an Agent
-                  </Link>
+            {!userDetail?.has_agent && (
+              <div>
+                <div className="p-3 border rounded-3">
+                  <p className="fs-4 flex-center-general fw-bold">
+                    Agent not found!
+                  </p>
+                  <div className="flex-center-general">
+                    <Link
+                      to={PATH_AGENTS_ADD_ABSOLUTE}
+                      className="btn btn-general btn-general-hover p-3 mt-3"
+                    >
+                      Create an Agent
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+            {userDetail?.has_agent && (
+              <div>
+                <div className="p-3 border rounded-3">
+                  <div className="flex-center-general mb-4">
+                    <img
+                      src={agentDetail?.logo?.logo}
+                      alt="Agent logo"
+                      width="60%"
+                    />
+                  </div>
+                  <p className="fs-4 flex-center-general fw-bold">
+                    {agentDetail?.name}
+                  </p>
+                  <div className="flex-center-general">
+                    <Link to={PATH_AGENT_DASHBOARD} className="btn btn-general">
+                      Go to Dashboard
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="my-3">
               <div className="p-3 border rounded-3">
-                <p className="fs-4 flex-center-general fw-bold">
-                  Berhane Mesfin!
-                </p>
                 <div className="flex-center-general">
-                  <button className="btn-general btn-general-hover p-3 mt-3">
-                    Find an Agent
-                  </button>
+                  <Link
+                    to={PATH_AGENTS_SEARCH_ABSOLUTE}
+                    className="btn btn-general"
+                  >
+                    Find another Agent
+                  </Link>
                 </div>
               </div>
             </div>
@@ -194,7 +245,7 @@ function AgentCreateInfo() {
             </p>
             <div>
               <Link
-                to="/"
+                to={PATH_AGENTS_SEARCH_ABSOLUTE}
                 className="link-general link-general-hover link-underline"
               >
                 Find an Agent
@@ -211,19 +262,21 @@ function AgentCreateInfo() {
               platform has no right to choose who the agent is, right? go for
               it!
             </p>
-            <div>
-              <Link
-                to="/"
-                className="link-general link-general-hover link-underline"
-              >
-                Create an Agent
-              </Link>
-            </div>
+            {!userDetail?.has_agent && (
+              <div>
+                <Link
+                  to="/"
+                  className="link-general link-general-hover link-underline"
+                >
+                  Create an Agent
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </section>
     </div>
   );
-}
+};
 
 export default AgentCreateInfo;

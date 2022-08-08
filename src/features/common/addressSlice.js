@@ -16,6 +16,16 @@ const initialAddressState = {
   city: {
     isLoading: false,
     cityList: [],
+    popularCityList: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: [],
+    },
   },
   updateAddress: {
     request: { isLoading: false },
@@ -91,6 +101,24 @@ export const getCitiesByRegion = createAsyncThunk(
       result.status = error.status;
     } finally {
       return result;
+    }
+  }
+);
+
+/**
+ * Get popular cities
+ */
+export const getPopularCities = createAsyncThunk(
+  "address/getPopularCities",
+  async () => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/common/popular/city/list/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
     }
   }
 );
@@ -232,6 +260,22 @@ const addressSlice = createSlice({
       state.getRegionsByCountryName.request.isLoading = false;
       state.getRegionsByCountryName.response.error = action.payload.data;
       state.getRegionsByCountryName.response.status = action.payload.status;
+    },
+    /**
+     * Get popular cities
+     */
+    [getPopularCities.pending]: (state) => {
+      state.city.popularCityList.request.isLoading = true;
+    },
+    [getPopularCities.fulfilled]: (state, action) => {
+      state.city.popularCityList.request.isLoading = false;
+      state.city.popularCityList.data = action.payload.data;
+      state.city.popularCityList.response.status = action.payload.status;
+    },
+    [getPopularCities.rejected]: (state, action) => {
+      state.city.popularCityList.request.isLoading = false;
+      state.city.popularCityList.response.error = action.payload.data;
+      state.city.popularCityList.response.status = action.payload.status;
     },
   },
 });

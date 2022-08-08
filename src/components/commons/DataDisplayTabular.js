@@ -13,6 +13,8 @@ const DataDisplayTabular = ({
   onManage,
   showListing,
   onShowListing,
+  featureable,
+  onFeature,
 }) => {
   const [dataArray, setDataArray] = useState([]);
   const [columns, setColumns] = useState([]);
@@ -98,6 +100,17 @@ const DataDisplayTabular = ({
                         onClick={onShowListing?.onClick}
                       >
                         Listings
+                      </Link>
+                    )}
+                    {featureable && <span className="px-2">|</span>}
+                    {featureable && (
+                      <Link
+                        to={onFeature?.path ? onFeature?.path : ""}
+                        state={{ data: originalData[index] }}
+                        className="link-general link-size-small"
+                        onClick={onFeature?.onClick}
+                      >
+                        feature
                       </Link>
                     )}
                   </td>

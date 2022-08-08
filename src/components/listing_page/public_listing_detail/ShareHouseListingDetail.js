@@ -142,7 +142,10 @@ const ShareHouseListingDetail = ({ publicListingDetail }) => {
               </div>
             </Card.Body>
           </Card>
-          <SaveAndShareBox listing={publicListingDetail} page="publicListingDetail" />
+          <SaveAndShareBox
+            listing={publicListingDetail}
+            page="publicListingDetail"
+          />
           <div className="my-3">
             <DescriptionDetail publicListingDetail={publicListingDetail} />
           </div>
@@ -171,7 +174,12 @@ const ShareHouseListingDetail = ({ publicListingDetail }) => {
           </div>
         </div>
         <div className="col-lg-5">
-          <AgentPreview agentData={publicListingDetail?.property?.agent} />
+          <div style={{ position: "sticky", top: "10px" }}>
+            <AgentPreview
+              agentData={publicListingDetail?.property?.agent}
+              listingData={publicListingDetail}
+            />
+          </div>
         </div>
       </div>
     </div>

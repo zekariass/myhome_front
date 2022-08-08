@@ -3,9 +3,11 @@ import CheckField from "components/commons/fields/CheckField";
 import DropdownField from "components/commons/fields/DropdownField";
 import TextField from "components/commons/fields/TextField";
 import { FIELD_SUBSCRIPTION } from "components/commons/fieldSubscription";
-import { PATH_PUBLIC_LISTING } from "components/commons/Strings";
+import { getPropertyCategoryData } from "components/commons/functions";
+import { LAND_KEY, PATH_PUBLIC_LISTING } from "components/commons/Strings";
 import {
   clearPublicListing,
+  resetListingFilterValues,
   setSearchParams,
 } from "features/listing/publicListingSlice";
 import React from "react";
@@ -26,11 +28,17 @@ const SearchArea = () => {
   );
 
   const onSubmit = (values) => {
+    dispatch(resetListingFilterValues());
+
     const searchParams = {
       for_rent: false,
       for_sale: false,
       location: -1,
       property_category: -1,
+      min_price: -1,
+      max_price: -1,
+      number_of_bed_rooms: -1,
+      sort_by: -1,
       page: 1,
     };
 
@@ -39,6 +47,22 @@ const SearchArea = () => {
     Object.keys(values).forEach((paramKey) => {
       searchParams[paramKey] = values[paramKey];
     });
+
+    const propertyCategory = getPropertyCategoryData(
+      propertyCategories,
+      parseInt(values?.property_category)
+    );
+
+    if (searchParams.for_rent === false && searchParams.for_sale === false) {
+      if (propertyCategory?.cat_key === LAND_KEY) {
+        searchParams.for_rent = false;
+        searchParams.for_sale = true;
+      } else {
+        searchParams.for_rent = true;
+        searchParams.for_sale = true;
+      }
+    }
+
     dispatch(clearPublicListing());
     dispatch(setSearchParams(searchParams));
 

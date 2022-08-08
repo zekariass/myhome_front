@@ -5,7 +5,10 @@ import LandingPage from "./landing_page/LandingPage";
 import "./General.css";
 import Signup from "./auth/Signup";
 import Signin from "./auth/Signin";
-import { checkUserSigninStatus } from "../features/user/userSlice";
+import {
+  checkUserSigninStatus,
+  getUserDetail,
+} from "../features/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "./commons/ProtectedRoute";
 import {
@@ -13,6 +16,7 @@ import {
   PATH_AGENTS_ADD,
   PATH_AGENTS_HOME,
   PATH_AGENTS_SEARCH,
+  PATH_AGENT_CONTACT,
   PATH_AGENT_CREATE_INFO,
   PATH_AGENT_DASHBOARD,
   PATH_AGENT_DASHBOARD_AGENT_INFO,
@@ -34,6 +38,7 @@ import {
   PATH_AGENT_DASHBOARD_CONDOMINIUM_EDIT,
   PATH_AGENT_DASHBOARD_CONDOMINIUM_LIST,
   PATH_AGENT_DASHBOARD_EDUCATION_FACILITY_ADD,
+  PATH_AGENT_DASHBOARD_FEATURE_LISTING,
   PATH_AGENT_DASHBOARD_HALL_DETAIL,
   PATH_AGENT_DASHBOARD_HALL_EDIT,
   PATH_AGENT_DASHBOARD_HALL_LIST,
@@ -66,6 +71,8 @@ import {
   PATH_AGENT_DASHBOARD_VILLA_DETAIL,
   PATH_AGENT_DASHBOARD_VILLA_EDIT,
   PATH_AGENT_DASHBOARD_VILLA_LIST,
+  PATH_AGENT_DETAIL,
+  PATH_AGENT_ID_VARIABLE,
   PATH_AGENT_LOGO_UPLOAD,
   PATH_DYNAMIC_PROPERTY,
   PATH_LANDING,
@@ -161,9 +168,12 @@ import PublicListingList from "./listing_page/PublicListingList";
 import PublicListingDetailPage from "./listing_page/public_listing_detail/PublicListingDetailPage";
 import SavedListingPage from "./listing_page/saved_listing/SavedListingPage";
 import { getSystemAssets } from "features/system/assetSlice";
+import AgentDetail from "./agents/AgentDetail";
+import FeatureListing from "./agents/dashboard/listings/FeatureListing";
+import ContactAgent from "./listing_page/ContactAgent";
 
 const App = () => {
-  const { isSignedIn } = useSelector((store) => store.user.signin);
+  const isSignedIn = useSelector((store) => store.user.signin.isSignedIn);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -184,7 +194,12 @@ const App = () => {
   useEffect(() => {
     dispatch(checkUserSigninStatus());
     if (isSignedIn) {
-      dispatch(getAgent());
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      };
+
+      dispatch(getUserDetail(headers));
+      dispatch(getAgent(headers));
     }
   }, [isSignedIn]);
 
@@ -213,7 +228,7 @@ const App = () => {
         <Route path={PATH_AGENTS_HOME} element={<AgentsPage />}>
           <Route element={<ProtectedRoute redirectPath={PATH_SIGNIN} />}>
             <Route path={PATH_AGENTS_ADD} element={<AgentFormWizard />} />
-            <Route path={PATH_AGENTS_SEARCH} element={<AgentSearch />} />
+
             <Route
               path={PATH_AGENT_CREATE_INFO}
               element={<AgentCreateInfo />}
@@ -224,8 +239,13 @@ const App = () => {
             />
             {/* <Route path={PATH_AGENT_DASHBOARD} element={<AgentDashboard />} /> */}
           </Route>
+          <Route path={PATH_AGENTS_SEARCH} element={<AgentSearch />} />
+          <Route
+            path={`${PATH_AGENT_ID_VARIABLE}/${PATH_AGENT_DETAIL}`}
+            element={<AgentDetail />}
+          />
           <Route index element={<AgentsList />} />
-          {/* <Route path={PATH_AGENTS_ADD} element={<AgentFormWizard />} /> */}
+          <Route path={PATH_AGENT_CONTACT} element={<ContactAgent />} />
         </Route>
         <Route path={PATH_AGENT_DASHBOARD} element={<AgentDashboard />}>
           <Route element={<ProtectedRoute redirectPath={PATH_SIGNIN} />}>
@@ -465,6 +485,11 @@ const App = () => {
               <Route
                 path={PATH_AGENT_DASHBOARD_LISTING_DETAIL}
                 element={<ListingDetail />}
+              />
+
+              <Route
+                path={PATH_AGENT_DASHBOARD_FEATURE_LISTING}
+                element={<FeatureListing />}
               />
 
               {/* ================ EDUCATION FACILITY ================================= */}

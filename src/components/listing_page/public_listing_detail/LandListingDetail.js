@@ -1,18 +1,10 @@
 // @ts-nocheck
 import AgentPreview from "components/agents/AgentPreview";
-import { APARTMENT_KEY } from "components/commons/Strings";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Card, Tab, Tabs } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Villa from "../../commons/icons/villa-icon.png";
-import {
-  getCurrencyName,
-  getPeriodicityName,
-  getFullAddress,
-  getListingTypeName,
-} from "../../commons/functions";
 import { getAmenitiesByAmenityCategory } from "components/commons/getAmenitiesByAmenityCategory";
 import TransportFacilityDetail from "./TransportFacilityDetail";
 import DescriptionDetail from "./DescriptionDetail";
@@ -26,21 +18,6 @@ const LandListingDetail = ({ publicListingDetail }) => {
   // const [selectedFacility, setSelectedFacility] = useState("");
   const [propertyAmenitiesByCategory, setPropertyAmenitiesByCategory] =
     useState({});
-
-  //Get supported currencies
-  const currencies = useSelector(
-    (store) => store.system.currency.currencyList.data
-  );
-
-  //Get listing types
-  const listingTpes = useSelector(
-    (store) => store.listing.getListingTypes.data
-  );
-
-  //Get periodicities, such as Daily, Weekly, Monthly
-  const periodicities = useSelector(
-    (store) => store.common.periodicityList.data
-  );
 
   //Set related property to the local state when publicListingDetail is changed
   //Get formatted amenities by amenity category for display
@@ -62,7 +39,6 @@ const LandListingDetail = ({ publicListingDetail }) => {
               {rule?.title}
             </Link>
             <div className="ps-2">
-              {" "}
               <p>{rule?.description}</p>
               <p>Strictness: {rule?.strictness}</p>
             </div>
@@ -174,7 +150,12 @@ const LandListingDetail = ({ publicListingDetail }) => {
           </div>
         </div>
         <div className="col-lg-5">
-          <AgentPreview agentData={publicListingDetail?.property?.agent} />
+          <div style={{ position: "sticky", top: "10px" }}>
+            <AgentPreview
+              agentData={publicListingDetail?.property?.agent}
+              listingData={publicListingDetail}
+            />
+          </div>
         </div>
       </div>
     </div>

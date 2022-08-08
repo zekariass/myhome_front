@@ -11,7 +11,6 @@ import AmenitiesDetail from "./AmenitiesDetail";
 import DescriptionDetail from "./DescriptionDetail";
 import DetailBoxOne from "./DetailBoxOne";
 import EducationFacilityDetail from "./EducationFacilityDetail";
-import FacilitiesDetail from "./FacilitiesDetail";
 import MediaLinkBox from "./MediaLinkBox";
 import PointOfInterestDetail from "./PointOfInterestDetail";
 import SaveAndShareBox from "./SaveAndShareBox";
@@ -48,7 +47,7 @@ const ApartmentListingDetail = ({ publicListingDetail }) => {
     let unitId;
     if (propertyCategory?.cat_key === APARTMENT_KEY) {
       unitId = publicListingDetail?.unit_listing?.apartment_unit;
-      console.log("HEYYYYYYY:", unitId);
+      // console.log("HEYYYYYYY:", unitId);
     }
     // else if (propertyCategory?.cat_key === COMMERCIAL_PROPERTY_KEY) {
     //   unitId = publicListingDetail?.unit_listing?.commercial_property_unit;
@@ -189,7 +188,12 @@ const ApartmentListingDetail = ({ publicListingDetail }) => {
           </div>
         </div>
         <div className="col-lg-5">
-          <AgentPreview agentData={publicListingDetail?.property?.agent} />
+          <div style={{ position: "sticky", top: "10px" }}>
+            <AgentPreview
+              agentData={publicListingDetail?.property?.agent}
+              listingData={publicListingDetail}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -25,8 +25,11 @@ const SaveAndShareBox = ({ listing, page, searchQuery }) => {
         })
       );
     } else {
+      // console.log(location);
       navigate(PATH_SIGNIN, {
-        state: { from: { pathname: location?.pathname } },
+        state: {
+          from: { pathname: `${location?.pathname}/${location?.search}` },
+        },
       });
     }
   };

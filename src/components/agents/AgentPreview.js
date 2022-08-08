@@ -1,10 +1,11 @@
 // @ts-nocheck
+import { PATH_AGENT_CONTACT_ABSOLUTE } from "components/commons/Strings";
 import { getAgent } from "features/agent/agentSlice";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-const AgentPreview = ({agentData}) => {
+const AgentPreview = ({ agentData, listingData, disableContactButton }) => {
   const dispatch = useDispatch();
   /**
    * Get agent data from store
@@ -18,7 +19,7 @@ const AgentPreview = ({agentData}) => {
     dispatch(getAgent());
   }, []);
   return (
-    <div className="card footer-bg shadow">
+    <div className="card footer-bg">
       <div className="card-body">
         <p
           className="fs-4 flex-center-general-sm fw-bold fst-italic"
@@ -41,11 +42,11 @@ const AgentPreview = ({agentData}) => {
             <img src={agentData?.logo?.logo} alt="" id="agent-logo-display" />
           </div>
         </div>
-        <div className="mt-3 flex-center-general-sm">
+        {/* <div className="mt-3 flex-center-general-sm">
           <Link to="" className="link-general link-hover link-size-normal">
             Manage your Agent
           </Link>
-        </div>
+        </div> */}
         <div className="card mt-4">
           <div className="card-title px-3">Contacts</div>
           <div className="card-body p-3">
@@ -60,11 +61,17 @@ const AgentPreview = ({agentData}) => {
                   {agentData?.email}
                 </span>
               </div>
-              <div className="mt-4 flex-center-general">
-                <button className="btn-general btn-general-hover p-2">
-                  Contact the Agent
-                </button>
-              </div>
+              {!disableContactButton && (
+                <div className="mt-4 flex-center-general">
+                  <Link
+                    to={PATH_AGENT_CONTACT_ABSOLUTE}
+                    state={{ agentData: agentData, listingData: listingData }}
+                    className="btn btn-general p-2"
+                  >
+                    Contact the Agent
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

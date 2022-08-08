@@ -5,7 +5,6 @@ import { goToPage } from "features/common/wizardSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Payment from "../payment/Payment";
 import ListingConfirmation from "./ListingConfirmation";
 import BasicListingForm from "./BasicListingForm";
 import { setPaymentPropertyData } from "features/payment/paymentSlice";
@@ -27,6 +26,7 @@ import {
   getListingDiscountByCategory,
   getListingPriceByCategory,
 } from "features/agent_dashboard/property/propertyCategorySlice";
+import ListingPayment from "./ListingPayment";
 
 const AddListing = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -284,7 +284,7 @@ const AddListing = () => {
                 <BasicListingForm />
               </Wizard.Page>
               <Wizard.Page>
-                <Payment
+                <ListingPayment
                   name="payment"
                   attachedFiles={attachedFiles}
                   setAttachedFiles={setAttachedFiles}

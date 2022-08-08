@@ -10,6 +10,7 @@ import ListingMap from "./ListingMap";
 import NearByCityListing from "./NearByCityListing";
 import SortListing from "./SortListing";
 import { useLocation, useSearchParams } from "react-router-dom";
+import { getListingSearchParams } from "components/commons/functions";
 
 const PublicListingList = () => {
   const publicListings = useSelector(
@@ -26,10 +27,6 @@ const PublicListingList = () => {
   const previousPage = useSelector(
     (store) => store.publicListing.publicListingList.data?.previous
   );
-
-  // const searchParams = useSelector(
-  //   (store) => store.publicListing.searchParams.params
-  // );
 
   const systemParams = useSelector((store) => store.system.systemParams.data);
   const dispatch = useDispatch();
@@ -50,21 +47,21 @@ const PublicListingList = () => {
   };
 
   const onSearchParamChange = (newSearchParams) => {
-    // dispatch(setSearchParams({ ...newSearchParams }));
-    // dispatch(
-    //   getPublicListingsBySearchFromLandingPage({
-    //     ...newSearchParams,
-    //   })
-    // );
     setSearchParams(newSearchParams);
   };
 
   const formatSearchParamsFromStore = (page) => {
-    const newSearchParams = {};
-    newSearchParams.for_rent = searchParams.get("for_rent");
-    newSearchParams.for_sale = searchParams.get("for_sale");
-    newSearchParams.location = searchParams.get("location");
-    newSearchParams.property_category = searchParams.get("property_category");
+    const newSearchParams = getListingSearchParams(searchParams);
+    // newSearchParams.for_rent = searchParams.get("for_rent");
+    // newSearchParams.for_sale = searchParams.get("for_sale");
+    // newSearchParams.location = searchParams.get("location");
+    // newSearchParams.property_category = searchParams.get("property_category");
+    // newSearchParams.min_price = searchParams.get("min_price");
+    // newSearchParams.max_price = searchParams.get("max_price");
+    // newSearchParams.number_of_bed_rooms = searchParams.get(
+    //   "number_of_bed_rooms"
+    // );
+    // newSearchParams.page = page;
     newSearchParams.page = page;
 
     return newSearchParams;
@@ -86,6 +83,10 @@ const PublicListingList = () => {
       location: params.location,
       page: params.page ? params.page : 1,
       property_category: params.property_category,
+      min_price: params.min_price,
+      max_price: params.max_price,
+      sort_by: params.sort_by,
+      number_of_bed_rooms: params.number_of_bed_rooms,
     };
 
     return newSearchParams;
@@ -121,7 +122,7 @@ const PublicListingList = () => {
           <FilterListing />
         </div>
         <div className="row p-4">
-          <div className="col-md-7 bg-info">
+          <div className="col-md-7 bg-info rounded-3">
             <div className="my-3">
               <div className="row row-cols-auto g-3">
                 <div className="col">
@@ -132,7 +133,7 @@ const PublicListingList = () => {
             <div className="mb-3">
               <ListingGrid
                 publicListings={publicListings}
-                gridClassName="row row-cols-1 row-cols-lg-2 g-3"
+                gridClassName="row row-cols-1 row-cols-xl-2 g-3"
                 page="publicListingList"
               />
             </div>

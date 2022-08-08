@@ -1,10 +1,7 @@
 // @ts-nocheck
 import AgentPreview from "components/agents/AgentPreview";
 import { getAmenitiesByAmenityCategory } from "components/commons/getAmenitiesByAmenityCategory";
-import {
-  ALL_PURPOSE_PROPERTY_KEY,
-  COMMERCIAL_PROPERTY_KEY,
-} from "components/commons/Strings";
+import { ALL_PURPOSE_PROPERTY_KEY } from "components/commons/Strings";
 import { getPropertyUnitDetail } from "features/agent_dashboard/property/propertySlice";
 import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
@@ -163,7 +160,10 @@ const AllPurposePropertyListingDetail = ({ publicListingDetail }) => {
               </div>
             </Card.Body>
           </Card>
-          <SaveAndShareBox listing={publicListingDetail} page="publicListingDetail" />
+          <SaveAndShareBox
+            listing={publicListingDetail}
+            page="publicListingDetail"
+          />
           <div className="my-3">
             <DescriptionDetail publicListingDetail={publicListingDetail} />
           </div>
@@ -193,7 +193,12 @@ const AllPurposePropertyListingDetail = ({ publicListingDetail }) => {
           </div>
         </div>
         <div className="col-lg-5">
-          <AgentPreview agentData={publicListingDetail?.property?.agent} />
+          <div style={{ position: "sticky", top: "10px" }}>
+            <AgentPreview
+              agentData={publicListingDetail?.property?.agent}
+              listingData={publicListingDetail}
+            />
+          </div>
         </div>
       </div>
     </div>

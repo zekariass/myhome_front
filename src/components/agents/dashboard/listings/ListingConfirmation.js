@@ -13,6 +13,7 @@ const ListingConfirmation = ({ edit }) => {
       {/* Format the data by getting the values using FOrmSpy for display */}
       <FormSpy>
         {({ values }) => {
+          console.log("OBJECT ERROR: ", values)
           let { payment, ...listingRest } = values;
 
           const bank_transfer = payment?.bank_transfer;

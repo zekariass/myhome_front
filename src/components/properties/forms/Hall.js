@@ -1,3 +1,4 @@
+// @ts-nocheck
 import CheckField from "components/commons/fields/CheckField";
 import TextareaField from "components/commons/fields/TextareaField";
 import TextField from "components/commons/fields/TextField";

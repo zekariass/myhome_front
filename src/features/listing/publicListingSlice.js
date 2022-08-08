@@ -3,6 +3,26 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myHomeBackendAPI from "components/commons/apis/myHomeBackendAPI";
 import { getFormatedResponse } from "features/getFormatedResponse";
 
+const filterInitialState = {
+  property_category: { name: "Property Category" },
+  number_of_bed_rooms: "",
+  listing_type: "Listing Type",
+  min_price: "Min Price",
+  max_price: "Max Price",
+};
+
+const searchParamInitialState = {
+  for_rent: true,
+  for_sale: true,
+  location: -1,
+  property_category: -1,
+  min_price: -1,
+  max_price: -1,
+  number_of_bed_rooms: -1,
+  sort_by: -1,
+  page: 1,
+};
+
 const initialPublicListingState = {
   publicListingList: {
     request: {
@@ -55,8 +75,23 @@ const initialPublicListingState = {
     },
     data: [],
   },
+  featuredListingList: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: {
+      results: [],
+    },
+  },
   searchParams: {
-    params: [],
+    params: searchParamInitialState,
+  },
+  filterValues: {
+    values: filterInitialState,
   },
 };
 
@@ -166,6 +201,23 @@ export const getSavedPublicListings = createAsyncThunk(
   }
 );
 
+export const getFeaturedListings = createAsyncThunk(
+  "listing/getFeaturedListings",
+  async ({ page, location }) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/listing/featured/list/?page=${page}&location=${location}`
+      );
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
 //=========LISTING PAGE SLICE===========================================================
 
 const publicListing = createSlice({
@@ -177,6 +229,12 @@ const publicListing = createSlice({
     },
     setSearchParams: (state, actions) => {
       state.searchParams.params = actions.payload;
+    },
+    setListingFilterValues: (state, actions) => {
+      state.filterValues.values = actions.payload;
+    },
+    resetListingFilterValues: (state) => {
+      state.filterValues.values = filterInitialState;
     },
   },
   extraReducers: {
@@ -269,9 +327,45 @@ const publicListing = createSlice({
       state.savedPublicListingsList.response.error = action.payload.data;
       state.savedPublicListingsList.response.status = action.payload.status;
     },
+
+    /**
+     * Get featured list
+     * @param {StateObject} state
+     */
+    [getFeaturedListings.pending]: (state) => {
+      state.featuredListingList.request.isLoading = true;
+    },
+    [getFeaturedListings.fulfilled]: (state, action) => {
+      state.featuredListingList.request.isLoading = false;
+      state.featuredListingList.data.next = action.payload.data.next;
+      state.featuredListingList.data.previous = action.payload.data.previous;
+      state.featuredListingList.data.count = action.payload.data.count;
+      if (action.payload.data.previous) {
+        state.featuredListingList.data.results = [
+          ...state.featuredListingList.data.results,
+          ...action.payload.data.results,
+        ];
+      } else {
+        state.featuredListingList.data.results = action.payload.data.results;
+      }
+
+      // state.featuredListingList.data.results = action.payload.data.results;
+
+      state.featuredListingList.response.status = action.payload.status;
+    },
+    [getFeaturedListings.rejected]: (state, action) => {
+      state.featuredListingList.request.isLoading = false;
+      state.featuredListingList.response.error = action.payload.data;
+      state.featuredListingList.response.status = action.payload.status;
+    },
   },
 });
 
-export const { clearPublicListing, setSearchParams } = publicListing.actions;
+export const {
+  clearPublicListing,
+  setSearchParams,
+  setListingFilterValues,
+  resetListingFilterValues,
+} = publicListing.actions;
 
 export default publicListing.reducer;

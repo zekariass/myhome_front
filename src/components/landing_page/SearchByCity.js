@@ -11,7 +11,7 @@ import {
 } from "features/listing/publicListingSlice";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SearchByCity = () => {
   const regions = useSelector(
@@ -19,6 +19,9 @@ const SearchByCity = () => {
   );
 
   const cities = useSelector((store) => store.address.city.cityList);
+  const storedSearchParams = useSelector(
+    (store) => store.publicListing.searchParams.params
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,12 +38,16 @@ const SearchByCity = () => {
 
   const onCityClick = (location) => {
     const searchParams = {
-      for_rent: false,
-      for_sale: false,
+      ...storedSearchParams,
       location: location ? location : -1,
-      property_category: -1,
-      page: 1,
     };
+    //  {
+    //   for_rent: false,
+    //   for_sale: false,
+    //   location: location ? location : -1,
+    //   property_category: -1,
+    //   page: 1,
+    // };
 
     let urlParm = "";
 
@@ -60,7 +67,7 @@ const SearchByCity = () => {
     return (
       <div className="row row-cols-auto g-4 flex-center-general">
         {cities.map((city) => (
-          <div className="col">
+          <div className="col" key={city.id}>
             <div
               className="link-general link-size-normal rounded-2 p-2 other-bg"
               onClick={() => onCityClick(city?.name)}
@@ -80,7 +87,7 @@ const SearchByCity = () => {
       <div className=" search-by-city my-3 shadow-sm">
         <div className="row row-cols-auto g-3 flex-center-general mb-4">
           {regions.map((region) => (
-            <div className="col">
+            <div className="col" key={region.id}>
               <button
                 className="btn-general-outline"
                 onClick={() => getCitiesOfRegion(region)}

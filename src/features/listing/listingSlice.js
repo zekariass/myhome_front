@@ -89,6 +89,28 @@ const initialListingState = {
     },
     data: 0,
   },
+  feature: {
+    activeFeaturePrice: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: { price: 0.0 },
+    },
+    featureListing: {
+      request: {
+        isLoading: false,
+      },
+      response: {
+        error: null,
+        status: null,
+      },
+      data: {},
+    },
+  },
 
   selectedListingType: null,
   listingKey: null,
@@ -268,6 +290,39 @@ export const deleteListing = createAsyncThunk(
           thunkApi.dispatch(getListingsByProperty(propertyId));
         }
         thunkApi.dispatch(setListingKey(listingKey));
+      }
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getActiveFeaturePrice = createAsyncThunk(
+  "listing/getActiveFeaturePrice",
+  async () => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/listing/feature/get-active-price/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const featureListing = createAsyncThunk(
+  "listing/featureListing",
+  async ({ featureData, navigate }) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.post(`/listing/feature/`, featureData);
+      if (result.status === 201) {
+        navigate(-1, { replace: true });
       }
     } catch (error) {
       result = error.response;
@@ -473,6 +528,42 @@ const listingSlice = createSlice({
       state.deleteListing.request.isLoading = false;
       state.deleteListing.response.error = action.payload.data;
       state.deleteListing.response.status = action.payload.status;
+    },
+
+    /**
+     * GET active feature data
+     * @param {StateObject} state
+     */
+    [getActiveFeaturePrice.pending]: (state) => {
+      state.feature.activeFeaturePrice.request.isLoading = true;
+    },
+    [getActiveFeaturePrice.fulfilled]: (state, action) => {
+      state.feature.activeFeaturePrice.request.isLoading = false;
+      state.feature.activeFeaturePrice.data = action.payload.data;
+      state.feature.activeFeaturePrice.response.status = action.payload.status;
+    },
+    [getActiveFeaturePrice.rejected]: (state, action) => {
+      state.feature.activeFeaturePrice.request.isLoading = false;
+      state.feature.activeFeaturePrice.response.error = action.payload.data;
+      state.feature.activeFeaturePrice.response.status = action.payload.status;
+    },
+
+    /**
+     * Feature listing
+     * @param {StateObject} state
+     */
+    [featureListing.pending]: (state) => {
+      state.feature.featureListing.request.isLoading = true;
+    },
+    [featureListing.fulfilled]: (state, action) => {
+      state.feature.featureListing.request.isLoading = false;
+      state.feature.featureListing.data = action.payload.data;
+      state.feature.featureListing.response.status = action.payload.status;
+    },
+    [featureListing.rejected]: (state, action) => {
+      state.feature.featureListing.request.isLoading = false;
+      state.feature.featureListing.response.error = action.payload.data;
+      state.feature.featureListing.response.status = action.payload.status;
     },
   },
 });

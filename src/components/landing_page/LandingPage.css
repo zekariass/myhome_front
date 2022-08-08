@@ -140,4 +140,6 @@ hr.region-city-separator {
   margin-bottom: 3%;
 }
 
-/* FOOTER AREA */
+.feature-card:hover {
+  background-color: rgb(205, 226, 205);
+}

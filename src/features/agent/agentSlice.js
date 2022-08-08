@@ -6,9 +6,6 @@ import { getFormatedResponse } from "features/getFormatedResponse";
 const agentInitialState = {
   addAgent: {
     request: {
-      // agentData: {},
-      // agentAddress: {},
-      // agentLogo: {},
       requestError: null,
       isLoading: false,
     },
@@ -27,6 +24,16 @@ const agentInitialState = {
       data: {},
       status: null,
     },
+  },
+  publicAgentDetail: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: {},
   },
   logo: {
     uploadLogo: {
@@ -59,6 +66,16 @@ const agentInitialState = {
     },
     data: {},
   },
+  getAgentsByLocation: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: [],
+  },
 };
 
 //============================================================================
@@ -70,19 +87,10 @@ const agentInitialState = {
 export const createAgent = createAsyncThunk(
   "agent/createAgent",
   async ({ values, navigate, redirectPath }, thunkAPI) => {
-    // const { request } = thunkAPI.getState().agent.addAgent;
-    // console.log("createAgent: ", values);
     try {
       const result = await myHomeBackendAPI.post("/agent/create/", values);
       const formatedResponse = getFormatedResponse(result);
-      /**
-       * If agent creation successful navigate to -----
-       */
-
       if (parseInt(formatedResponse.status) === 201) {
-        /**
-         * Pass agentId to logo upload page
-         */
         thunkAPI.dispatch(getAgent());
         navigate(redirectPath, {
           replace: true,
@@ -91,9 +99,6 @@ export const createAgent = createAsyncThunk(
       }
       return formatedResponse;
     } catch (error) {
-      // if (!error.response) {
-      //   throw error;
-      // }
       const formatedResponse = getFormatedResponse(error.response);
       return thunkAPI.rejectWithValue(formatedResponse);
     }
@@ -105,10 +110,10 @@ export const createAgent = createAsyncThunk(
  * Get a specific agent for current user
  */
 //============================================================================
-export const getAgent = createAsyncThunk("agent/getAgent", async () => {
+export const getAgent = createAsyncThunk("agent/getAgent", async (headers) => {
   let result;
   try {
-    result = await myHomeBackendAPI.get("/agent/get/");
+    result = await myHomeBackendAPI.get("/agent/get/", { headers: headers });
   } catch (error) {
     result = error.response;
   } finally {
@@ -183,6 +188,48 @@ export const getAgentById = createAsyncThunk(
     let result;
     try {
       result = await myHomeBackendAPI.get(`/agent/${agentId}/detail/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+//============================================================================
+/**
+ * Public Agent Detail
+ */
+//============================================================================
+export const getPublicAgentDetail = createAsyncThunk(
+  "agent/getPublicAgentDetail",
+  async (agentId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/agent/${agentId}/public/detail/`);
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+//============================================================================
+/**
+ * Get agents by location
+ */
+//============================================================================
+export const getAgentsByLocation = createAsyncThunk(
+  "agent/getAgentsByLocation",
+  async (params) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(`/agent/list/bylocation/`, {
+        params: params,
+      });
     } catch (error) {
       result = error.response;
     } finally {
@@ -300,6 +347,44 @@ const agentSlice = createSlice({
       state.publicAgentDetail.data = action.payload.data;
     },
     [getAgentById.rejected]: (state, action) => {
+      state.publicAgentDetail.request.isLoading = false;
+      state.publicAgentDetail.response.status = action.payload.status;
+      state.publicAgentDetail.response.error = action.payload.data;
+    },
+
+    //============================================================================
+    /**
+     * Get Agents by location
+     */
+    //============================================================================
+    [getAgentsByLocation.pending]: (state) => {
+      state.getAgentsByLocation.request.isLoading = true;
+    },
+    [getAgentsByLocation.fulfilled]: (state, action) => {
+      state.getAgentsByLocation.request.isLoading = false;
+      state.getAgentsByLocation.response.status = action.payload.status;
+      state.getAgentsByLocation.data = action.payload.data;
+    },
+    [getAgentsByLocation.rejected]: (state, action) => {
+      state.getAgentsByLocation.request.isLoading = false;
+      state.getAgentsByLocation.response.status = action.payload.status;
+      state.getAgentsByLocation.response.error = action.payload.data;
+    },
+
+    //============================================================================
+    /**
+     * Get public agent detail
+     */
+    //============================================================================
+    [getPublicAgentDetail.pending]: (state) => {
+      state.publicAgentDetail.request.isLoading = true;
+    },
+    [getPublicAgentDetail.fulfilled]: (state, action) => {
+      state.publicAgentDetail.request.isLoading = false;
+      state.publicAgentDetail.response.status = action.payload.status;
+      state.publicAgentDetail.data = action.payload.data;
+    },
+    [getPublicAgentDetail.rejected]: (state, action) => {
       state.publicAgentDetail.request.isLoading = false;
       state.publicAgentDetail.response.status = action.payload.status;
       state.publicAgentDetail.response.error = action.payload.data;

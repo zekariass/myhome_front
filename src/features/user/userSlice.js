@@ -23,6 +23,18 @@ const userInitialState = {
     signinStatus: null,
     isSignedIn: false,
   },
+  userDetail: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: {
+      has_agent: false,
+    },
+  },
 };
 
 /**
@@ -58,7 +70,7 @@ export const performSignup = createAsyncThunk(
 export const performSignin = createAsyncThunk(
   "user/performSignin",
   async ({ userCred, navigate, fromPage }, thunkAPI) => {
-    let result = null;
+    let result;
     try {
       result = await myHomeBackendAPI.post("/user/token/", userCred);
 
@@ -70,6 +82,7 @@ export const performSignin = createAsyncThunk(
         localStorage.setItem("access_token", result.data.access);
         localStorage.setItem("refresh_token", result.data.refresh);
         thunkAPI.dispatch(userSlice.actions.checkUserSigninStatus());
+        // thunkAPI.dispatch(getUserDetail(result.data.access));
         navigate(fromPage, { replace: true });
       }
     } catch (error) {
@@ -78,6 +91,29 @@ export const performSignin = createAsyncThunk(
       const formatedResponse = getFormatedResponse(result);
       // console.log("SIGNIN RESPONSE: ", formatedResponse);
       return formatedResponse;
+    }
+  }
+);
+
+//============================================================================
+/**
+ * Get user detail
+ */
+//============================================================================
+export const getUserDetail = createAsyncThunk(
+  "user/getUserDetail",
+  async (headers) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get("/user/detail/", {
+        headers: headers,
+      });
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      // console.log("formattedResponse: ", formattedResponse);
+      return formattedResponse;
     }
   }
 );
@@ -105,6 +141,7 @@ const userSlice = createSlice({
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       state.signin.isSignedIn = false;
+      state.userDetail.data = {};
     },
   },
   extraReducers: {
@@ -147,6 +184,25 @@ const userSlice = createSlice({
       state.signin.isLoading = false;
       state.signin.signinError = action.payload.data;
       state.signin.signinStatus = action.payload.status;
+    },
+
+    //============================================================================
+    /**
+     * Get user detail
+     */
+    //============================================================================
+    [getUserDetail.pending]: (state) => {
+      state.userDetail.request.isLoading = true;
+    },
+    [getUserDetail.fulfilled]: (state, action) => {
+      state.userDetail.request.isLoading = false;
+      state.userDetail.response.status = action.payload.status;
+      state.userDetail.data = action.payload.data;
+    },
+    [getUserDetail.rejected]: (state, action) => {
+      state.userDetail.request.isLoading = false;
+      state.userDetail.response.status = action.payload.status;
+      state.userDetail.response.error = action.payload.data;
     },
   },
 });

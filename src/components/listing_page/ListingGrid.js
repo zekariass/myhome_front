@@ -1,6 +1,5 @@
 // @ts-nocheck
 import React from "react";
-import { useSelector } from "react-redux";
 import ListingCard from "./ListingCard";
 
 const ListingGrid = ({ publicListings, gridClassName, page }) => {
