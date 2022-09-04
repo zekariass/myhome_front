@@ -39,19 +39,20 @@ const ContactAgent = () => {
     <div className="container">
       <div className="row">
         <div className="col-lg-7">
-          <div className="card rounded-3 p-2 shadow-sm">
+          <div className="card rounded-3 p-2 shadow-sm bg-info">
             <div className="row">
               <div className="col-lg-4">
                 <img
                   src={listingData?.property?.images[0].image}
                   alt=""
                   width="100%"
+                  className="rounded-3"
                 />
               </div>
 
               <div className="col-lg-8">
                 <div className="mb-2">
-                  <i className="large map marker alternate icon"></i>
+                  <i className="large map marker alternate icon text-danger"></i>
                   {getFullAddress(listingData?.property?.address)}
                 </div>
                 <p>{listingData?.description?.substring(0, 150)}...</p>

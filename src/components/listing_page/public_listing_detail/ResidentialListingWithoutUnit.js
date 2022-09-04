@@ -61,7 +61,7 @@ const ResidentialListingWithoutUnit = ({ publicListingDetail }) => {
         </div>
 
         <div className="col-lg-5">
-          <MediaLinkBox />
+          <MediaLinkBox publicListingDetail={publicListingDetail} />
         </div>
       </div>
       <div className="row g-3 my-3">

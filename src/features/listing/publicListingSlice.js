@@ -87,6 +87,26 @@ const initialPublicListingState = {
       results: [],
     },
   },
+  listingPropertyImageList: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: [],
+  },
+  listingPropertyVideoList: {
+    request: {
+      isLoading: false,
+    },
+    response: {
+      error: null,
+      status: null,
+    },
+    data: [],
+  },
   searchParams: {
     params: searchParamInitialState,
   },
@@ -208,6 +228,40 @@ export const getFeaturedListings = createAsyncThunk(
     try {
       result = await myHomeBackendAPI.get(
         `/listing/featured/list/?page=${page}&location=${location}`
+      );
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getListingPropertyImageList = createAsyncThunk(
+  "listing/getListingPropertyImageList",
+  async (listingId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/listing/${listingId}/property/image/list/`
+      );
+    } catch (error) {
+      result = error.response;
+    } finally {
+      const formattedResponse = getFormatedResponse(result);
+      return formattedResponse;
+    }
+  }
+);
+
+export const getListingPropertyVideoList = createAsyncThunk(
+  "listing/getListingPropertyVideoList",
+  async (listingId) => {
+    let result;
+    try {
+      result = await myHomeBackendAPI.get(
+        `/listing/${listingId}/property/video/list/`
       );
     } catch (error) {
       result = error.response;
@@ -357,6 +411,42 @@ const publicListing = createSlice({
       state.featuredListingList.request.isLoading = false;
       state.featuredListingList.response.error = action.payload.data;
       state.featuredListingList.response.status = action.payload.status;
+    },
+
+    /**
+     * Get listing property images list
+     * @param {StateObject} state
+     */
+    [getListingPropertyImageList.pending]: (state) => {
+      state.listingPropertyImageList.request.isLoading = true;
+    },
+    [getListingPropertyImageList.fulfilled]: (state, action) => {
+      state.listingPropertyImageList.request.isLoading = false;
+      state.listingPropertyImageList.data = action.payload.data;
+      state.listingPropertyImageList.response.status = action.payload.status;
+    },
+    [getListingPropertyImageList.rejected]: (state, action) => {
+      state.listingPropertyImageList.request.isLoading = false;
+      state.listingPropertyImageList.response.error = action.payload.data;
+      state.listingPropertyImageList.response.status = action.payload.status;
+    },
+
+    /**
+     * Get listing property videos list
+     * @param {StateObject} state
+     */
+    [getListingPropertyVideoList.pending]: (state) => {
+      state.listingPropertyVideoList.request.isLoading = true;
+    },
+    [getListingPropertyVideoList.fulfilled]: (state, action) => {
+      state.listingPropertyVideoList.request.isLoading = false;
+      state.listingPropertyVideoList.data = action.payload.data;
+      state.listingPropertyVideoList.response.status = action.payload.status;
+    },
+    [getListingPropertyVideoList.rejected]: (state, action) => {
+      state.listingPropertyVideoList.request.isLoading = false;
+      state.listingPropertyVideoList.response.error = action.payload.data;
+      state.listingPropertyVideoList.response.status = action.payload.status;
     },
   },
 });

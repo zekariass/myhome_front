@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { PATH_PUBLIC_LISTING } from "./Strings";
 
-const MinimisedImageGallery = ({ data }) => {
+const MinimisedImageGallery = ({ data, viewer, listingId }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(2);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -23,8 +24,16 @@ const MinimisedImageGallery = ({ data }) => {
                   className="image-display"
                 />
                 <div className="my-3 flex-end-general">
-                  <Link to="#" className="link-general link-size-small">
-                    Show all {data?.length} pictures
+                  <Link
+                    to={
+                      viewer === "public"
+                        ? `${PATH_PUBLIC_LISTING}/${listingId}/image/view`
+                        : "#"
+                    }
+                    state={{ images: data }}
+                    className="link-general link-size-small"
+                  >
+                    Show all pictures
                   </Link>
                 </div>
               </div>

@@ -11,10 +11,15 @@ import NearByCityListing from "./NearByCityListing";
 import SortListing from "./SortListing";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { getListingSearchParams } from "components/commons/functions";
+import { Spinner } from "react-bootstrap";
+import LoadingSpinner from "components/commons/LoadingSpinner";
 
 const PublicListingList = () => {
   const publicListings = useSelector(
     (store) => store.publicListing.publicListingList.data?.results
+  );
+  const publicListingsLoading = useSelector(
+    (store) => store.publicListing.publicListingList.request.isLoading
   );
   const itemCount = useSelector(
     (store) => store.publicListing.publicListingList.data?.count
@@ -130,13 +135,24 @@ const PublicListingList = () => {
                 </div>
               </div>
             </div>
-            <div className="mb-3">
-              <ListingGrid
-                publicListings={publicListings}
-                gridClassName="row row-cols-1 row-cols-xl-2 g-3"
-                page="publicListingList"
-              />
-            </div>
+            {!publicListingsLoading && (
+              <div className="mb-3">
+                <ListingGrid
+                  publicListings={publicListings}
+                  gridClassName="row row-cols-1 row-cols-xl-2 g-3"
+                  page="publicListingList"
+                />
+              </div>
+            )}
+            {publicListingsLoading && (
+              // <div className="mb-3 flex-center-general">
+              //   <Spinner animation="border" variant="success" role="status" />
+              // </div>
+              <LoadingSpinner />
+            )}
+            {!publicListingsLoading && !publicListings?.length && (
+              <div className="mb-3">No Listing Found!</div>
+            )}
             <div className="flex-center-general my-5">
               <Paginator
                 itemCount={itemCount}

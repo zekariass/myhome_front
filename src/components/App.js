@@ -76,6 +76,8 @@ import {
   PATH_AGENT_LOGO_UPLOAD,
   PATH_DYNAMIC_PROPERTY,
   PATH_LANDING,
+  PATH_LISTING_IMAGE_VIEW,
+  PATH_LISTING_VIDEO_VIEW,
   PATH_PAGE_NOT_FOUND,
   PATH_PROPERTY_ADD,
   PATH_PROPERTY_FILE_UPLOAD,
@@ -171,6 +173,8 @@ import { getSystemAssets } from "features/system/assetSlice";
 import AgentDetail from "./agents/AgentDetail";
 import FeatureListing from "./agents/dashboard/listings/FeatureListing";
 import ContactAgent from "./listing_page/ContactAgent";
+import ListingImageView from "./listing_page/public_listing_detail/ListingImageView";
+import ListingVideoView from "./listing_page/public_listing_detail/ListingVideoView";
 
 const App = () => {
   const isSignedIn = useSelector((store) => store.user.signin.isSignedIn);
@@ -530,6 +534,14 @@ const App = () => {
             element={<PublicListingDetailPage />}
           />
           <Route path={PATH_SAVED_LISTINGS} element={<SavedListingPage />} />
+          <Route
+            path={PATH_LISTING_IMAGE_VIEW}
+            element={<ListingImageView />}
+          />
+          <Route
+            path={PATH_LISTING_VIDEO_VIEW}
+            element={<ListingVideoView />}
+          />
         </Route>
 
         <Route path={PATH_PROPERTY_HOME} element={<PropertyPage />}>

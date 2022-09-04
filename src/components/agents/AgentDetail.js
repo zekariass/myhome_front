@@ -21,7 +21,7 @@ const AgentDetail = () => {
     <div className="container">
       <div className="card shadow">
         <div className="row p-3">
-          <div className="col-lg-6 order-lg-0 order-1 other-bg rounded-3 pt-3">
+          <div className="col-lg-7 order-lg-0 order-1 other-bg rounded-3 pt-3">
             <div className=" p-2">
               <div className="flex-center-general">
                 <div>
@@ -51,11 +51,11 @@ const AgentDetail = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-6 order-lg-1 order-0">
-            <div className=" p-2 flex-center-general">
+          <div className="col-lg-5 order-lg-1 order-0">
+            <div className=" p-2 ">
               <img
                 src={agentData?.logo?.logo}
-                width={300}
+                width="90%"
                 style={{ maxHeight: "300px" }}
               />
             </div>

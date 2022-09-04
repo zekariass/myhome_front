@@ -200,6 +200,10 @@ export const PATH_PUBLIC_LISTING_DETAIL = ":listingId/detail";
 export const PATH_SAVED_LISTINGS = "saved";
 export const PATH_SAVED_LISTINGS_ABSOLUTE = `${PATH_PUBLIC_LISTING}/${PATH_SAVED_LISTINGS}`;
 
+export const PATH_LISTING_IMAGE_VIEW = ":listingId/image/view";
+export const PATH_LISTING_VIDEO_VIEW = ":listingId/video/view";
+// export const PATH_LISTING_IMAGE_VIEW_ABSOLUTE = `${PATH_PUBLIC_LISTING}/${PATH_LISTING_IMAGE_VIEW}`;
+
 // export const PATH_PUBLIC_LISTING_DETAIL_ABSOLUTE = `${PATH_PUBLIC_LISTING}/${PATH_PUBLIC_LISTING_DETAIL}`;
 
 //==============================================================================================
