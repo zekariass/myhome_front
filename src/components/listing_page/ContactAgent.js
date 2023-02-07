@@ -39,7 +39,7 @@ const ContactAgent = () => {
     <div className="container">
       <div className="row">
         <div className="col-lg-7">
-          <div className="card rounded-3 p-2 shadow-sm bg-info">
+          <div className="card rounded-3 p-2 shadow-sm bg-grin">
             <div className="row">
               <div className="col-lg-4">
                 <img

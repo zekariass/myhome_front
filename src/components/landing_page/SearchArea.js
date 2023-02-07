@@ -77,11 +77,14 @@ const SearchArea = () => {
 
   return (
     <div>
-      <p className="fs-5 fw-bold display-title ps-1">Search Properties</p>
       <Form onSubmit={onSubmit}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <div className="search-area my-4">
+              <p className="fs-5 fw-bold py-3 flex-center-general text-light">
+                Search Properties
+              </p>
+
               <div className="row row-cols-auto p-3">
                 <div className="col form-outline mb-2">
                   <CheckField

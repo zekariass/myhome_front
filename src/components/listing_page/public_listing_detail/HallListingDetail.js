@@ -70,78 +70,75 @@ const HallListingDetail = ({ publicListingDetail }) => {
       <div className="row my-3 g-3">
         <div className="col-lg-7">
           <DetailBoxOne publicListingDetail={publicListingDetail} />
+          <div className="my-3">
+            <Card>
+              <Card.Body>
+                <div className="row row-cols-auto g-3">
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      {relatedProperty?.total_capacity} Total Capacity
+                      <i className="ps-2 info circle icon" role="button"></i>
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      {relatedProperty?.number_of_seats} Seats
+                      <i className="ps-2 info circle icon" role="button"></i>
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    {relatedProperty?.has_parking_space && (
+                      <div className="p-2 other-bg rounded-3">
+                        Parking space
+                      </div>
+                    )}
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      Floor Level: {relatedProperty?.floor}
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <span>
+                        <img src={Villa} height={32} width={32} alt="villa" />
+                      </span>
+                      {publicListingDetail?.property?.property_category?.name}
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+            <SaveAndShareBox
+              listing={publicListingDetail}
+              page="publicListingDetail"
+            />
+            <div className="my-3">
+              <DescriptionDetail publicListingDetail={publicListingDetail} />
+            </div>
+            <div className="my-3">
+              {!!publicListingDetail?.property?.amenity?.length && (
+                <AmenitiesDetail
+                  propertyAmenitiesByCategory={propertyAmenitiesByCategory}
+                />
+              )}
+            </div>
+            <div className="my-5">
+              <TransportFacilityDetail
+                publicListingDetail={publicListingDetail}
+              />
+            </div>
+            <div>
+              {!!publicListingDetail?.property?.rules.length && (
+                <>
+                  <p className="fs-5 fw-bold">Property Rules</p>
+                  <div>{renderPropertyRules()}</div>
+                </>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="col-lg-5">
-          <MediaLinkBox />
-        </div>
-      </div>
-      <div className="row g-3 my-3">
-        <div className="col-lg-7">
-          <Card>
-            <Card.Body>
-              <div className="row row-cols-auto g-3">
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    {relatedProperty?.total_capacity} Total Capacity
-                    <i className="ps-2 info circle icon" role="button"></i>
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    {relatedProperty?.number_of_seats} Seats
-                    <i className="ps-2 info circle icon" role="button"></i>
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  {relatedProperty?.has_parking_space && (
-                    <div className="p-2 other-bg rounded-3">Parking space</div>
-                  )}
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    Floor Level: {relatedProperty?.floor}
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <span>
-                      <img src={Villa} height={32} width={32} alt="villa" />
-                    </span>
-                    {publicListingDetail?.property?.property_category?.name}
-                  </div>
-                </div>
-              </div>
-            </Card.Body>
-          </Card>
-          <SaveAndShareBox
-            listing={publicListingDetail}
-            page="publicListingDetail"
-          />
-          <div className="my-3">
-            <DescriptionDetail publicListingDetail={publicListingDetail} />
-          </div>
-          <div className="my-3">
-            {!!publicListingDetail?.property?.amenity?.length && (
-              <AmenitiesDetail
-                propertyAmenitiesByCategory={propertyAmenitiesByCategory}
-              />
-            )}
-          </div>
-          <div className="my-5">
-            <TransportFacilityDetail
-              publicListingDetail={publicListingDetail}
-            />
-          </div>
-          <div>
-            {!!publicListingDetail?.property?.rules.length && (
-              <>
-                <p className="fs-5 fw-bold">Property Rules</p>
-                <div>{renderPropertyRules()}</div>
-              </>
-            )}
-          </div>
-        </div>
         <div className="col-lg-5">
           <div style={{ position: "sticky", top: "10px" }}>
             <AgentPreview

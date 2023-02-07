@@ -19,20 +19,20 @@ const AgentPreview = ({ agentData, listingData, disableContactButton }) => {
     dispatch(getAgent());
   }, []);
   return (
-    <div className="card footer-bg">
+    <div className="card footer-bg shadow-lg">
       <div className="card-body">
         <p
-          className="fs-4 flex-center-general-sm fw-bold fst-italic"
-          style={{ color: "rgb(9, 122, 220)" }}
+          className="fs-6 flex-center-general-sm text-muted"
+          // style={{ color: "rgb(9, 122, 220)" }}
         >
-          Your Agent
+          PUBLISHED BY
         </p>
         <div className="row row-cols-1 row-cols-sm-2 g-2">
           <div className="col order-1 order-sm-0">
-            <div className="fs-4 my-3 flex-center-general-sm">
+            <div className="fs-5 fw-bold text-info my-3 flex-center-general-sm">
               {agentData?.name}
             </div>
-            <div className="fs-5 text-muted flex-center-general-sm">
+            <div className="fs-6 flex-center-general-sm">
               {agentData?.address?.street}, {agentData?.address?.city.name},{" "}
               {agentData?.address?.region.name},{" "}
               {agentData?.address?.country.name}
@@ -42,12 +42,13 @@ const AgentPreview = ({ agentData, listingData, disableContactButton }) => {
             <img src={agentData?.logo?.logo} alt="" id="agent-logo-display" />
           </div>
         </div>
+
         {/* <div className="mt-3 flex-center-general-sm">
           <Link to="" className="link-general link-hover link-size-normal">
             Manage your Agent
           </Link>
         </div> */}
-        <div className="card mt-4">
+        <div className="card mt-3">
           <div className="card-title px-3">Contacts</div>
           <div className="card-body p-3">
             <div>
@@ -68,7 +69,7 @@ const AgentPreview = ({ agentData, listingData, disableContactButton }) => {
                     state={{ agentData: agentData, listingData: listingData }}
                     className="btn btn-general p-2"
                   >
-                    Contact the Agent
+                    Write to publisher
                   </Link>
                 </div>
               )}

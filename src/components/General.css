@@ -1,4 +1,25 @@
 /* This css file contains general css selectors that can be used throughout the application */
+
+/* @import url("https://fonts.googleapis.com/css2?family=lobster:wght@100;400&display=swap");
+
+body,
+html {
+  font-family: "lobster";
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+} */
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.01rem;
+  line-height: 1.571rem;
+  color: #273656;
+  background-color: #fff;
+}
+
 .bg-general {
   background-color: rgb(205, 226, 205) !important;
 }
@@ -182,10 +203,6 @@
   background-color: #eee;
 }
 
-body {
-  font: normal 1rem/1.5rem "bernino-regular", Verdana, Arial, Geneva, sans-serif !important;
-}
-
 .cuttor {
   color: brown;
   cursor: pointer;
@@ -256,15 +273,15 @@ body {
   margin-bottom: 10px;
 }
 .gallery-slider-active-img {
-  border: 5px solid rgb(65, 168, 24);
+  border: 3px solid rgb(65, 168, 24);
 }
 
 .gallery-slider {
   width: 100%;
-  height: 150px;
+  height: 250px;
 }
 .gallery-slider-div {
-  width: 65%;
+  width: 100%;
 }
 
 @media screen and (max-width: 992px) {
@@ -299,5 +316,5 @@ body {
 }
 
 .image-display {
-  border-radius: 10px !important;
+  border-radius: 5px !important;
 }

@@ -88,117 +88,115 @@ const CommercialPropertyListingDetail = ({ publicListingDetail }) => {
       <div className="row my-3 g-3">
         <div className="col-lg-7">
           <DetailBoxOne publicListingDetail={publicListingDetail} />
-        </div>
 
-        <div className="col-lg-5">
-          <MediaLinkBox />
-        </div>
-      </div>
-      <div className="row g-3 my-3">
-        <div className="col-lg-7">
-          <Card>
-            <Card.Body>
-              <div className="row row-cols-auto g-3">
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large building icon"></i>
-                    {unitDetail?.number_of_rooms} Rooms
+          <div className="my-3">
+            <Card>
+              <Card.Body>
+                <div className="row row-cols-auto g-3">
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large building icon"></i>
+                      {unitDetail?.number_of_rooms} Rooms
+                    </div>
                   </div>
-                </div>
 
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large expand icon"></i>
-                    {unitDetail?.area}
-                    {unitDetail?.total_compound_area} M.Sq Area
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large expand icon"></i>
+                      {unitDetail?.area}
+                      {unitDetail?.total_compound_area} M.Sq Area
+                    </div>
                   </div>
-                </div>
 
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large building icon"></i>
-                    In {relatedProperty?.floors} Floors Property
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large building icon"></i>
+                      In {relatedProperty?.floors} Floors Property
+                    </div>
                   </div>
-                </div>
 
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large building icon"></i>
-                    Floor Level: {unitDetail?.floor}
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large building icon"></i>
+                      Floor Level: {unitDetail?.floor}
+                    </div>
                   </div>
-                </div>
 
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    {relatedProperty?.is_new && (
-                      <p className="display-title fw-bold">New Property!</p>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      {relatedProperty?.is_new && (
+                        <p className="display-title fw-bold">New Property!</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="col flex-center-general pt-2">
+                    {relatedProperty?.is_furnished && (
+                      <p className="display-title fw-bold">Furnished!</p>
                     )}
                   </div>
-                </div>
-                <div className="col flex-center-general pt-2">
-                  {relatedProperty?.is_furnished && (
-                    <p className="display-title fw-bold">Furnished!</p>
-                  )}
-                </div>
-                <div className="col flex-center-general ">
-                  {relatedProperty?.has_parking_space && (
-                    <p className="p-2 other-bg rounded-3">Parking Space!</p>
-                  )}
-                </div>
-                <div className="col flex-center-general ">
-                  {relatedProperty?.is_multi_unit && (
-                    <p className="p-2 other-bg rounded-3">
-                      In Multi-unit Property
-                    </p>
-                  )}
-                </div>
+                  <div className="col flex-center-general ">
+                    {relatedProperty?.has_parking_space && (
+                      <p className="p-2 other-bg rounded-3">Parking Space!</p>
+                    )}
+                  </div>
+                  <div className="col flex-center-general ">
+                    {relatedProperty?.is_multi_unit && (
+                      <p className="p-2 other-bg rounded-3">
+                        In Multi-unit Property
+                      </p>
+                    )}
+                  </div>
 
-                <div className="col">
-                  <div className="p-2 other-bg rounded-3">
-                    In {relatedProperty?.building_type?.type}
+                  <div className="col">
+                    <div className="p-2 other-bg rounded-3">
+                      In {relatedProperty?.building_type?.type}
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="p-2 other-bg rounded-3">
+                      {publicListingDetail?.property?.property_category?.name}
+                    </div>
                   </div>
                 </div>
-
-                <div className="col">
-                  <div className="p-2 other-bg rounded-3">
-                    {publicListingDetail?.property?.property_category?.name}
-                  </div>
-                </div>
-              </div>
-            </Card.Body>
-          </Card>
-          <SaveAndShareBox
-            listing={publicListingDetail}
-            page="publicListingDetail"
-          />
-          <div className="my-3">
-            <DescriptionDetail publicListingDetail={publicListingDetail} />
-          </div>
-          <div className="my-3">
-            {!!publicListingDetail?.property?.amenity.length && (
-              <AmenitiesDetail
-                propertyAmenitiesByCategory={propertyAmenitiesByCategory}
+              </Card.Body>
+            </Card>
+            <SaveAndShareBox
+              listing={publicListingDetail}
+              page="publicListingDetail"
+            />
+            <div className="my-3">
+              <DescriptionDetail publicListingDetail={publicListingDetail} />
+            </div>
+            <div className="my-3">
+              {!!publicListingDetail?.property?.amenity.length && (
+                <AmenitiesDetail
+                  propertyAmenitiesByCategory={propertyAmenitiesByCategory}
+                />
+              )}
+            </div>
+            <div className="my-5">
+              <EducationFacilityDetail
+                publicListingDetail={publicListingDetail}
               />
-            )}
-          </div>
-          <div className="my-5">
-            <EducationFacilityDetail
-              publicListingDetail={publicListingDetail}
-            />
-            <TransportFacilityDetail
-              publicListingDetail={publicListingDetail}
-            />
-            <PointOfInterestDetail publicListingDetail={publicListingDetail} />
-          </div>
-          <div>
-            {!!publicListingDetail?.property?.rules.length && (
-              <div>
-                <p className="fs-5 fw-bold">Property Rules</p>
-                <div>{renderPropertyRules()}</div>
-              </div>
-            )}
+              <TransportFacilityDetail
+                publicListingDetail={publicListingDetail}
+              />
+              <PointOfInterestDetail
+                publicListingDetail={publicListingDetail}
+              />
+            </div>
+            <div>
+              {!!publicListingDetail?.property?.rules.length && (
+                <div>
+                  <p className="fs-5 fw-bold">Property Rules</p>
+                  <div>{renderPropertyRules()}</div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
+
         <div className="col-lg-5">
           <div style={{ position: "sticky", top: "10px" }}>
             <AgentPreview

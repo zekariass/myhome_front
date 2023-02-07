@@ -58,75 +58,70 @@ const ResidentialListingWithoutUnit = ({ publicListingDetail }) => {
       <div className="row my-3 g-3">
         <div className="col-lg-7">
           <DetailBoxOne publicListingDetail={publicListingDetail} />
-        </div>
 
-        <div className="col-lg-5">
-          <MediaLinkBox publicListingDetail={publicListingDetail} />
-        </div>
-      </div>
-      <div className="row g-3 my-3">
-        <div className="col-lg-7">
-          <Card>
-            <Card.Body>
-              <div className="row row-cols-auto g-4">
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large building icon"></i>
-                    {relatedProperty?.number_of_rooms} Rooms
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large bed icon"></i>
-                    {relatedProperty?.number_of_bed_rooms} Bed Rooms
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large bath icon"></i>
-                    {relatedProperty?.number_of_baths} Bath Rooms
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large expand icon"></i>
-                    {relatedProperty?.area}
-                    {relatedProperty?.housing_area} M.Sq Area
-                  </div>
-                </div>
-
-                {publicListingDetail?.property?.property_category?.cat_key ===
-                  VILLA_KEY && (
+          <div className="my-3">
+            <Card>
+              <Card.Body>
+                <div className="row row-cols-auto g-4">
                   <div className="col flex-center-general">
-                    <div className="fw-bold p-2 other-bg rounded-3">
-                      Total Area: {relatedProperty?.total_compound_area}
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large building icon"></i>
+                      {relatedProperty?.number_of_rooms} Rooms
                     </div>
                   </div>
-                )}
-
-                <div className="col flex-center-general">
-                  {relatedProperty?.is_new && (
+                  <div className="col flex-center-general">
                     <div className="p-2 other-bg rounded-3">
-                      <p className="display-title fw-bold">New Property!</p>
+                      <i className="large bed icon"></i>
+                      {relatedProperty?.number_of_bed_rooms} Bed Rooms
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large bath icon"></i>
+                      {relatedProperty?.number_of_baths} Bath Rooms
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large expand icon"></i>
+                      {relatedProperty?.area}
+                      {relatedProperty?.housing_area} M.Sq Area
+                    </div>
+                  </div>
+
+                  {publicListingDetail?.property?.property_category?.cat_key ===
+                    VILLA_KEY && (
+                    <div className="col flex-center-general">
+                      <div className="fw-bold p-2 other-bg rounded-3">
+                        Total Area: {relatedProperty?.total_compound_area}
+                      </div>
                     </div>
                   )}
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    {relatedProperty?.is_furnished && <p>Furnished!</p>}
+
+                  <div className="col flex-center-general">
+                    {relatedProperty?.is_new && (
+                      <div className="p-2 other-bg rounded-3">
+                        <p className="display-title fw-bold">New Property!</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      {relatedProperty?.is_furnished && <p>Furnished!</p>}
+                    </div>
+                  </div>
+                  <div className="col p-2">
+                    <div className="p-2 other-bg rounded-3">
+                      <span>
+                        <img src={Villa} height={32} width={32} alt="villa" />
+                      </span>
+                      {publicListingDetail?.property?.property_category?.name}
+                    </div>
                   </div>
                 </div>
-                <div className="col p-2">
-                  <div className="p-2 other-bg rounded-3">
-                    <span>
-                      <img src={Villa} height={32} width={32} alt="villa" />
-                    </span>
-                    {publicListingDetail?.property?.property_category?.name}
-                  </div>
-                </div>
-              </div>
-            </Card.Body>
-          </Card>
+              </Card.Body>
+            </Card>
+          </div>
           <SaveAndShareBox
             listing={publicListingDetail}
             page="publicListingDetail"
@@ -160,6 +155,10 @@ const ResidentialListingWithoutUnit = ({ publicListingDetail }) => {
             )}
           </div>
         </div>
+
+        {/* <div className="col-lg-5">
+          <MediaLinkBox publicListingDetail={publicListingDetail} />
+        </div> */}
         <div className="col-lg-5">
           <div style={{ position: "sticky", top: "10px" }}>
             <AgentPreview

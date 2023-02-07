@@ -83,8 +83,11 @@ const SearchByCity = () => {
 
   return (
     <div className="container mt-5">
-      <h4>Search property by city and region</h4>
       <div className=" search-by-city my-3 shadow-sm">
+        <h4 className="text-light mb-4 ps-3">
+          Search property by city and region
+        </h4>
+
         <div className="row row-cols-auto g-3 flex-center-general mb-4">
           {regions.map((region) => (
             <div className="col" key={region.id}>
@@ -98,7 +101,10 @@ const SearchByCity = () => {
           ))}
         </div>
         <div>
-          <hr className="region-city-separator" />
+          <hr
+            className="region-city-separator"
+            style={{ backgroundColor: "white" }}
+          />
         </div>
         <div className="mt-4">
           <div>{renderCitiesOfRegion()}</div>

@@ -90,8 +90,8 @@ const ListingCard = ({ listing, page }) => {
             </Carousel.Item>
           ))}
         </Carousel>
-        <Card.Body onClick={onListingCardClick}>
-          <Card.Text className="flex-center-general ">
+        <Card.Body onClick={onListingCardClick} style={{lineHeight:"1rem"}}>
+          <Card.Text className="fw-bold">
             {getFullAddress(listing?.address)}
           </Card.Text>
 
@@ -104,13 +104,13 @@ const ListingCard = ({ listing, page }) => {
               </Card.Text>
               <Card.Text className="fw-bold">
                 <>
-                  {listing?.property_price}{" "}
+                  <span className="fs-4">{listing?.property_price}{" "}</span>
                   {getCurrencyName(currencies, listing?.listing_currency)}/
                   {getPeriodicityName(periodicities, listing?.listing_term)}
                 </>
               </Card.Text>
             </div>
-            <div className="col-md-6 input-border-color">
+            <div className="col-md-6 input-border-color py-1">
               <Card.Text className="">{listing?.agent?.name} </Card.Text>
 
               <Card.Text className="mb-1">

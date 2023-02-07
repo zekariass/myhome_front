@@ -54,7 +54,7 @@
 /* SELF ADV AREA */
 
 .self-ad-jumbo-txt {
-  color: rgb(28, 28, 99);
+  color: white;
   font-weight: normal;
 }
 
@@ -124,7 +124,7 @@ hr.region-city-separator {
 }
 
 .search-by-city {
-  background-color: rgb(205, 226, 205);
+  background-color: #acc;
   padding: 2%;
   border-radius: 10px;
 }
@@ -141,5 +141,5 @@ hr.region-city-separator {
 }
 
 .feature-card:hover {
-  background-color: rgb(205, 226, 205);
+  background-color: #eef;
 }

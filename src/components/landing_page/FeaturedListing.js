@@ -63,7 +63,7 @@ const FeaturedListing = () => {
         <>
           <div className="px-lg-5 px-3 px-lg-5">
             <div className="mb-4 ms-4">
-              <h4>Featured Lists</h4>
+              <h5>Featured properties</h5>
             </div>
 
             <div
@@ -73,8 +73,8 @@ const FeaturedListing = () => {
               {featuredListings?.results?.map((featuredListing, index) => (
                 <div key={index} className="card-table">
                   <Card
-                    className="card-cell feature-card other-bg"
-                    style={{ borderWidth: "1px" }}
+                    className="card-cell feature-card shadow-lg"
+                    style={{ borderWidth: "0px" }}
                     role="button"
                     onClick={() =>
                       navigate(
@@ -98,28 +98,11 @@ const FeaturedListing = () => {
                         Featured
                       </span>
                     </Card.ImgOverlay>
-                    <Card.Body>
-                      {featuredListing?.main_listing?.number_of_baths &&
-                        featuredListing?.main_listing?.number_of_bed_rooms && (
-                          <Card.Text className="flex-center-general">
-                            {featuredListing?.main_listing?.number_of_bed_rooms}{" "}
-                            Bed Room,
-                            {
-                              featuredListing?.main_listing?.number_of_baths
-                            }{" "}
-                            Bath Room{" "}
-                            {
-                              getPropertyCategoryData(
-                                propertyCategories,
-                                featuredListing?.main_listing?.property_category
-                              )?.name
-                            }{" "}
-                            at
-                          </Card.Text>
-                        )}
-
-                      {getFullAddress(featuredListing?.main_listing?.address)}
-                      <Card.Text className="flex-center-general fw-bold">
+                    <Card.Body style={{ lineHeight: "0.5rem" }}>
+                      <Card.Text
+                        className="fs-5 fw-bold"
+                        style={{ fontSize: "0.9em" }}
+                      >
                         <>
                           {featuredListing?.main_listing?.property_price}{" "}
                           {getCurrencyName(
@@ -133,7 +116,36 @@ const FeaturedListing = () => {
                           )}
                         </>
                       </Card.Text>
-                      <Card.Text className="flex-center-general">
+                      {featuredListing?.main_listing?.number_of_baths &&
+                        featuredListing?.main_listing?.number_of_bed_rooms && (
+                          <Card.Text className="" style={{ fontSize: "0.9em" }}>
+                            <span>
+                              <i className="bed icon"></i>
+                            </span>
+                            {featuredListing?.main_listing?.number_of_bed_rooms}{" "}
+                            Bed Rm,{" "}
+                            <span>
+                              <i className="shower icon"></i>
+                            </span>
+                            {featuredListing?.main_listing?.number_of_baths}{" "}
+                            Bath Rm{" "}
+                            {/* {
+                              getPropertyCategoryData(
+                                propertyCategories,
+                                featuredListing?.main_listing?.property_category
+                              )?.name
+                            } */}
+                          </Card.Text>
+                        )}
+
+                      <Card.Text className="" style={{ fontSize: "0.9em" }}>
+                        <span>
+                          <i className="map marker alternate icon"></i>
+                        </span>
+                        {getFullAddress(featuredListing?.main_listing?.address)}
+                      </Card.Text>
+
+                      <Card.Text className="">
                         {
                           getPropertyCategoryData(
                             propertyCategories,

@@ -45,18 +45,19 @@ const PublicListingDetailPage = () => {
   const catKey = publicListingDetail?.property?.property_category?.cat_key;
 
   return (
-    <div className="container my-3">
+    <div className="mb-3">
       {!publicListingDetailIsLoading && (
         <div>
           <div className="">
             <MinimisedImageGallery
               data={publicListingDetail?.property?.images}
+              videoData={publicListingDetail?.property?.videos}
               viewer="public"
               listingId={publicListingDetail?.id}
             />
           </div>
 
-          <div>
+          <div className="container">
             {catKey === VILLA_KEY && (
               <ResidentialListingWithoutUnit
                 publicListingDetail={publicListingDetail}

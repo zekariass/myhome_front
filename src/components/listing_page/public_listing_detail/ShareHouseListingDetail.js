@@ -57,122 +57,121 @@ const ShareHouseListingDetail = ({ publicListingDetail }) => {
       <div className="row my-3 g-3">
         <div className="col-lg-7">
           <DetailBoxOne publicListingDetail={publicListingDetail} />
-        </div>
 
-        <div className="col-lg-5">
-          <MediaLinkBox />
-        </div>
-      </div>
-      <div className="row g-3 my-3">
-        <div className="col-lg-7">
-          <Card>
-            <Card.Body>
-              <div className="row row-cols-auto g-4">
-                <div className="col flex-center-general ">
-                  <div className="p-2 other-bg rounded-3">
-                    {relatedProperty?.total_number_of_rooms} Total Rooms
-                  </div>
-                </div>
-                <div className="col flex-center-general ">
-                  <div className="p-2 other-bg rounded-3">
-                    {" "}
-                    {relatedProperty?.number_of_rooms_to_share} Rooms to Share
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large bed icon"></i>
-                    {relatedProperty?.total_number_of_bed_rooms} Total Bed Rooms
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large bed icon"></i>
-                    {relatedProperty?.number_of_bed_rooms_to_share} Bed Rooms to
-                    share
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large bath icon"></i>
-                    {relatedProperty?.total_number_of_baths} Total Bath Rooms
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large bath icon"></i>
-                    {relatedProperty?.number_of_baths_to_share} Bath Rooms to
-                    Share
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="big expand icon"></i>
-                    {relatedProperty?.area} M.Sq Area
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large building icon"></i>
-                    Floor level: {relatedProperty?.floor}
-                  </div>
-                </div>
-                <div className="col p-2">
-                  <div className="p-2 other-bg rounded-3">
-                    <span>
-                      <img src={Villa} height={32} width={32} alt="villa" />
-                    </span>
-                    {publicListingDetail?.property?.property_category?.name}
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    {relatedProperty?.is_new && (
-                      <p className="display-title fw-bold">New Property!</p>
-                    )}
-                  </div>
-                </div>
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    {relatedProperty?.is_furnished && (
-                      <p className="display-title fw-bold">Furnished!</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Card.Body>
-          </Card>
-          <SaveAndShareBox
-            listing={publicListingDetail}
-            page="publicListingDetail"
-          />
           <div className="my-3">
-            <DescriptionDetail publicListingDetail={publicListingDetail} />
-          </div>
+            <Card>
+              <Card.Body>
+                <div className="row row-cols-auto g-4">
+                  <div className="col flex-center-general ">
+                    <div className="p-2 other-bg rounded-3">
+                      {relatedProperty?.total_number_of_rooms} Total Rooms
+                    </div>
+                  </div>
+                  <div className="col flex-center-general ">
+                    <div className="p-2 other-bg rounded-3">
+                      {" "}
+                      {relatedProperty?.number_of_rooms_to_share} Rooms to Share
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large bed icon"></i>
+                      {relatedProperty?.total_number_of_bed_rooms} Total Bed
+                      Rooms
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large bed icon"></i>
+                      {relatedProperty?.number_of_bed_rooms_to_share} Bed Rooms
+                      to share
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large bath icon"></i>
+                      {relatedProperty?.total_number_of_baths} Total Bath Rooms
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large bath icon"></i>
+                      {relatedProperty?.number_of_baths_to_share} Bath Rooms to
+                      Share
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="big expand icon"></i>
+                      {relatedProperty?.area} M.Sq Area
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large building icon"></i>
+                      Floor level: {relatedProperty?.floor}
+                    </div>
+                  </div>
+                  <div className="col p-2">
+                    <div className="p-2 other-bg rounded-3">
+                      <span>
+                        <img src={Villa} height={32} width={32} alt="villa" />
+                      </span>
+                      {publicListingDetail?.property?.property_category?.name}
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      {relatedProperty?.is_new && (
+                        <p className="display-title fw-bold">New Property!</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      {relatedProperty?.is_furnished && (
+                        <p className="display-title fw-bold">Furnished!</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+            <SaveAndShareBox
+              listing={publicListingDetail}
+              page="publicListingDetail"
+            />
+            <div className="my-3">
+              <DescriptionDetail publicListingDetail={publicListingDetail} />
+            </div>
 
-          {!!publicListingDetail?.property?.amenity?.length && (
-            <AmenitiesDetail
-              propertyAmenitiesByCategory={propertyAmenitiesByCategory}
-            />
-          )}
-          <div className="my-5">
-            <EducationFacilityDetail
-              publicListingDetail={publicListingDetail}
-            />
-            <TransportFacilityDetail
-              publicListingDetail={publicListingDetail}
-            />
-            <PointOfInterestDetail publicListingDetail={publicListingDetail} />
-          </div>
-          <div>
-            {!!publicListingDetail?.property?.rules.length && (
-              <>
-                <p className="fs-5 fw-bold">Property Rules</p>
-                <div>{renderPropertyRules()}</div>
-              </>
+            {!!publicListingDetail?.property?.amenity?.length && (
+              <AmenitiesDetail
+                propertyAmenitiesByCategory={propertyAmenitiesByCategory}
+              />
             )}
+            <div className="my-5">
+              <EducationFacilityDetail
+                publicListingDetail={publicListingDetail}
+              />
+              <TransportFacilityDetail
+                publicListingDetail={publicListingDetail}
+              />
+              <PointOfInterestDetail
+                publicListingDetail={publicListingDetail}
+              />
+            </div>
+            <div>
+              {!!publicListingDetail?.property?.rules.length && (
+                <>
+                  <p className="fs-5 fw-bold">Property Rules</p>
+                  <div>{renderPropertyRules()}</div>
+                </>
+              )}
+            </div>
           </div>
         </div>
+
         <div className="col-lg-5">
           <div style={{ position: "sticky", top: "10px" }}>
             <AgentPreview

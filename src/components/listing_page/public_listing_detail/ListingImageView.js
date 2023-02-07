@@ -31,7 +31,7 @@ const ListingImageView = () => {
   }, []);
 
   return (
-    <div className="other-bg m-4 py-4">
+    <div className="other-bg m-md-4 m-1 py-4">
       <div className="container">
         <div className="flex-end-general mb-3">
           <Link
@@ -45,13 +45,24 @@ const ListingImageView = () => {
           {!!propImages.length &&
             propImages?.map((image, index) => (
               <div className="col" key={index}>
-                <Card className="shadow">
+                <Card className="shadow" style={{ borderRadius: "15px" }}>
                   <Card.Img
                     src={image?.image}
                     alt="Prop image"
                     height="400px"
+                    style={{ borderRadius: "15px" }}
                   />
-                  <Card.ImgOverlay>{image?.label_name}</Card.ImgOverlay>
+                  <Card.ImgOverlay
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "2%",
+                      fontWeight: "bold",
+                      color: "#fff",
+                    }}
+                  >
+                    {image?.label_name}
+                  </Card.ImgOverlay>
                 </Card>
               </div>
             ))}

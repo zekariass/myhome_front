@@ -2,13 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { PATH_PUBLIC_LISTING } from "./Strings";
 
-const MinimisedImageGallery = ({ data, viewer, listingId }) => {
+const MinimisedImageGallery = ({
+  data,
+  videoData,
+  virtual3Ddata,
+  viewer,
+  listingId,
+}) => {
   const [startIndex, setStartIndex] = useState(0);
-  const [endIndex, setEndIndex] = useState(2);
+  const [endIndex, setEndIndex] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   return (
-    <div className="card">
+    <div className="container">
       {data?.length > 0 && (
         <div>
           <div className="d-none d-md-block p-2">
@@ -23,18 +29,51 @@ const MinimisedImageGallery = ({ data, viewer, listingId }) => {
                   }}
                   className="image-display"
                 />
-                <div className="my-3 flex-end-general">
-                  <Link
-                    to={
-                      viewer === "public"
-                        ? `${PATH_PUBLIC_LISTING}/${listingId}/image/view`
-                        : "#"
-                    }
-                    state={{ images: data }}
-                    className="link-general link-size-small"
-                  >
-                    Show all pictures
-                  </Link>
+                <div className="row row-cols-auto mt-3 g-3">
+                  <div className="col ">
+                    <Link
+                      to={
+                        viewer === "public"
+                          ? `${PATH_PUBLIC_LISTING}/${listingId}/image/view`
+                          : "#"
+                      }
+                      state={{ images: data }}
+                      className="link-general link-size-small shadow-lg px-3 py-2"
+                      style={{
+                        borderRadius: "10%",
+                        border: "2px #eee solid",
+                      }}
+                    >
+                      <span>
+                        <i className="large images icon text-black me-"></i>
+                      </span>
+                      Show all photos
+                    </Link>
+                  </div>
+                  <div className="col">
+                    {!!videoData?.length && (
+                      <Link
+                        to={`${PATH_PUBLIC_LISTING}/${listingId?.id}/video/view`}
+                        state={{ videos: videoData }}
+                        className="link-general link-size-small shadow-lg px-3 py-2"
+                      >
+                        <span>
+                          <i className="large film icon text-black me-"></i>
+                        </span>
+                        Property Videos
+                      </Link>
+                    )}
+                  </div>
+                  <div className="col">
+                    {!virtual3Ddata?.length && (
+                      <Link
+                        to="#"
+                        className="link-general link-size-small shadow-lg px-3 py-2"
+                      >
+                        Property Virtual 3D View
+                      </Link>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="col-4">
@@ -49,7 +88,7 @@ const MinimisedImageGallery = ({ data, viewer, listingId }) => {
                       );
                       if (selectedImageIndex === startIndex) {
                         setStartIndex(Math.max(startIndex - 1, 0));
-                        setEndIndex(Math.max(2, endIndex - 1));
+                        setEndIndex(Math.max(1, endIndex - 1));
                       }
                     }}
                   ></i>
@@ -62,16 +101,16 @@ const MinimisedImageGallery = ({ data, viewer, listingId }) => {
                   return (
                     <div key={index} className="">
                       {index === startIndex && (
-                        <div className="gallery-slider-div">
+                        <div className="gallery-slider-div mb-2">
                           <img
                             src={img.image}
-                            alt="pic 1"
+                            alt={`pic ${index}`}
                             className={`${activaImageClass} image-display `}
                             //   style={{ width: "200px", height: "100px" }}
                           />
                         </div>
                       )}
-                      {index === startIndex + 1 && (
+                      {/* {index === startIndex + 1 && (
                         <div className="gallery-slider-active-div gallery-slider-div">
                           <img
                             src={img.image}
@@ -80,12 +119,12 @@ const MinimisedImageGallery = ({ data, viewer, listingId }) => {
                             className={`${activaImageClass} image-display`}
                           />
                         </div>
-                      )}
+                      )} */}
                       {index === endIndex && (
                         <div className="gallery-slider-div">
                           <img
                             src={img.image}
-                            alt="pic 3"
+                            alt={`pic ${index}`}
                             //   style={{ width: "200px", height: "100px" }}
                             className={`${activaImageClass} image-display`}
                           />
@@ -106,7 +145,7 @@ const MinimisedImageGallery = ({ data, viewer, listingId }) => {
                 <div className="flex-center-general gallery-slider-div">
                   <i
                     className={`angle down icon big gallery-slider-icon ${
-                      data.length - 1 <= endIndex && "disabled"
+                      data.length - 1 === endIndex && "disabled"
                     }`}
                     onClick={() => {
                       setSelectedImageIndex(
@@ -114,7 +153,7 @@ const MinimisedImageGallery = ({ data, viewer, listingId }) => {
                       );
                       if (selectedImageIndex === endIndex) {
                         setStartIndex(
-                          Math.min(startIndex + 1, data.length - 1 - 2)
+                          Math.min(startIndex + 1, data.length - 2)
                         );
                         setEndIndex(Math.min(endIndex + 1, data.length - 1));
                       }
@@ -128,7 +167,7 @@ const MinimisedImageGallery = ({ data, viewer, listingId }) => {
             {data.map((img, index) => {
               return (
                 <div key={index}>
-                  {index < 3 && (
+                  {index < 2 && (
                     <div className="mb-3  flex-center-general">
                       <img
                         src={img.image}

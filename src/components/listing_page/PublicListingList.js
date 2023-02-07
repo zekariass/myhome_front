@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FilterListing from "./FilterListing";
 import ListingGrid from "./ListingGrid";
-import ListingMap from "./ListingMap";
+import ListingListLayout from "./ListingListLayout";
 import NearByCityListing from "./NearByCityListing";
 import SortListing from "./SortListing";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -118,16 +118,24 @@ const PublicListingList = () => {
   // };
 
   return (
-    <div>
-      <div className="mx-3">
+    <div style={{ backgroundColor: "#eee" }}>
+      <div>
         <div
-          className="shadow p-3 rounded-3 bg-grin"
-          style={{ border: "#eee solid 1px" }}
+          className="shadow p-4 " //bg-grin
+          style={{
+            backgroundColor: "#000",
+            top: "0",
+            position: "sticky",
+            zIndex: "999",
+          }}
         >
           <FilterListing />
         </div>
-        <div className="row p-4">
-          <div className="col-md-7 bg-info rounded-3">
+        <div className="row p-md-4 p-1 mx-md-4">
+          <div
+            className="col-md-8 bg- rounded-3 px-4"
+            style={{ backgroundColor: "#fff" }}
+          >
             <div className="my-3">
               <div className="row row-cols-auto g-3">
                 <div className="col">
@@ -167,8 +175,8 @@ const PublicListingList = () => {
             </div>
           </div>
 
-          <div className="col-md-5">
-            <ListingMap />
+          <div className="col-md-4">
+            <ListingListLayout />
           </div>
         </div>
       </div>

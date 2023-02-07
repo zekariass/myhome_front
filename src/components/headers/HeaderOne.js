@@ -184,7 +184,12 @@ const HeaderOne = () => {
   };
 
   return (
-    <Navbar collapseOnSelect bg="light" expand="lg" className="nav-bg py-4">
+    <Navbar
+      collapseOnSelect
+      bg="light"
+      expand="lg"
+      className="nav-bg py-2 ms-5 me-4"
+    >
       <Navbar.Brand>
         <NavLink to={PATH_LANDING}>
           <Image

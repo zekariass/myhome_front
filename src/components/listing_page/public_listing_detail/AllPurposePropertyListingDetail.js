@@ -81,85 +81,80 @@ const AllPurposePropertyListingDetail = ({ publicListingDetail }) => {
       <div className="row my-3 g-3">
         <div className="col-lg-7">
           <DetailBoxOne publicListingDetail={publicListingDetail} />
-        </div>
 
-        <div className="col-lg-5">
-          <MediaLinkBox />
-        </div>
-      </div>
-      <div className="row g-3 my-3">
-        <div className="col-lg-7">
-          <Card>
-            <Card.Body>
-              <div className="row row-cols-auto g-3">
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large building icon"></i>
-                    {unitDetail?.number_of_rooms} Rooms
-                  </div>
-                </div>
-
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large expand icon"></i>
-                    {unitDetail?.area}
-                    {unitDetail?.total_compound_area} M.Sq Area
-                  </div>
-                </div>
-
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large building icon"></i>
-                    In {relatedProperty?.floors} Floors Property
-                  </div>
-                </div>
-
-                <div className="col flex-center-general">
-                  <div className="p-2 other-bg rounded-3">
-                    <i className="large building icon"></i>
-                    Floor Level: {unitDetail?.floor}
-                  </div>
-                </div>
-
-                <div className="col flex-center-general">
-                  {relatedProperty?.is_new && (
+          <div className="my-3">
+            <Card>
+              <Card.Body>
+                <div className="row row-cols-auto g-3">
+                  <div className="col flex-center-general">
                     <div className="p-2 other-bg rounded-3">
-                      <p className="display-title fw-bold">New Property!</p>
+                      <i className="large building icon"></i>
+                      {unitDetail?.number_of_rooms} Rooms
                     </div>
-                  )}
-                </div>
+                  </div>
 
-                <div className="col flex-center-general ">
-                  {relatedProperty?.has_parking_space && (
-                    <p className="p-2 other-bg rounded-3">Parking Space!</p>
-                  )}
-                </div>
-                <div className="col flex-center-general ">
-                  {relatedProperty?.is_multi_unit && (
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large expand icon"></i>
+                      {unitDetail?.area}
+                      {unitDetail?.total_compound_area} M.Sq Area
+                    </div>
+                  </div>
+
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large building icon"></i>
+                      In {relatedProperty?.floors} Floors Property
+                    </div>
+                  </div>
+
+                  <div className="col flex-center-general">
+                    <div className="p-2 other-bg rounded-3">
+                      <i className="large building icon"></i>
+                      Floor Level: {unitDetail?.floor}
+                    </div>
+                  </div>
+
+                  <div className="col flex-center-general">
+                    {relatedProperty?.is_new && (
+                      <div className="p-2 other-bg rounded-3">
+                        <p className="display-title fw-bold">New Property!</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col flex-center-general ">
+                    {relatedProperty?.has_parking_space && (
+                      <p className="p-2 other-bg rounded-3">Parking Space!</p>
+                    )}
+                  </div>
+                  <div className="col flex-center-general ">
+                    {relatedProperty?.is_multi_unit && (
+                      <p className="p-2 other-bg rounded-3">
+                        In Multi-unit Property
+                      </p>
+                    )}
+                  </div>
+                  <div className="col flex-center-general ">
                     <p className="p-2 other-bg rounded-3">
-                      In Multi-unit Property
+                      Best for {relatedProperty?.best_for}
                     </p>
-                  )}
-                </div>
-                <div className="col flex-center-general ">
-                  <p className="p-2 other-bg rounded-3">
-                    Best for {relatedProperty?.best_for}
-                  </p>
-                </div>
-                <div className="col">
-                  <div className="p-2 other-bg rounded-3">
-                    In {relatedProperty?.building_type?.type}
                   </div>
-                </div>
+                  <div className="col">
+                    <div className="p-2 other-bg rounded-3">
+                      In {relatedProperty?.building_type?.type}
+                    </div>
+                  </div>
 
-                <div className="col">
-                  <div className="p-2 other-bg rounded-3">
-                    {publicListingDetail?.property?.property_category?.name}
+                  <div className="col">
+                    <div className="p-2 other-bg rounded-3">
+                      {publicListingDetail?.property?.property_category?.name}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card.Body>
-          </Card>
+              </Card.Body>
+            </Card>
+          </div>
           <SaveAndShareBox
             listing={publicListingDetail}
             page="publicListingDetail"

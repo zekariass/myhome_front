@@ -165,7 +165,7 @@ const PropertyAlbum = () => {
       <p className="fs-5">Choose properties by category</p>
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-3">
         <div className="col">
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getApartmentAsset()}
@@ -195,7 +195,7 @@ const PropertyAlbum = () => {
           </Card>
         </div>
         <div className="col">
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getVillaAsset()}
@@ -226,7 +226,7 @@ const PropertyAlbum = () => {
           </Card>
         </div>
         <div className="col card-table">
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getCondominiumAsset()}
@@ -257,7 +257,7 @@ const PropertyAlbum = () => {
           </Card>
         </div>
         <div>
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getTraditionalHouseAsset()}
@@ -288,7 +288,7 @@ const PropertyAlbum = () => {
           </Card>
         </div>
         <div className="col">
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getShareHouseAsset()}
@@ -319,7 +319,7 @@ const PropertyAlbum = () => {
           </Card>
         </div>
         <div className="col">
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getOfficeAsset()}
@@ -350,7 +350,7 @@ const PropertyAlbum = () => {
           </Card>
         </div>
         <div className="col">
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getCommercialPropertyAsset()}
@@ -381,7 +381,7 @@ const PropertyAlbum = () => {
           </Card>
         </div>
         <div className="col">
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getHallAsset()}
@@ -412,7 +412,7 @@ const PropertyAlbum = () => {
           </Card>
         </div>
         <div className="col">
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getAllPurposePropertyAsset()}
@@ -443,7 +443,7 @@ const PropertyAlbum = () => {
           </Card>
         </div>
         <div className="col">
-          <Card>
+          <Card className="shadow">
             {/* <Card.Header> */}
             <Card.Img
               src={getLandAsset()}

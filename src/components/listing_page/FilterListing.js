@@ -309,7 +309,7 @@ const FilterListing = () => {
   return (
     <div className="row row-cols-auto g-3">
       <div className="col flex-center-general">
-        <p className="fs-5 fw-bold">Filter</p>
+        <i className="large filter icon link-general"></i>
       </div>
       <div className="col flex-center-general ">
         <DropdownButton

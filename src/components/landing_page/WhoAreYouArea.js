@@ -46,11 +46,11 @@ const WhoAreYouArea = () => {
 
   return (
     <div className="container who-are-you mt-5 mb-3">
-      <h4>Which one of the following are you?</h4>
+      {/* <h4>Which one of the following are you?</h4> */}
 
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
         <div className="col card-table">
-          <Card className="card-cell">
+          {/* <Card className="card-cell">
             <Card.Header className="who-are-you-header flex-center-general py-3">
               <Card.Text className="fw-bold">Are you Agent?</Card.Text>
             </Card.Header>
@@ -75,10 +75,33 @@ const WhoAreYouArea = () => {
                 Work with Us
               </Link>
             </Card.Footer>
-          </Card>
+          </Card> */}
+          <div className="card-cell shadow-lg p-2">
+            <div className="flex-center-general">
+              <p className="fw-bold">Are you Agent?</p>
+            </div>
+            <div>
+              <ul className="mb-5">
+                <li>{COMPANY_NAME} is here for you to modernize your agency</li>
+                <li>Register, list your properties, and reach millions</li>
+              </ul>
+            </div>
+            <div className="flex-center-general">
+              <Link
+                to={
+                  agentData?.id !== undefined
+                    ? PATH_AGENT_DASHBOARD
+                    : PATH_AGENT_CREATE_INFO_ABSOLUTE
+                }
+                className="link-general link-size-small link-underline py-2 px-3"
+              >
+                Work with Us
+              </Link>
+            </div>
+          </div>
         </div>
         <div className="col card-table">
-          <Card className="card-cell">
+          {/* <Card className="card-cell">
             <Card.Header className="who-are-you-header flex-center-general py-3">
               <Card.Text className="fw-bold">Are you property owner?</Card.Text>
             </Card.Header>
@@ -112,11 +135,37 @@ const WhoAreYouArea = () => {
                 List your property
               </Link>
             </Card.Footer>
-          </Card>
+          </Card> */}
+          <div className="card-cell shadow-lg p-2">
+            <div className="flex-center-general">
+              <p className="fw-bold">Are you property owner?</p>
+            </div>
+            <div>
+              <ul className="mb-5">
+                <li>Meet Agents near to you and rent or sell your property</li>
+                <li>
+                  Find the right agents for your property at {COMPANY_NAME}
+                  now
+                </li>
+              </ul>
+            </div>
+            <div className="flex-center-general">
+              <Link
+                to={
+                  agentData?.id !== undefined
+                    ? PATH_AGENT_DASHBOARD
+                    : PATH_AGENT_CREATE_INFO_ABSOLUTE
+                }
+                className="link-general link-size-small link-underline py-2 px-3"
+              >
+                List your property
+              </Link>
+            </div>
+          </div>
         </div>
 
         <div className="col card-table">
-          <Card className="card-cell">
+          {/* <Card className="card-cell">
             <Card.Header className="who-are-you-header flex-center-general py-3">
               <Card.Text className="fw-bold">
                 Are you a Buyer or Tenant?
@@ -152,7 +201,33 @@ const WhoAreYouArea = () => {
                 Find an Agent
               </Link>
             </Card.Footer>
-          </Card>
+          </Card> */}
+
+          <div className="card-cell shadow-lg p-2">
+            <div className="flex-center-general">
+              <p className="fw-bold">Are you a Buyer or Tenant?</p>
+            </div>
+            <div>
+              <ul className="mb-5">
+                <li>
+                  {COMPANY_NAME} has listed thousands of properties around your
+                  area
+                </li>
+                <li>Don't waste your time finding a traditional agent</li>
+                <li>
+                  {COMPANY_NAME} is your agent regardless of wherever you are
+                </li>
+              </ul>
+            </div>
+            <div className="flex-center-general">
+              <Link
+                to={PATH_AGENTS_SEARCH_ABSOLUTE}
+                className="link-general link-size-small link-underline py-2 px-3"
+              >
+                List your property
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* <div className="col card-table">
