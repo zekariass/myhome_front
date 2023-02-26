@@ -59,7 +59,7 @@ const FeaturedListing = () => {
 
   return (
     <div className="mt-5">
-      {!!featuredListings.results.length && (
+      {!!featuredListings.results?.length && (
         <>
           <div className="px-lg-5 px-3 px-lg-5">
             <div className="mb-4 ms-4">

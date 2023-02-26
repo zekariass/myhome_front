@@ -1,5 +1,5 @@
 export const COMPANY_NAME = "Grinmove"; //"Grinhome";
-export const API_CALL_TIME_OUT = 15000;
+export const API_CALL_TIME_OUT = 25000;
 
 export const MAX_RECIEPT_ATTACHEMENTS = 5;
 
