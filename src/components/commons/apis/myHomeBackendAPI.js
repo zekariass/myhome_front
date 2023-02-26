@@ -16,7 +16,7 @@ export default Axios.create({
    */
 
   // baseURL: "http://127.0.0.1:8000",
-  baseURL: "https://grinmovebackendtrial.azurewebsites.net/",
+  baseURL: "https://grinmovebackendtrial.azurewebsites.net",
   timeout: API_CALL_TIME_OUT,
   headers: {
     Authorization: getDefaultAuthorization(),
