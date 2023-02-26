@@ -1,4 +1,4 @@
-export const COMPANY_NAME = "Beteseb"; //"Grinhome";
+export const COMPANY_NAME = "Grinmove"; //"Grinhome";
 export const API_CALL_TIME_OUT = 15000;
 
 export const MAX_RECIEPT_ATTACHEMENTS = 5;
